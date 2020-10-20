@@ -1,0 +1,196 @@
+<form
+  class="form-horizontal"
+  autocomplete="off"
+  #editMenuItemForm="ngForm"
+  (ngSubmit)="save()"
+>
+  <abp-modal-header
+    [title]="'Edit MenuItem' | localize"
+    (onCloseClick)="bsModalRef.hide()"
+  ></abp-modal-header>
+  <div class="modal-body">
+
+    <div class="form-group row required">
+      <label class="col-md-3 col-form-label" for="name">
+        {{ "Menu Item" | localize }}
+      </label>
+      <div class="col-md-9">
+        <input
+          type="text"
+          class="form-control"
+          name="name"
+          id="name"
+          maxlength="128"
+          required
+          [(ngModel)]="menuItem.menuItemName"
+          #nameModel="ngModel"
+          #nameEl
+        />
+        <abp-validation-summary
+          [control]="nameModel"
+          [controlEl]="nameEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+
+    <div class="form-group row required">
+      <label class="col-md-3 col-form-label" for="mDes">
+        {{ "Description" | localize }}
+      </label>
+      <div class="col-md-9">
+        <input
+          type="text"
+          class="form-control"
+          name="mDes"
+          id="mDes"
+          maxlength="128"
+          required
+          [(ngModel)]="menuItem.menuItemDescription"
+          #mDesModel="ngModel"
+          #mDesEl
+        />
+        <abp-validation-summary
+          [control]="mDesModel"
+          [controlEl]="mDesEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+
+    <div class="form-group row required">
+      <label class="col-md-3 col-form-label" for="menu">
+        {{ "Menu" | localize }}
+      </label>
+      <div class="col-md-9">
+        <select
+          class="form-control"
+          name="menu"
+          id="menu"
+          required
+          [(ngModel)]="menuItem.menuIdFk"
+          #menuModel="ngModel"
+          #menuEl>
+            <option *ngFor="let r of menus" value={{r.id}}>{{r.menuName}}</option>
+        </select>
+        <abp-validation-summary
+          [control]="menuModel"
+          [controlEl]="menuEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+
+    <div class="form-group row required">
+      <label class="col-md-3 col-form-label" for="cat">
+        {{ "Category" | localize }}
+      </label>
+      <div class="col-md-9">
+        <select
+          class="form-control"
+          name="cat"
+          id="cat"
+          required
+          [(ngModel)]="menuItem.menuItemCategoryIdFk"
+          #restModel="ngModel"
+          #restEl>
+            <option *ngFor="let m of menuItemCategories" value={{m.id}}>{{m.menuItemCategory1}}</option>
+        </select>
+        <abp-validation-summary
+          [control]="restModel"
+          [controlEl]="restEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+
+    <div class="form-group row required">
+      <label class="col-md-3 col-form-label" for="price">
+        {{ "Price" | localize }}
+      </label>
+      <div class="col-md-9">
+        <select
+          class="form-control"
+          name="price"
+          id="price"
+          required
+          [(ngModel)]="menuItem.menuItemPriceIdFk"
+          #restModel="ngModel"
+          #restEl>
+            <option *ngFor="let p of menuItemPrices" value={{p.id}}>{{p.menuItemPrice1}}</option>
+        </select>
+        <abp-validation-summary
+          [control]="restModel"
+          [controlEl]="restEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+    <div class="form-group row mb-0">
+      <label class="col-md-3 col-form-label">
+        {{ "Allergy" | localize }}
+      </label>
+      <div class="col"  *ngFor="let a of allergies; let i = index">
+        <label>{{a.allergy1}}</label>
+        <div class="custom-control custom-checkbox">
+          <input
+            type="checkbox"
+            class="custom-control-input"
+            [checked]="isChecked(a.id)"
+            [name]="a.id"
+            [id]="a.id"
+            [value]="a.id"
+            (change)="show(a.id)"
+          />
+          <!--[(ngModel)]="menuItemAllergy.allergyIdFk"-->
+          <label class="custom-control-label mt-2" [for]="a.id"></label>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+  <abp-modal-footer
+    [cancelDisabled]="saving"
+    [saveDisabled]="!editMenuItemForm.form.valid || saving"
+    (onCancelClick)="bsModalRef.hide()"
+  ></abp-modal-footer>
+</form>
+
+<!--
+  <div class="form-group row required">
+      <label class="col-md-3 col-form-label" for="tenancyName">
+        {{ "MenuItem Id" | localize }}
+      </label>
+      <div class="col-md-9">
+        <input
+          type="text"
+          class="form-control"
+          name="tenancyName"
+          id="tenancyName"
+          minlength="2"
+          maxlength="64"
+          required
+          [(ngModel)]="menuItem.id"
+          #tenancyNameModel="ngModel"
+          #tenancyNameEl
+        />
+        <abp-validation-summary
+          [control]="tenancyNameModel"
+          [controlEl]="tenancyNameEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+  <div class="form-group row mb-0">
+      <label class="col-md-3 col-form-label">
+        {{ "IsActive" | localize }}
+      </label>
+      <div class="col-md-9">
+        <div class="custom-control custom-checkbox">
+          <input
+            type="checkbox"
+            class="custom-control-input"
+            name="isActive"
+            id="isActive"
+            [(ngModel)]="menuItem.isActive"
+          />
+          <label class="custom-control-label mt-2" for="isActive"></label>
+        </div>
+      </div>
+    </div>
+-->

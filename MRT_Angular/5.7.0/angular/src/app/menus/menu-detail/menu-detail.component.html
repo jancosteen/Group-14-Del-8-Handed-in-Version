@@ -1,0 +1,267 @@
+<form
+  class="form-horizontal"
+  autocomplete="off"
+  #editMenuForm="ngForm"
+  (ngSubmit)="save()"
+>
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4">View Menu Details</h1>
+    <p class="lead">{{menus[0].menuName}}</p>
+  </div>
+</div>
+<div class="card" style="margin: 0 auto; float:none; margin-bottom: 10px; width: 95%;">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-6">
+        <h1>{{menus[0].menuName}}</h1>
+      </div>
+      <div class="col-6 text-right">
+        <a href="javascript:;" class="btn bg-blue" (click)="editMenu(menu)">
+          <i class="fa fa-pencil-alt"></i>
+          {{ "Edit" | localize }}
+        </a>
+      </div>
+    </div>
+    <!--<div class="form-group row">
+      <label for="menuName" class="col-sm-2 col-form-label">Menu:</label>
+      <div class="col-sm-10">
+        <input type="text"
+        class="form-control"
+        id="menuName"
+        disabled
+        [(ngModel)]="menu.menuName"
+        name="menuName">
+      </div>
+    </div>-->
+    <div class="form-group row">
+      <label for="menuDescription" class="col-sm-2 col-form-label">Description:</label>
+      <div class="col-sm-10">
+        <input type="text"
+          class="form-control"
+          id="menuDes"
+          name="menuDes"
+          disabled
+          [(ngModel)]="menus[0].menuDescription">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="menuTimeFrom" class="col-sm-2 col-form-label">Time Active From:</label>
+      <div class="col-sm-10">
+        <input type="text"
+        class="form-control"
+        id="menuTimeFrom"
+        disabled
+        [(ngModel)]="menus[0].menuTimeActiveFrom"
+        name="menuTimeFrom">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="menuTimeTo" class="col-sm-2 col-form-label">Time Active To:</label>
+      <div class="col-sm-10">
+        <input type="text"
+          class="form-control"
+          id="menuTimeTo"
+          name="menuTimeTo"
+          disabled
+          [(ngModel)]="menus[0].menuTimeActiveTo">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="restaurant" class="col-sm-2 col-form-label">Restaurant:</label>
+      <div class="col-sm-10">
+        <input type="text"
+          class="form-control"
+          id="restaurant"
+          name="restaurant"
+          disabled
+          [(ngModel)]="restaurant.restaurantName">
+      </div>
+    </div>
+  </div>
+</div>
+</form>
+
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-6">
+        <h1>{{ "Menu Items" | localize }}</h1>
+      </div>
+      <div class="col-6 text-right">
+        <a href="javascript:;" class="btn bg-blue" (click)="createMenuItem()">
+          <i class="fa fa-plus-square"></i>
+          {{ "Create" | localize }}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="content px-2">
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-header">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <button
+              type="button"
+              class="btn bg-blue"
+            >
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+          <input
+            type="text"
+            class="form-control"
+            name="keyword"
+            [placeholder]="'SearchWithThreeDot' | localize"
+            [(ngModel)]="searchText"
+          />
+          <div class="input-group-append">
+            <button
+              type="button"
+              class="btn btn-default"
+              (click)="advancedFiltersVisible = !advancedFiltersVisible"
+            >
+              <i
+                class="fas"
+                [class.fa-angle-up]="advancedFiltersVisible"
+                [class.fa-angle-down]="!advancedFiltersVisible"
+              ></i>
+            </button>
+          </div>
+        </div>
+
+      <div class="card-body table-responsive p-0">
+        <table class="table table-hover text-nowrap" [busy]="loading == true">
+          <thead class="bg-light">
+            <tr>
+              <th>{{ "Id" | localize }}</th>
+              <th>{{ "Menu Item" | localize }}</th>
+              <th>{{ "Description" | localize }}</th>
+              <th>{{ "Category" | localize}}</th>
+              <th>{{ "Price" | localize }}</th>
+              <th style="width: 200px;">{{ "Actions" | localize }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="
+                let menuItem of menuItems
+                | paginate
+                : {
+                    id: 'server',
+                    itemsPerPage: menuItems.length,
+                    currentPage: 1,
+                    totalItems: menuItems.length
+                  }
+                      | grdFilter: {id: searchText, menuItemName:searchText
+                        , menuItemDescription:searchText}
+              "
+            >
+              <td>{{ menuItem.id }}</td>
+              <td>{{ menuItem.menuItemName }}</td>
+              <td>{{menuItem.menuItemDescription}}</td>
+              <td>{{menuItem.menuItemCategoryIdFkNavigation.menuItemCategory1}}</td>
+              <td>{{menuItem.menuItemPriceIdFkNavigation.menuItemPrice1 | currency:"R "}}</td>
+              <td>
+                <button
+                    type="button"
+                    class="btn btn-sm bg-primary"
+                    style="margin-right: 10px;"
+                    (click)="viewMenuItem(menuItem)"
+                  >
+                    <i class="fas fa-pencil-alt"></i>
+                    {{ "Details" | localize }}
+                  </button>
+                <button
+                  type="button"
+                  class="btn btn-sm bg-secondary"
+                  (click)="editMenuItem(menuItem)"
+                >
+                  <i class="fas fa-pencil-alt"></i>
+                  {{ "Edit" | localize }}
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-sm bg-danger mx-2"
+                  (click)="delete(menuItem)"
+                >
+                  <i class="fas fa-trash"></i>
+                  {{ "Delete" | localize }}
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card-footer bg-light border-top">
+        <div class="row">
+          <div class="col-sm-4 col-12 text-sm-left text-center">
+
+          </div>
+          <div class="col-sm-4 col-12 text-center">
+            <p class="mb-0 my-2">
+
+            </p>
+          </div>
+          <div class="col-sm-4 col-12">
+            <div class="float-sm-right m-auto">
+            </div>
+            <abp-pagination-controls
+                  id="server"
+
+                >
+                </abp-pagination-controls>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+
+<!--
+  <div class="form-group row required">
+      <label class="col-md-3 col-form-label" for="tenancyName">
+        {{ "Menu Id" | localize }}
+      </label>
+      <div class="col-md-9">
+        <input
+          type="text"
+          class="form-control"
+          name="tenancyName"
+          id="tenancyName"
+          minlength="2"
+          maxlength="64"
+          required
+          [(ngModel)]="menu.id"
+          #tenancyNameModel="ngModel"
+          #tenancyNameEl
+        />
+        <abp-validation-summary
+          [control]="tenancyNameModel"
+          [controlEl]="tenancyNameEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+  <div class="form-group row mb-0">
+      <label class="col-md-3 col-form-label">
+        {{ "IsActive" | localize }}
+      </label>
+      <div class="col-md-9">
+        <div class="custom-control custom-checkbox">
+          <input
+            type="checkbox"
+            class="custom-control-input"
+            name="isActive"
+            id="isActive"
+            [(ngModel)]="menu.isActive"
+          />
+          <label class="custom-control-label mt-2" for="isActive"></label>
+        </div>
+      </div>
+    </div>
+-->

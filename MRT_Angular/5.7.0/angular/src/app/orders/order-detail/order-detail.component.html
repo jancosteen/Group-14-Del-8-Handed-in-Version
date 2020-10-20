@@ -1,0 +1,273 @@
+<form
+  class="form-horizontal"
+  autocomplete="off"
+  #editOrderForm="ngForm"
+  (ngSubmit)="save()"
+>
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4">View Order Details</h1>
+    <p class="lead">Table Nr: {{orders[0].qrCodeSeating.seatingIdFk}}</p>
+  </div>
+</div>
+<div class="card" style="margin: 0 auto; float:none; margin-bottom: 10px; width: 95%;">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-6">
+        <h1>{{ "Order" | localize }}</h1>
+      </div>
+      <div class="col-6 text-right">
+        <a href="javascript:;" class="btn bg-blue" (click)="editOrder()">
+          <i class="fa fa-pencil-alt"></i>
+          {{ "Edit" | localize }}
+        </a>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="orderId" class="col-sm-2 col-form-label">Order Nr:</label>
+      <div class="col-sm-10">
+        <input type="text"
+        class="form-control"
+        id="orderId"
+        disabled
+        [(ngModel)]="orders[0].id"
+        name="orderId">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="orderDateCreated" class="col-sm-2 col-form-label">Date Created:</label>
+      <div class="col-sm-10">
+        <input type="text"
+          class="form-control"
+          id="orderDateCreated"
+          name="orderDateCreated"
+          disabled
+          [(ngModel)]="orders[0].orderDateCreated">
+      </div>
+    </div>
+
+    <!--<div class="form-group row">
+      <label for="table" class="col-sm-2 col-form-label">Table:</label>
+      <div class="col-sm-10">
+        <input type="text"
+          class="form-control"
+          id="table"
+          name="table"
+          disabled
+          [(ngModel)]="orders[0].qrCodeSeating.seatingIdFk">
+      </div>
+    </div>-->
+
+    <div class="form-group row">
+      <label for="orderUrl" class="col-sm-2 col-form-label">Status:</label>
+      <div class="col-sm-10">
+        <input type="text"
+        class="form-control"
+        id="status"
+        disabled
+        [(ngModel)]="orders[0].orderStatusIdFkNavigation.orderStatus1"
+        name="status">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="dateCompleted" class="col-sm-2 col-form-label">Date Completed:</label>
+      <div class="col-sm-10">
+        <input type="text"
+          class="form-control"
+          id="dateCompleted"
+          name="dateCompleted"
+          disabled
+          [(ngModel)]="orders[0].orderDateCompleted">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="user" class="col-sm-2 col-form-label">User Created:</label>
+      <div class="col-sm-10">
+        <input type="text"
+          class="form-control"
+          id="user"
+          name="user"
+          disabled
+          [(ngModel)]="orders[0].creatorUserId">
+      </div>
+    </div>
+
+  </div>
+</div>
+</form>
+
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-6">
+        <h1>{{ "Order Lines" | localize }}</h1>
+      </div>
+      <div class="col-6 text-right">
+        <a href="javascript:;" class="btn bg-blue" (click)="addToOrder()" ><!--(click)="createOrderLine()"-->
+          <i class="fa fa-plus-square"></i>
+          {{ "Add Item To Order" | localize }}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="content px-2">
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-header">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <button
+              type="button"
+              class="btn bg-blue"
+            >
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+          <input
+            type="text"
+            class="form-control"
+            name="keyword"
+            [placeholder]="'SearchWithThreeDot' | localize"
+            [(ngModel)]="searchText"
+          />
+          <div class="input-group-append">
+            <button
+              type="button"
+              class="btn btn-default"
+              (click)="advancedFiltersVisible = !advancedFiltersVisible"
+            >
+              <i
+                class="fas"
+                [class.fa-angle-up]="advancedFiltersVisible"
+                [class.fa-angle-down]="!advancedFiltersVisible"
+              ></i>
+            </button>
+          </div>
+        </div>
+
+      <div class="card-body table-responsive p-0">
+        <table class="table table-hover text-nowrap" [busy]="loading == true">
+          <thead class="bg-light">
+            <tr>
+              <th>{{ "Id" | localize }}</th>
+              <th>{{ "Menu Item Name" | localize }}</th>
+              <th>{{ "Price" | localize }}</th>
+              <th>{{ "Qty" | localize}}</th>
+              <th>{{ "Line Amount" | localize }}</th>
+              <th style="width: 200px;">{{ "Actions" | localize }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="
+                let ol of linkedOrderLines
+                  | paginate
+                    : {
+                        id: 'server',
+                        itemsPerPage: linkedOrderLines.length,
+                        currentPage: 1,
+                        totalItems: linkedOrderLines.length
+                      }
+                      | grdFilter: {id: searchText, itemQty:searchText
+                        }
+              "
+            >
+              <td>{{ ol.id }}</td>
+              <td>{{ ol.menuItemIdFkNavigation.menuItemName }}</td>
+              <td>{{ol.menuItemIdFkNavigation.menuItemPriceIdFkNavigation.menuItemPrice1 | currency:"R "}}</td>
+              <td>{{ol.itemQty}}</td>
+              <td>{{ol.menuItemIdFkNavigation.menuItemPriceIdFkNavigation.menuItemPrice1 * ol.itemQty | currency:"R "}}</td>
+              <td>
+                <!--<button
+                  type="button"
+                  class="btn btn-sm bg-secondary"
+                  (click)="editOrderLine(ol)"
+                >
+                  <i class="fas fa-pencil-alt"></i>
+                  {{ "Edit" | localize }}
+                </button>-->
+                <button
+                  type="button"
+                  class="btn btn-sm bg-danger mx-2"
+                  (click)="delete(ol)"
+                >
+                  <i class="fas fa-trash"></i>
+                  {{ "Delete" | localize }}
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card-footer bg-light border-top">
+        <div class="row">
+          <div class="col-sm-4 col-12 text-sm-left text-center">
+
+          </div>
+          <div class="col-sm-4 col-12 text-center">
+            <p class="mb-0 my-2">
+
+            </p>
+          </div>
+          <div class="col-sm-4 col-12">
+            <div class="float-sm-right m-auto">
+              <abp-pagination-controls
+                id="server"
+
+              >
+              </abp-pagination-controls>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+
+
+  <!--<div class="form-group row required">
+      <label class="col-md-3 col-form-label" for="tenancyName">
+        {{ "Order Id" | localize }}
+      </label>
+      <div class="col-md-9">
+        <input
+          type="text"
+          class="form-control"
+          name="tenancyName"
+          id="tenancyName"
+          minlength="2"
+          maxlength="64"
+          required
+          [(ngModel)]="order.id"
+          #tenancyNameModel="ngModel"
+          #tenancyNameEl
+        />
+        <abp-validation-summary
+          [control]="tenancyNameModel"
+          [controlEl]="tenancyNameEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+  <div class="form-group row mb-0">
+      <label class="col-md-3 col-form-label">
+        {{ "IsActive" | localize }}
+      </label>
+      <div class="col-md-9">
+        <div class="custom-control custom-checkbox">
+          <input
+            type="checkbox"
+            class="custom-control-input"
+            name="isActive"
+            id="isActive"
+            [(ngModel)]="order.isActive"
+          />
+          <label class="custom-control-label mt-2" for="isActive"></label>
+        </div>
+      </div>
+    </div>
+-->

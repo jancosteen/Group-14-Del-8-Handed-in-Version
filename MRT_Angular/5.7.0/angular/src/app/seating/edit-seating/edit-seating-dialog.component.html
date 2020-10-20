@@ -1,0 +1,132 @@
+<form
+  class="form-horizontal"
+  autocomplete="off"
+  #editSeatingForm="ngForm"
+  (ngSubmit)="save()"
+>
+  <abp-modal-header
+    [title]="'Edit Seating' | localize"
+    (onCloseClick)="bsModalRef.hide()"
+  ></abp-modal-header>
+  <div class="modal-body">
+
+    <div class="form-group row required">
+      <label class="col-md-3 col-form-label" for="sDate">
+        {{ "Seating Date " | localize }}
+      </label>
+      <div class="col-md-9">
+        <input
+          type="datetime-local"
+          class="form-control"
+          name="sDate"
+          id="sDate"
+          maxlength="128"
+          required
+          [min]="currentDate"
+          [(ngModel)]="seating.seatingDate"
+          #sDateModel="ngModel"
+          #sDateEl
+        />
+        <abp-validation-summary
+          [control]="sDateModel"
+          [controlEl]="sDateEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+
+    <div class="form-group row required">
+      <label class="col-md-3 col-form-label" for="sTime">
+        {{ "Seating Time " | localize }}
+      </label>
+      <div class="col-md-9">
+        <input
+          type="time"
+          class="form-control"
+          name="sTime"
+          id="sTime"
+          maxlength="128"
+          required
+          [min]="currentTime | date:'HH:mm:ss'"
+          [(ngModel)]="seating.seatingTime"
+          #sDateModel="ngModel"
+          #sDateEl
+        />
+        <abp-validation-summary
+          [control]="sDateModel"
+          [controlEl]="sDateEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label" for="res">
+        {{ "Reservation Id" | localize }}
+      </label>
+      <div class="col-md-9">
+        <select
+          class="form-control"
+          name="res"
+          id="res"
+          required
+          [(ngModel)]="seating.reservationIdFk"
+          #resModel="ngModel"
+          #resEl>
+            <option *ngFor="let r of reservations" value={{r.id}}>UserId: {{r.userIdFk}}, Party Qty: {{r.reservationPartyQty}}, Date Reserved: {{r.reservationDateReserved}}</option>
+        </select>
+        <abp-validation-summary
+          [control]="resModel"
+          [controlEl]="resEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+
+  </div>
+  <abp-modal-footer
+    [cancelDisabled]="saving"
+    [saveDisabled]="!editSeatingForm.form.valid || saving"
+    (onCancelClick)="bsModalRef.hide()"
+  ></abp-modal-footer>
+</form>
+
+<!--
+  <div class="form-group row required">
+      <label class="col-md-3 col-form-label" for="tenancyName">
+        {{ "Seating Id" | localize }}
+      </label>
+      <div class="col-md-9">
+        <input
+          type="text"
+          class="form-control"
+          name="tenancyName"
+          id="tenancyName"
+          minlength="2"
+          maxlength="64"
+          required
+          [(ngModel)]="seating.id"
+          #tenancyNameModel="ngModel"
+          #tenancyNameEl
+        />
+        <abp-validation-summary
+          [control]="tenancyNameModel"
+          [controlEl]="tenancyNameEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+  <div class="form-group row mb-0">
+      <label class="col-md-3 col-form-label">
+        {{ "IsActive" | localize }}
+      </label>
+      <div class="col-md-9">
+        <div class="custom-control custom-checkbox">
+          <input
+            type="checkbox"
+            class="custom-control-input"
+            name="isActive"
+            id="isActive"
+            [(ngModel)]="seating.isActive"
+          />
+          <label class="custom-control-label mt-2" for="isActive"></label>
+        </div>
+      </div>
+    </div>
+-->

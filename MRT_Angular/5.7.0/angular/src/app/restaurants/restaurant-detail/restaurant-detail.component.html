@@ -1,0 +1,317 @@
+<form
+  class="form-horizontal"
+  autocomplete="off"
+  #editRestaurantForm="ngForm"
+  (ngSubmit)="save()"
+>
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4">View Restaurant Details</h1>
+    <p class="lead">{{restaurant.restaurantName}}</p>
+  </div>
+</div>
+<div class="card" style="margin: 0 auto; float:none; margin-bottom: 10px; width: 95%;">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-6">
+        <h1>{{ "Restaurant" | localize }}</h1>
+      </div>
+      <div class="col-6 text-right">
+        <a href="javascript:;" class="btn bg-blue" (click)="editRestaurant(restaurant)">
+          <i class="fa fa-pencil-alt"></i>
+          {{ "Edit" | localize }}
+        </a>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="restaurantName" class="col-sm-2 col-form-label">Restaurant:</label>
+      <div class="col-sm-10">
+        <input type="text"
+        class="form-control"
+        id="restaurantName"
+        disabled
+        [(ngModel)]="restaurant.restaurantName"
+        name="restaurantName">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="restaurantDescription" class="col-sm-2 col-form-label">Description:</label>
+      <div class="col-sm-10">
+        <input type="text"
+          class="form-control"
+          id="restaurantDes"
+          name="restaurantDes"
+          disabled
+          [(ngModel)]="restaurant.restaurantDescription">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="restaurantUrl" class="col-sm-2 col-form-label">Url:</label>
+      <div class="col-sm-10">
+        <input type="text"
+        class="form-control"
+        id="restaurantUrl"
+        disabled
+        [(ngModel)]="restaurant.restaurantUrl"
+        name="restaurantUrl">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="restaurantAdd1" class="col-sm-2 col-form-label">Address Line 1:</label>
+      <div class="col-sm-10">
+        <input type="text"
+          class="form-control"
+          id="restaurantAdd1"
+          name="restaurantAdd1"
+          disabled
+          [(ngModel)]="restaurant.restaurantAddressLine1">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="restauranAdd2t" class="col-sm-2 col-form-label">Address Line 2:</label>
+      <div class="col-sm-10">
+        <input type="text"
+          class="form-control"
+          id="restauranAdd2t"
+          name="restauranAdd2t"
+          disabled
+          [(ngModel)]="restaurant.resaturantAddressLine2">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="restaurantPost" class="col-sm-2 col-form-label">Postal Code:</label>
+      <div class="col-sm-10">
+        <input type="text"
+          class="form-control"
+          id="restaurantPost"
+          name="restaurantPost"
+          disabled
+          [(ngModel)]="restaurant.restaurantPostalCode">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="restaurantProv" class="col-sm-2 col-form-label">Province:</label>
+      <div class="col-sm-10">
+        <input type="text"
+          class="form-control"
+          id="restaurantProv"
+          name="restaurantProv"
+          disabled
+          [(ngModel)]="restaurant.restaurantProvince">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="restaurantCity" class="col-sm-2 col-form-label">City:</label>
+      <div class="col-sm-10">
+        <input type="text"
+          class="form-control"
+          id="restaurantCity"
+          name="restaurantCity"
+          disabled
+          [(ngModel)]="restaurant.restaurantCity">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="restaurantStat" class="col-sm-2 col-form-label">Status:</label>
+      <div class="col-sm-10">
+        <input type="text"
+          class="form-control"
+          id="restaurantStat"
+          name="restaurantStat"
+          disabled
+          [(ngModel)]="resStatus.restaurantStatus1">
+      </div>
+    </div>
+
+
+  </div>
+</div>
+</form>
+
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-6">
+        <h1>{{ "Menus" | localize }}</h1>
+      </div>
+      <div class="col-6 text-right">
+        <a href="javascript:;" class="btn bg-blue" (click)="createMenu()">
+          <i class="fa fa-plus-square"></i>
+          {{ "Create" | localize }}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="content px-2">
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-header">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <button
+              type="button"
+              class="btn bg-blue"
+            >
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+          <input
+            type="text"
+            class="form-control"
+            name="keyword"
+            [placeholder]="'SearchWithThreeDot' | localize"
+            [(ngModel)]="searchText"
+          />
+          <div class="input-group-append">
+            <button
+              type="button"
+              class="btn btn-default"
+              (click)="advancedFiltersVisible = !advancedFiltersVisible"
+            >
+              <i
+                class="fas"
+                [class.fa-angle-up]="advancedFiltersVisible"
+                [class.fa-angle-down]="!advancedFiltersVisible"
+              ></i>
+            </button>
+          </div>
+        </div>
+
+      <div class="card-body table-responsive p-0">
+        <table class="table table-hover text-nowrap" [busy]="loading == true">
+          <thead class="bg-light">
+            <tr>
+              <th>{{ "Id" | localize }}</th>
+              <th>{{ "Name" | localize }}</th>
+              <th>{{ "Description" | localize }}</th>
+              <th>{{ "Time Active From" | localize}}</th>
+              <th>{{ "Time Active To" | localize }}</th>
+              <th style="width: 200px;">{{ "Actions" | localize }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="
+                let menu of menus
+                  | paginate
+                    : {
+                        id: 'server',
+                        itemsPerPage: linkedMenus.length,
+                        currentPage: 1,
+                        totalItems: linkedMenus.length
+                      }
+                      | grdFilter: {id: searchText, restaurantItemName:searchText
+                        , restaurantItemDescription:searchText}
+              "
+            >
+              <td>{{ menu.id }}</td>
+              <td>{{ menu.menuName }}</td>
+              <td>{{menu.menuDescription}}</td>
+              <td>{{menu.menuTimeActiveFrom}}</td>
+              <td>{{menu.menuTimeActiveTo}}</td>
+              <td>
+                <button
+                    type="button"
+                    class="btn btn-sm bg-primary"
+                    style="margin-right: 10px;"
+                    (click)="viewMenu(menu)"
+                  >
+                  <i class="fas fa-pencil-alt"></i>
+                    {{ "Details" | localize }}
+                  </button>
+                <button
+                  type="button"
+                  class="btn btn-sm bg-secondary"
+                  (click)="editMenu(menu)"
+                >
+                  <i class="fas fa-pencil-alt"></i>
+                  {{ "Edit" | localize }}
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-sm bg-danger mx-2"
+                  (click)="delete(menu)"
+                >
+                  <i class="fas fa-trash"></i>
+                  {{ "Delete" | localize }}
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card-footer bg-light border-top">
+        <div class="row">
+          <div class="col-sm-4 col-12 text-sm-left text-center">
+
+          </div>
+          <div class="col-sm-4 col-12 text-center">
+            <p class="mb-0 my-2">
+
+            </p>
+          </div>
+          <div class="col-sm-4 col-12">
+            <div class="float-sm-right m-auto">
+              <abp-pagination-controls
+                id="server"
+
+              >
+              </abp-pagination-controls>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+
+<!--
+  <div class="form-group row required">
+      <label class="col-md-3 col-form-label" for="tenancyName">
+        {{ "Restaurant Id" | localize }}
+      </label>
+      <div class="col-md-9">
+        <input
+          type="text"
+          class="form-control"
+          name="tenancyName"
+          id="tenancyName"
+          minlength="2"
+          maxlength="64"
+          required
+          [(ngModel)]="restaurant.id"
+          #tenancyNameModel="ngModel"
+          #tenancyNameEl
+        />
+        <abp-validation-summary
+          [control]="tenancyNameModel"
+          [controlEl]="tenancyNameEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+  <div class="form-group row mb-0">
+      <label class="col-md-3 col-form-label">
+        {{ "IsActive" | localize }}
+      </label>
+      <div class="col-md-9">
+        <div class="custom-control custom-checkbox">
+          <input
+            type="checkbox"
+            class="custom-control-input"
+            name="isActive"
+            id="isActive"
+            [(ngModel)]="restaurant.isActive"
+          />
+          <label class="custom-control-label mt-2" for="isActive"></label>
+        </div>
+      </div>
+    </div>
+-->

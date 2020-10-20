@@ -1,0 +1,80 @@
+
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+      <h1 class="display-4">Generate QrCode</h1>
+      <p class="lead">Select a restaurant, table number and a QrCode number to generate a unique qrCode</p>
+    </div>
+  </div>
+    <div class="form-group row required">
+        <label class="col-md-3 col-form-label" for="tblNo">
+          {{ "Table No" | localize }}
+        </label>
+        <div class="col-md-9">
+          <select
+            class="form-control"
+            name="tblNo"
+            id="tblNo"
+            required
+            [(ngModel)]="qrCodeSeating.seatingIdFk"
+            #tblNoModel="ngModel"
+            #tblNoEl>
+              <option *ngFor="let q of seatings" value={{q.id}}>{{q.id}}</option>
+          </select>
+          <abp-validation-summary
+            [control]="tblNoModel"
+            [controlEl]="tblNoEl"
+          ></abp-validation-summary>
+        </div>
+      </div>
+
+      <div class="form-group row required">
+        <label class="col-md-3 col-form-label" for="qrC">
+          {{ "QrCode Nr" | localize }}
+        </label>
+        <div class="col-md-9">
+          <select
+            class="form-control"
+            name="qrC"
+            id="qrC"
+            required
+            [(ngModel)]="qrCodeSeating.qrCodeIdFk"
+            #qrCModel="ngModel"
+            #qrCEl>
+              <option *ngFor="let q of qrCodes" value={{q.id}}>{{q.restaurantIdFkNavigation.restaurantName}}; {{q.id}}</option>
+          </select>
+          <abp-validation-summary
+            [control]="qrCModel"
+            [controlEl]="qrCEl"
+          ></abp-validation-summary>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <button class="btn btn-primary btn block" (click)="generateQrCode(qrCodeSeating)">Generate QrCode</button>
+    </div>
+
+
+
+<div *ngIf="generated === true && invalidSelection === false">
+<ngx-qrcode
+[elementType]="elementType"
+[value]="value"
+cssClass="aclass"
+errorCorrectionLevel="L">
+</ngx-qrcode>
+</div>
+
+<div *ngIf="invalidSelection === true">
+    <div class="container-fluid"  style="margin-top: 15px;">
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header text-center" style="font-weight: bold;">Invalid selection please try again</div>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
+
+
+

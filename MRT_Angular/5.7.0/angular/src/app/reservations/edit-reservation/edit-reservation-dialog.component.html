@@ -1,0 +1,200 @@
+<form
+  class="form-horizontal"
+  autocomplete="off"
+  #editReservationForm="ngForm"
+  (ngSubmit)="save()"
+>
+  <abp-modal-header
+    [title]="'Edit Reservation' | localize"
+    (onCloseClick)="bsModalRef.hide()"
+  ></abp-modal-header>
+  <div class="modal-body">
+
+    <div class="form-group row required">
+      <label class="col-md-3 col-form-label" for="rest">
+        {{ "Restaurant" | localize }}
+      </label>
+      <div class="col-md-9">
+        <select
+          class="form-control"
+          name="rest"
+          id="rest"
+          required
+          [(ngModel)]="reservation.restaurantIdFk"
+          #restModel="ngModel"
+          #restEl>
+            <option *ngFor="let r of restaurants" value={{r.id}}>{{r.restaurantName}}</option>
+        </select>
+        <abp-validation-summary
+          [control]="restModel"
+          [controlEl]="restEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+    <div class="form-group row required">
+      <label class="col-md-3 col-form-label" for="resDate">
+        {{ "Reservation Date " | localize }}
+      </label>
+      <div class="col-md-9">
+        <input
+          type="datetime-local"
+          class="form-control"
+          name="resDate"
+          id="resDate"
+          maxlength="128"
+          required
+          [min]="currentDate"
+          [(ngModel)]="reservation.reservationDateReserved"
+          #nameModel="ngModel"
+          #nameEl
+        />
+        <abp-validation-summary
+          [control]="nameModel"
+          [controlEl]="nameEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <!--<label class="col-md-3 col-form-label" for="userId">
+        {{ "UserId" | localize }}
+      </label>-->
+      <div class="col-md-9">
+        <input
+          type="text"
+          style="display: none;"
+          class="form-control"
+          name="userId"
+          id="userId"
+
+          maxlength="1024"
+          value={{iUserId}}
+          [(ngModel)]="reservation.userIdFk"
+          #userIdModel="ngModel"
+          #userIdEl
+        />
+    <abp-validation-summary
+          [control]="userIdModel"
+          [controlEl]="userIdEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label" for="pQty">
+        {{ "Party Qty" | localize }}
+      </label>
+      <div class="col-md-9">
+        <input
+          type="number"
+          class="form-control"
+          name="pQty"
+          id="pQty"
+          [min]="0"
+          maxlength="1024"
+          [(ngModel)]="reservation.reservationPartyQty"
+          #pQtyModel="ngModel"
+          #pQtyEl
+        />
+    <abp-validation-summary
+          [control]="pQtyModel"
+          [controlEl]="pQtyEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label" for="nrBill">
+        {{ "Nr of Bills" | localize }}
+      </label>
+      <div class="col-md-9">
+        <input
+          type="number"
+          class="form-control"
+          name="nrBill"
+          [min]="1"
+          id="nrBill"
+          maxlength="1024"
+          [(ngModel)]="reservation.reservationNumberOfBills"
+          #nrBillModel="ngModel"
+          #nrBillEl
+        />
+    <abp-validation-summary
+          [control]="nrBillModel"
+          [controlEl]="nrBillEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+
+    <div class="form-group row required">
+      <label class="col-md-3 col-form-label" for="stat">
+        {{ "Status" | localize }}
+      </label>
+      <div class="col-md-9">
+        <select
+          class="form-control"
+          name="stat"
+          id="stat"
+          required
+          [(ngModel)]="reservation.reservationStatusIdFk"
+          #statModel="ngModel"
+          #statEl>
+            <option *ngFor="let r of reservationStatusses" value={{r.id}}>{{r.reservationStatus1}}</option>
+        </select>
+        <abp-validation-summary
+          [control]="statModel"
+          [controlEl]="statEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+
+  </div>
+  <abp-modal-footer
+    [cancelDisabled]="saving"
+    [saveDisabled]="!editReservationForm.form.valid || saving"
+    (onCancelClick)="bsModalRef.hide()"
+  ></abp-modal-footer>
+</form>
+
+<!--
+  <div class="form-group row required">
+      <label class="col-md-3 col-form-label" for="tenancyName">
+        {{ "Reservation Id" | localize }}
+      </label>
+      <div class="col-md-9">
+        <input
+          type="text"
+          class="form-control"
+          name="tenancyName"
+          id="tenancyName"
+          minlength="2"
+          maxlength="64"
+          required
+          [(ngModel)]="reservation.id"
+          #tenancyNameModel="ngModel"
+          #tenancyNameEl
+        />
+        <abp-validation-summary
+          [control]="tenancyNameModel"
+          [controlEl]="tenancyNameEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+  <div class="form-group row mb-0">
+      <label class="col-md-3 col-form-label">
+        {{ "IsActive" | localize }}
+      </label>
+      <div class="col-md-9">
+        <div class="custom-control custom-checkbox">
+          <input
+            type="checkbox"
+            class="custom-control-input"
+            name="isActive"
+            id="isActive"
+            [(ngModel)]="reservation.isActive"
+          />
+          <label class="custom-control-label mt-2" for="isActive"></label>
+        </div>
+      </div>
+    </div>
+-->

@@ -1,0 +1,69 @@
+﻿<section class="content-header">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <h1>Current Order</h1>
+      </div>
+    </div>
+  </div>
+
+<div *ngIf="cartTotal==0">
+  <div class="container-fluid content-row" style="margin-top: 15px;">
+    <div class="row">
+      <div class="col-sm-12 col-md-auto">
+        <div class="card h-100">
+          <div class="card-header d-flex flex-column">
+            No Items In Your Order
+          </div>
+          <div class="card-footer mt-auto">Go back to add items to your order</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="cartTotal!=0">
+  <div class="container-fluid content-row" style="margin-top: 15px;">
+    <div class="row">
+      <div class="col-sm-12 col-md-auto" *ngFor="let m of cart" ><!---->
+        <div class="card h-100">
+        <div class="card-header d-flex flex-column">
+          <div class="card-title" style="font-weight: bold;">{{m.item.menuItemName}}</div><!---->
+          <div class="text-right">
+            <a href="javascript:;" class="btn bg-blue" (click)="decreaseItem(m)">
+              <i class="fa fa-minus-square"></i>
+              {{ "" | localize }}
+            </a>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="card-text"> Quantity: {{m.qty}}</p>
+          <p class="card-text"> {{m.item.menuItemPriceIdFkNavigation.menuItemPrice1 | currency:"R "}}</p>
+        </div>
+        <div class="card-footer mt-auto">
+          <p class="card-text text-right" style="font-weight: bold;">Item Total: {{m.item.menuItemPriceIdFkNavigation.menuItemPrice1 * m.qty | currency:"R "}}</p><!---->
+        </div>
+      </div>
+
+      </div>
+      <div class="col-sm-12 col-md-auto" style="margin-top: 15px;">
+        <div class="card h-100">
+          <div class="card-footer mt-auto">
+            <p class="card-text text-right" style="font-weight: bold;">Total: {{cartTotal | currency:"R "}}</p><!---->
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-auto">
+        <a class="btn btn-block bg-primary" (click)="sendToKitchen()" >
+          <i class="fa fa-plus-square"></i>
+          {{ "Send To Kitchen" | localize }}
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+

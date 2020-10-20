@@ -1,0 +1,329 @@
+<form
+  class="form-horizontal"
+  autocomplete="off"
+  #createOrderLineForm="ngForm"
+
+>
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4">Add Item To Order</h1>
+    <p class="lead">Select items and their amounts to be added to the order</p>
+  </div>
+</div>
+
+<div class="card" style="margin: 0 auto; float:none; margin-bottom: 10px; width: 95%;">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-6">
+        <h1>{{ "Menu Items" | localize }}</h1>
+      </div>
+      <div class="col-6 text-right">
+        <a href="javascript:;" class="btn bg-blue" (click)="viewOrder()">
+          <i class="fa fa-pencil-alt"></i>
+          {{ "Back To Order" | localize }}
+        </a>
+      </div>
+    </div>
+    </div>
+    </div>
+
+    <div class="card" style="margin: 0 auto; float:none; margin-bottom: 10px; margin-top:10px;  width: 95%;">
+      <div class="card-body">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <button
+              type="button"
+              class="btn bg-blue"
+
+            >
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+          <input
+            type="text"
+            class="form-control"
+            name="keyword"
+            [placeholder]="'SearchWithThreeDot' | localize"
+            [(ngModel)]="searchText"
+          />
+          <div class="input-group-append">
+            <button
+              type="button"
+              class="btn btn-default"
+
+            >
+              <i
+                class="fas"
+
+              ></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<div class="card" style="margin: 0 auto; float:none; margin-bottom: 10px; margin-top:10px;  width: 95%;">
+  <div class="card-body">
+    <div class="form-group row required">
+      <div class="card-body table-responsive p-1">
+        <table class="table table-hover text-nowrap" [busy]="loading == true">
+          <thead class="bg-light">
+            <tr>
+              <th>{{ "Id" | localize }}</th>
+              <th>{{ "Menu Item" | localize }}</th>
+              <th>{{ "Description" | localize }}</th>
+              <th>{{ "Price" | localize}}</th>
+              <th style="width: 100px;">{{ "Qty" | localize }}</th>
+              <th>{{"Line Amount"}}</th>
+              <th style="width: 200px;">{{ "Actions" | localize }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="
+                let x of menuItems
+                  | paginate
+                    : {
+                        id: 'server',
+                        itemsPerPage: menuItems.length,
+                        currentPage: 1,
+                        totalItems: menuItems.length
+                      }
+                      | grdFilter: {id: searchText, menuItemName:searchText
+                        , menuItemDescription:searchText}
+              "
+            >
+              <td>{{ x.id }}</td>
+              <td>{{ x.menuItemName }}</td>
+              <td>{{ x.menuItemDescription}}</td>
+              <td>
+                {{x.menuItemPriceIdFkNavigation.menuItemPrice1 | currency:'R '}}
+              </td>
+              <td>
+                  <input
+                    type="number"
+                    class="form-control"
+                    name="qty{{x.id}}"
+                    id="qty{{x.id}}"
+                    maxlength="128"
+                    required
+                    min="0"
+                    required
+                    #qty
+                    [(ngModel)]="x.itemQty"
+                  />
+
+              </td>
+              <td id="total{{x.id}}">
+                {{x.menuItemPriceIdFkNavigation.menuItemPrice1 * x.itemQty | currency:'R '}}
+              </td>
+              <td>
+                <button
+                  type="button"
+                  class="btn btn-sm bg-primary mx-2"
+                  id="add{{x.id}}"
+                  (click)="save(x, x.itemQty)"
+                >
+                  <i class="fas fa-plus"></i>
+                  {{ "Add To Order" | localize }}
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer bg-light border-top">
+    <div class="row">
+      <div class="col-sm-4 col-12 text-sm-left text-center">
+
+      </div>
+      <div class="col-sm-4 col-12 text-center">
+        <p class="mb-0 my-2">
+
+        </p>
+      </div>
+      <div class="col-sm-4 col-12">
+        <div class="float-sm-right m-auto">
+          <abp-pagination-controls
+            id="server"
+
+          >
+          </abp-pagination-controls>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="card" style="margin: 0 auto; float:none; margin-bottom: 10px; width: 95%;">
+  <div class="card-body">
+    <label class="col-md-3 col-form-label" for="ol">
+      {{ "Items Added To Order" | localize }}
+    </label>
+    <div class="card-body table-responsive p-0">
+      <table class="table table-hover text-nowrap" [busy]="loading == true">
+        <thead class="bg-light">
+          <tr>
+            <th>{{ "Id" | localize }}</th>
+            <th>{{ "Menu Item" | localize }}</th>
+            <th>{{ "Description" | localize }}</th>
+            <th>{{ "Price" | localize}}</th>
+            <th style="width: 100px;">{{ "Qty" | localize }}</th>
+            <th>{{"Line Amount"}}</th>
+            <th style="width: 200px;">{{ "Actions" | localize }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="
+              let y of selectedOL
+                | paginate
+                  : {
+                      id: 'server',
+                      itemsPerPage: selectedOL.length,
+                      currentPage: 1,
+                      totalItems: selectedOL.length
+                    }
+                    | grdFilter: {id: searchText, menuItemName:searchText
+                      , menuItemDescription:searchText}
+            "
+          >
+            <td>{{ y.id }}</td>
+            <td>{{ y.menuItemIdFkNavigation.menuItemName }}</td>
+            <td>{{y.menuItemIdFkNavigation.menuItemDescription}}</td>
+            <td>{{ y.menuItemIdFkNavigation.menuItemPriceIdFkNavigation.menuItemPrice1 | currency:'R  '}}</td>
+            <td>
+              {{y.itemQty}}
+            </td>
+            <td>
+              {{y.itemQty * y.menuItemIdFkNavigation.menuItemPriceIdFkNavigation.menuItemPrice1}}
+            </td>
+            <td>
+              <button
+                type="button"
+                class="btn btn-sm bg-primary mx-2"
+                (click)="delete(y)"
+              >
+                <i class="fas fa-plus"></i>
+                {{ "Remove From Order" | localize }}
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card-footer bg-light border-top">
+    <div class="row">
+      <div class="col-sm-4 col-12 text-sm-left text-center">
+
+      </div>
+      <div class="col-sm-4 col-12 text-center">
+        <p class="mb-0 my-2">
+
+        </p>
+      </div>
+      <div class="col-sm-4 col-12">
+        <div class="float-sm-right m-auto">
+          <abp-pagination-controls
+            id="server"
+
+          >
+          </abp-pagination-controls>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</form>
+    <!--
+<div class="form-group row">
+      <label class="col-md-3 col-form-label" for="connectionString">
+        {{ "DatabaseConnectionString" | localize }}
+      </label>
+      <div class="col-md-9">
+        <input
+          type="text"
+          class="form-control"
+          name="connectionString"
+          id="connectionString"
+          maxlength="1024"
+          [(ngModel)]="orderLine.connectionString"
+        />
+      </div>
+    </div>
+    <div class="form-group row required">
+      <label class="col-md-3 col-form-label" for="tenancyName">
+        {{ "Id" | localize }}
+      </label>
+      <div class="col-md-9">
+        <input
+          type="text"
+          class="form-control"
+          name="tenancyName"
+          id="tenancyName"
+          minlength="2"
+          maxlength="64"
+          required
+          [(ngModel)]="orderLine.id"
+          #tenancyNameModel="ngModel"
+          #tenancyNameEl
+        />
+        <abp-validation-summary
+          [control]="tenancyNameModel"
+          [controlEl]="tenancyNameEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+    <div class="form-group row required">
+      <label class="col-md-3 col-form-label" for="adminEmailAddress">
+        {{ "AdminEmailAddress" | localize }}
+      </label>
+      <div class="col-md-9">
+        <input
+          type="email"
+          class="form-control"
+          name="adminEmailAddress"
+          id="adminEmailAddress"
+          pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{1,})+$"
+          maxlength="256"
+          required
+          [(ngModel)]="orderLine.adminEmailAddress"
+          #adminEmailAddressModel="ngModel"
+          #adminEmailAddressEl
+        />
+        <abp-validation-summary
+          [control]="adminEmailAddressModel"
+          [controlEl]="adminEmailAddressEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+    <div class="form-group row mb-0">
+      <label class="col-md-3 col-form-label">
+        {{ "IsActive" | localize }}
+      </label>
+      <div class="col-md-9">
+        <div class="custom-control custom-checkbox">
+          <input
+            type="checkbox"
+            class="custom-control-input"
+            name="isActive"
+            id="isActive"
+            [(ngModel)]="orderLine.isActive"
+          />
+          <label class="custom-control-label mt-2" for="isActive"></label>
+        </div>
+      </div>
+    </div>
+    <p class="text-center text-info mb-0">
+      {{ "DefaultPasswordIs" | localize: "123qwe" }}
+    </p>
+
+    -->
+
+

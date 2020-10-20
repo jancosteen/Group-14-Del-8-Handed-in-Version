@@ -1,0 +1,269 @@
+<form
+  class="form-horizontal"
+  autocomplete="off"
+  #editRestaurantForm="ngForm"
+  (ngSubmit)="save()"
+>
+  <abp-modal-header
+    [title]="'Edit Restaurant' | localize"
+    (onCloseClick)="bsModalRef.hide()"
+  ></abp-modal-header>
+  <div class="modal-body">
+
+    <div class="form-group row required">
+      <label class="col-md-3 col-form-label" for="name">
+        {{ "Restaurant" | localize }}
+      </label>
+      <div class="col-md-9">
+        <input
+          type="text"
+          class="form-control"
+          name="name"
+          id="name"
+          maxlength="128"
+          required
+          [(ngModel)]="restaurant.restaurantName"
+          #nameModel="ngModel"
+          #nameEl
+        />
+        <abp-validation-summary
+          [control]="nameModel"
+          [controlEl]="nameEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+
+    <div class="form-group row required">
+      <label class="col-md-3 col-form-label" for="description">
+        {{ "Description" | localize }}
+      </label>
+      <div class="col-md-9">
+        <input
+          type="text"
+          class="form-control"
+          name="description"
+          id="description"
+          maxlength="128"
+          required
+          [(ngModel)]="restaurant.restaurantDescription"
+          #resDesModel="ngModel"
+          #resDesEl
+        />
+        <abp-validation-summary
+          [control]="resDesModel"
+          [controlEl]="resDesEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+
+    <div class="form-group row required">
+      <label class="col-md-3 col-form-label" for="url">
+        {{ "Website" | localize }}
+      </label>
+      <div class="col-md-9">
+        <input
+          type="text"
+          class="form-control"
+          name="url"
+          id="url"
+          maxlength="128"
+          required
+          [(ngModel)]="restaurant.restaurantUrl"
+          #resUrlModel="ngModel"
+          #resUrlEl
+        />
+        <abp-validation-summary
+          [control]="resUrlModel"
+          [controlEl]="resUrlEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+
+    <div class="form-group row required">
+      <label class="col-md-3 col-form-label" for="address1">
+        {{ "Address Line 1" | localize }}
+      </label>
+      <div class="col-md-9">
+        <input
+          type="text"
+          class="form-control"
+          name="address1"
+          id="address1"
+          maxlength="128"
+          required
+          [(ngModel)]="restaurant.restaurantAddressLine1"
+          #resA1Model="ngModel"
+          #resA1El
+        />
+        <abp-validation-summary
+          [control]="resA1Model"
+          [controlEl]="resA1El"
+        ></abp-validation-summary>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label" for="address2">
+        {{ "Address Line 2" | localize }}
+      </label>
+      <div class="col-md-9">
+        <input
+          type="text"
+          class="form-control"
+          name="address2"
+          id="address2"
+          maxlength="128"
+          required
+          [(ngModel)]="restaurant.resaturantAddressLine2"
+          #resA2Model="ngModel"
+          #resA2El
+        />
+        <abp-validation-summary
+          [control]="resA2Model"
+          [controlEl]="resA2El"
+        ></abp-validation-summary>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label" for="pcode">
+        {{ "Postal Code" | localize }}
+      </label>
+      <div class="col-md-9">
+        <input
+          type="number"
+          class="form-control"
+          name="pcode"
+          id="pcode"
+          maxlength="128"
+          required
+          [(ngModel)]="restaurant.restaurantPostalCode"
+          #resPCodeModel="ngModel"
+          #resPCodeEl
+        />
+        <abp-validation-summary
+          [control]="resPCodeModel"
+          [controlEl]="resPCodeEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label" for="province">
+        {{ "Province" | localize }}
+      </label>
+      <div class="col-md-9">
+        <input
+          type="text"
+          class="form-control"
+          name="province"
+          id="province"
+          maxlength="128"
+          required
+          [(ngModel)]="restaurant.restaurantProvince"
+          #resProvinceModel="ngModel"
+          #resProvinceEl
+        />
+        <abp-validation-summary
+          [control]="resProvinceModel"
+          [controlEl]="resProvinceEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label" for="city">
+        {{ "City" | localize }}
+      </label>
+      <div class="col-md-9">
+        <input
+          type="text"
+          class="form-control"
+          name="city"
+          id="city"
+          maxlength="128"
+          required
+          [(ngModel)]="restaurant.restaurantCity"
+          #resCityModel="ngModel"
+          #resCityEl
+        />
+        <abp-validation-summary
+          [control]="resCityModel"
+          [controlEl]="resCityEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label" for="country">
+        {{ "Country" | localize }}
+      </label>
+      <div class="col-md-9">
+        <input
+          type="text"
+          class="form-control"
+          name="country"
+          id="country"
+          maxlength="128"
+          required
+          [(ngModel)]="restaurant.restaurantCountry"
+          #resCountryModel="ngModel"
+          #resCountryEl
+        />
+        <abp-validation-summary
+          [control]="resCountryModel"
+          [controlEl]="resCountryEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+
+  </div>
+  <abp-modal-footer
+    [cancelDisabled]="saving"
+    [saveDisabled]="!editRestaurantForm.form.valid || saving"
+    (onCancelClick)="bsModalRef.hide()"
+  ></abp-modal-footer>
+</form>
+
+<!--
+  <div class="form-group row required">
+      <label class="col-md-3 col-form-label" for="tenancyName">
+        {{ "Restaurant Id" | localize }}
+      </label>
+      <div class="col-md-9">
+        <input
+          type="text"
+          class="form-control"
+          name="tenancyName"
+          id="tenancyName"
+          minlength="2"
+          maxlength="64"
+          required
+          [(ngModel)]="restaurant.id"
+          #tenancyNameModel="ngModel"
+          #tenancyNameEl
+        />
+        <abp-validation-summary
+          [control]="tenancyNameModel"
+          [controlEl]="tenancyNameEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+  <div class="form-group row mb-0">
+      <label class="col-md-3 col-form-label">
+        {{ "IsActive" | localize }}
+      </label>
+      <div class="col-md-9">
+        <div class="custom-control custom-checkbox">
+          <input
+            type="checkbox"
+            class="custom-control-input"
+            name="isActive"
+            id="isActive"
+            [(ngModel)]="restaurant.isActive"
+          />
+          <label class="custom-control-label mt-2" for="isActive"></label>
+        </div>
+      </div>
+    </div>
+-->

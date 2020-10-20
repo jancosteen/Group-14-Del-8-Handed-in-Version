@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "ordermatefinal": {
+      "hosting": {
+        "MDR_Angular": [
+          "ordermatefinal"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "ordermatefinal"
+  }
+}

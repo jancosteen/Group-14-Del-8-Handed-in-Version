@@ -1,0 +1,155 @@
+<form
+  class="form-horizontal"
+  autocomplete="off"
+  #editMenuItemForm="ngForm"
+  (ngSubmit)="save()"
+>
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4">View MenuItem Details</h1>
+    <p class="lead">{{menuItem.menuItemName}}</p>
+  </div>
+</div>
+<div class="card" style="margin: 0 auto; float:none; margin-bottom: 10px; width: 95%;">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-6">
+        <h1>{{menuItem.menuItemName}}</h1>
+      </div>
+      <div class="col-6 text-right">
+        <a href="javascript:;" class="btn bg-blue" (click)="editMenuItem(menuItem)">
+          <i class="fa fa-pencil-alt"></i>
+          {{ "Edit" | localize }}
+        </a>
+      </div>
+    </div>
+    <!--<div class="form-group row">
+      <label for="menuItemName" class="col-sm-2 col-form-label">MenuItem:</label>
+      <div class="col-sm-10">
+        <input type="text"
+        class="form-control"
+        id="menuItemName"
+        disabled
+        [(ngModel)]="menuItem.menuItemName"
+        name="menuItemName">
+      </div>
+    </div>-->
+    <div class="form-group row">
+      <label for="menuItemDescription" class="col-sm-2 col-form-label">Description:</label>
+      <div class="col-sm-10">
+        <input type="text"
+          class="form-control"
+          id="menuItemDes"
+          name="menuItemDes"
+          disabled
+          [(ngModel)]="menuItem.menuItemDescription">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="menuItemCat" class="col-sm-2 col-form-label">Category:</label>
+      <div class="col-sm-10">
+        <input type="text"
+        class="form-control"
+        id="menuItemCat"
+        disabled
+        [(ngModel)]="miCategory.menuItemCategory1"
+        name="menuItemCat">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="menuItemPrice" class="col-sm-2 col-form-label">Price:</label>
+      <div class="col-sm-10">
+        <input type="text"
+          class="form-control"
+          id="menuItemPrice"
+          name="menuItemPrice"
+          disabled
+          [(ngModel)]="miPrice.menuItemPrice1">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="menu" class="col-sm-2 col-form-label">Menu:</label>
+      <div class="col-sm-10">
+        <input type="text"
+          class="form-control"
+          id="menu"
+          name="menu"
+          disabled
+          [(ngModel)]="menu.menuName">
+      </div>
+    </div>
+  </div>
+</div>
+</form>
+
+
+      <div class="card-footer bg-light border-top">
+        <div class="row">
+          <div class="col-sm-4 col-12 text-sm-left text-center">
+
+          </div>
+          <div class="col-sm-4 col-12 text-center">
+            <p class="mb-0 my-2">
+
+            </p>
+          </div>
+          <div class="col-sm-4 col-12">
+            <div class="float-sm-right m-auto">
+              <abp-pagination-controls
+                id="server"
+
+              >
+              </abp-pagination-controls>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+<!--
+  <div class="form-group row required">
+      <label class="col-md-3 col-form-label" for="tenancyName">
+        {{ "MenuItem Id" | localize }}
+      </label>
+      <div class="col-md-9">
+        <input
+          type="text"
+          class="form-control"
+          name="tenancyName"
+          id="tenancyName"
+          minlength="2"
+          maxlength="64"
+          required
+          [(ngModel)]="menuItem.id"
+          #tenancyNameModel="ngModel"
+          #tenancyNameEl
+        />
+        <abp-validation-summary
+          [control]="tenancyNameModel"
+          [controlEl]="tenancyNameEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+  <div class="form-group row mb-0">
+      <label class="col-md-3 col-form-label">
+        {{ "IsActive" | localize }}
+      </label>
+      <div class="col-md-9">
+        <div class="custom-control custom-checkbox">
+          <input
+            type="checkbox"
+            class="custom-control-input"
+            name="isActive"
+            id="isActive"
+            [(ngModel)]="menuItem.isActive"
+          />
+          <label class="custom-control-label mt-2" for="isActive"></label>
+        </div>
+      </div>
+    </div>
+-->

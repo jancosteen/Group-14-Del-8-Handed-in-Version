@@ -1,0 +1,217 @@
+<div [@routerTransition]>
+  <div *ngIf="this.reservations.length>0">
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-6">
+            <h1>{{ reservations[0].userIdFkNavigation.userName }}'s Reservations</h1>
+          </div>
+          <div class="col-6 text-right">
+            <a href="javascript:;" class="btn bg-blue" (click)="createCustomerReservation()">
+              <i class="fa fa-plus-square"></i>
+              {{ "Create" | localize }}
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div *ngIf="this.upcomingReservations.length>0">
+      <div class="container-fluid"  style="margin-top: 15px;">
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header text-center" style="font-weight: bold;">Upcoming Reservations</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container-fluid content-row">
+        <div class="row">
+          <div class="col-sm-12 col-md-auto" *ngFor="let m of reservations" ><!---->
+            <div class="card h-100">
+            <div class="card-header d-flex flex-column">
+              <div class="card-title" style="font-weight: bold;">{{m.restaurantIdFkNavigation.restaurantName}}</div><!---->
+              <div class="text-right">
+                <a href="javascript:;" class="btn bg-blue" (click)="editCustomerReservation(m)">
+                  <i class="fa fa-pencil-square"></i>
+                  {{ "Edit" | localize }}
+                </a>
+              </div>
+            </div>
+            <div class="card-body">
+              <p class="card-text">Date Created: {{m.reservationDateCreated }}</p>
+              <p class="card-text">Date Reserved: {{m.reservationDateReserved }}</p>
+              <p class="card-text">Reserved Party: {{m.reservationPartyQty }}</p>
+              <p class="card-text">Number Of Bills Requested: {{m.reservationNumberOfBills }}</p>
+            </div>
+            <div class="card-footer mt-auto">
+              <p class="card-text" style="font-weight: bold;">{{m.reservationStatusIdFkNavigation.reservationStatus1}}</p><!---->
+              <div class="text-right">
+                <a href="javascript:;" class="btn bg-danger" (click)="delete(m)">
+                  <i class="fa fa-trash-square"></i>
+                  {{ "Delete" | localize }}
+                </a>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="this.pastReservations.length>0">
+      <div class="container-fluid"  style="margin-top: 15px;">
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header text-center" style="font-weight: bold;">Previous Reservations</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container-fluid content-row">
+        <div class="row">
+          <div class="col-sm-12 col-md-auto" *ngFor="let m of reservations" ><!---->
+            <div class="card h-100">
+            <div class="card-header d-flex flex-column">
+              <div class="card-title" style="font-weight: bold;">{{m.restaurantIdFkNavigation.restaurantName}}</div><!---->
+              <div class="text-right">
+                <a href="javascript:;" class="btn bg-blue" (click)="editCustomerReservation()">
+                  <i class="fa fa-pencil-square"></i>
+                  {{ "Edit" | localize }}
+                </a>
+              </div>
+            </div>
+            <div class="card-body">
+              <p class="card-text">Date Created: {{m.reservationDateCreated }}</p>
+              <p class="card-text">Date Reserved: {{m.reservationDateReserved }}</p>
+              <p class="card-text">Reserved Party: {{m.reservationPartyQty }}</p>
+              <p class="card-text">Reserved Party: {{m.reservationNumberOfBills }}</p>
+            </div>
+            <div class="card-footer mt-auto">
+              <p class="card-text" style="font-weight: bold;">{{m.reservationStatusIdFkNavigation.reservationStatus1}}</p><!---->
+              <div class="text-right">
+                <a href="javascript:;" class="btn bg-danger" (click)="delete(m)">
+                  <i class="fa fa-trash-square"></i>
+                  {{ "Delete" | localize }}
+                </a>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="reservations.length===0">
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-6">
+            <h1>{{ userName }}'s Reservations</h1>
+          </div>
+          <div class="col-6 text-right">
+            <a href="javascript:;" class="btn bg-blue" (click)="createCustomerReservation()">
+              <i class="fa fa-plus-square"></i>
+              {{ "Create" | localize }}
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="container-fluid content-row">
+      <div class="row">
+        <div class="col-sm-12 col-md-auto">
+          <div class="card-header d-flex flex-column">
+            <div class="card-title" style="font-weight: bold;">You have no reservation history</div>
+            <div class="text-right">
+              <a href="javascript:;" class="btn bg-blue" (click)="createCustomerReservation()">
+                <i class="fa fa-pencil-square"></i>
+                {{ "Create" | localize }}
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+
+</div>
+
+<!--
+  <div *ngIf="advancedFiltersVisible" class="card mb-0 mt-1">
+            <div class="card-body">
+              <form class="form-horizontal">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group row mb-0">
+
+                          <label class="custom-control-label" for="isActiveAll">
+                            {{ "All" | localize }}
+                          </label>
+                        </div>
+                        <div class="custom-control custom-radio d-inline mx-3">
+                          <input
+                            type="radio"
+                            class="custom-control-input"
+                            id="isActiveActive"
+                            name="isActive"
+                            [(ngModel)]="isActive"
+                            [value]="true"
+                          />
+                          <label
+                            class="custom-control-label"
+                            for="isActiveActive"
+                          >
+                            {{ "Yes" | localize }}
+                          </label>
+                        </div>
+                        <div class="custom-control custom-radio d-inline">
+                          <input
+                            type="radio"
+                            class="custom-control-input"
+                            id="isActivePassive"
+                            name="isActive"
+                            [(ngModel)]="isActive"
+                            [value]="false"
+                          />
+                          <label
+                            class="custom-control-label"
+                            for="isActivePassive"
+                          >
+                            {{ "No" | localize }}
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                </form>
+            </div>
+            <div class="card-footer">
+              <button
+                type="button"
+                class="btn bg-blue"
+                (click)="getDataPage(1)"
+              >
+                {{ "Search" | localize }}
+              </button>
+              <button
+                type="button"
+                class="btn btn-default float-right"
+                (click)="clearFilters()"
+              >
+                {{ "Clear" | localize }}
+              </button>
+            </div>
+          </div>
+        </div>
+-->

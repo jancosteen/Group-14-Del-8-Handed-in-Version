@@ -1,0 +1,196 @@
+<form
+  class="form-horizontal"
+  autocomplete="off"
+  #createOrderForm="ngForm"
+  (ngSubmit)="save()"
+>
+  <abp-modal-header
+    [title]="'CreateNewOrder' | localize"
+    (onCloseClick)="bsModalRef.hide()"
+  ></abp-modal-header>
+  <div class="modal-body">
+    <div class="form-group row required">
+      <label class="col-md-3 col-form-label" for="dateCreated">
+        {{ "Date Created " | localize }}
+      </label>
+      <div class="col-md-9">
+        <input
+          type="datetime-local"
+          class="form-control"
+          name="dateCreated"
+          id="dateCreated"
+          maxlength="128"
+          required
+          [min]="currentDate"
+          [(ngModel)]="order.orderDateCreated"
+          #dateCreatedModel="ngModel"
+          #dateCreatedEl
+        />
+        <abp-validation-summary
+          [control]="dateCreatedModel"
+          [controlEl]="dateCreatedEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+
+    <div class="form-group row required">
+      <label class="col-md-3 col-form-label" for="dateCompleted">
+        {{ "Date Completed " | localize }}
+      </label>
+      <div class="col-md-9">
+        <input
+          type="datetime-local"
+          class="form-control"
+          name="dateCompleted"
+          id="dateCompleted"
+          maxlength="128"
+          required
+          [min]="dateCreatedModel"
+          [(ngModel)]="order.orderDateCompleted"
+          #dateCompletedModel="ngModel"
+          #dateCompletedEl
+        />
+        <abp-validation-summary
+          [control]="dateCompletedModel"
+          [controlEl]="dateCompletedEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+
+    <div class="form-group row required">
+      <label class="col-md-3 col-form-label" for="tblNo">
+        {{ "Table No" | localize }}
+      </label>
+      <div class="col-md-9">
+        <select
+          class="form-control"
+          name="tblNo"
+          id="tblNo"
+          required
+          [(ngModel)]="order.qrCodeSeatingIdFk"
+          #tblNoModel="ngModel"
+          #tblNoEl>
+            <option *ngFor="let q of qrCodeSeatings" value={{q.id}}>{{q.id}}</option>
+        </select>
+        <abp-validation-summary
+          [control]="tblNoModel"
+          [controlEl]="tblNoEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+
+    <div class="form-group row required">
+      <label class="col-md-3 col-form-label" for="status">
+        {{ "Status" | localize }}
+      </label>
+      <div class="col-md-9">
+        <select
+          class="form-control"
+          name="status"
+          id="status"
+          required
+          [(ngModel)]="order.orderStatusIdFk"
+          #statusModel="ngModel"
+          #statusEl>
+            <option *ngFor="let os of orderStatusses" value={{os.id}}>{{os.orderStatus1}}</option>
+        </select>
+        <abp-validation-summary
+          [control]="statusModel"
+          [controlEl]="statusEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+
+    <abp-modal-footer
+    [cancelDisabled]="saving"
+    [saveDisabled]="!createOrderForm.form.valid || saving"
+    (onCancelClick)="bsModalRef.hide()"
+  ></abp-modal-footer>
+</div>
+</form>
+    <!--
+<div class="form-group row">
+      <label class="col-md-3 col-form-label" for="connectionString">
+        {{ "DatabaseConnectionString" | localize }}
+      </label>
+      <div class="col-md-9">
+        <input
+          type="text"
+          class="form-control"
+          name="connectionString"
+          id="connectionString"
+          maxlength="1024"
+          [(ngModel)]="order.connectionString"
+        />
+      </div>
+    </div>
+    <div class="form-group row required">
+      <label class="col-md-3 col-form-label" for="tenancyName">
+        {{ "Id" | localize }}
+      </label>
+      <div class="col-md-9">
+        <input
+          type="text"
+          class="form-control"
+          name="tenancyName"
+          id="tenancyName"
+          minlength="2"
+          maxlength="64"
+          required
+          [(ngModel)]="order.id"
+          #tenancyNameModel="ngModel"
+          #tenancyNameEl
+        />
+        <abp-validation-summary
+          [control]="tenancyNameModel"
+          [controlEl]="tenancyNameEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+    <div class="form-group row required">
+      <label class="col-md-3 col-form-label" for="adminEmailAddress">
+        {{ "AdminEmailAddress" | localize }}
+      </label>
+      <div class="col-md-9">
+        <input
+          type="email"
+          class="form-control"
+          name="adminEmailAddress"
+          id="adminEmailAddress"
+          pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{1,})+$"
+          maxlength="256"
+          required
+          [(ngModel)]="order.adminEmailAddress"
+          #adminEmailAddressModel="ngModel"
+          #adminEmailAddressEl
+        />
+        <abp-validation-summary
+          [control]="adminEmailAddressModel"
+          [controlEl]="adminEmailAddressEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+    <div class="form-group row mb-0">
+      <label class="col-md-3 col-form-label">
+        {{ "IsActive" | localize }}
+      </label>
+      <div class="col-md-9">
+        <div class="custom-control custom-checkbox">
+          <input
+            type="checkbox"
+            class="custom-control-input"
+            name="isActive"
+            id="isActive"
+            [(ngModel)]="order.isActive"
+          />
+          <label class="custom-control-label mt-2" for="isActive"></label>
+        </div>
+      </div>
+    </div>
+    <p class="text-center text-info mb-0">
+      {{ "DefaultPasswordIs" | localize: "123qwe" }}
+    </p>
+
+    -->
+
+

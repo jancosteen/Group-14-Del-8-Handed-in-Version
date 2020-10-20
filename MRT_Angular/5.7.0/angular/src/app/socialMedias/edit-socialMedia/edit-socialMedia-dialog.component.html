@@ -1,0 +1,129 @@
+<form
+  class="form-horizontal"
+  autocomplete="off"
+  #editSocialMediaForm="ngForm"
+  (ngSubmit)="save()"
+>
+  <abp-modal-header
+    [title]="'Edit SocialMedia' | localize"
+    (onCloseClick)="bsModalRef.hide()"
+  ></abp-modal-header>
+  <div class="modal-body">
+
+    <div class="form-group row required">
+      <label class="col-md-3 col-form-label" for="sType">
+        {{ "Social Media Type" | localize }}
+      </label>
+      <div class="col-md-9">
+        <select
+          class="form-control"
+          name="sType"
+          id="sType"
+          required
+          [(ngModel)]="socialMedia.socialMediaTypeIdFk"
+          #sTypeModel="ngModel"
+          #sTypeEl>
+            <option *ngFor="let r of socialMediaTypes" value={{r.id}}>{{r.socialMediaType1}}</option>
+        </select>
+        <abp-validation-summary
+          [control]="sTypeModel"
+          [controlEl]="sTypeEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+
+    <div class="form-group row required">
+      <label class="col-md-3 col-form-label" for="sAddress">
+        {{ "Social Media Address" | localize }}
+      </label>
+      <div class="col-md-9">
+        <input
+          type="text"
+          class="form-control"
+          name="sAddress"
+          id="sAddress"
+          maxlength="128"
+          required
+          [(ngModel)]="socialMedia.socialMediaAddress"
+          #sAddressModel="ngModel"
+          #sAddressEl
+        />
+        <abp-validation-summary
+          [control]="sAddressModel"
+          [controlEl]="sAddressEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+
+    <div class="form-group row required">
+      <label class="col-md-3 col-form-label" for="sRes">
+        {{ "Restaurant" | localize }}
+      </label>
+      <div class="col-md-9">
+        <select
+          class="form-control"
+          name="sRes"
+          id="sRes"
+          required
+          [(ngModel)]="socialMedia.restaurantIdFk"
+          #sResModel="ngModel"
+          #sResEl>
+            <option *ngFor="let r of restaurants" value={{r.id}}>{{r.restaurantName}}</option>
+        </select>
+        <abp-validation-summary
+          [control]="sResModel"
+          [controlEl]="sResEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+
+  </div>
+  <abp-modal-footer
+    [cancelDisabled]="saving"
+    [saveDisabled]="!editSocialMediaForm.form.valid || saving"
+    (onCancelClick)="bsModalRef.hide()"
+  ></abp-modal-footer>
+</form>
+
+<!--
+  <div class="form-group row required">
+      <label class="col-md-3 col-form-label" for="tenancyName">
+        {{ "SocialMedia Id" | localize }}
+      </label>
+      <div class="col-md-9">
+        <input
+          type="text"
+          class="form-control"
+          name="tenancyName"
+          id="tenancyName"
+          minlength="2"
+          maxlength="64"
+          required
+          [(ngModel)]="socialMedia.id"
+          #tenancyNameModel="ngModel"
+          #tenancyNameEl
+        />
+        <abp-validation-summary
+          [control]="tenancyNameModel"
+          [controlEl]="tenancyNameEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+  <div class="form-group row mb-0">
+      <label class="col-md-3 col-form-label">
+        {{ "IsActive" | localize }}
+      </label>
+      <div class="col-md-9">
+        <div class="custom-control custom-checkbox">
+          <input
+            type="checkbox"
+            class="custom-control-input"
+            name="isActive"
+            id="isActive"
+            [(ngModel)]="socialMedia.isActive"
+          />
+          <label class="custom-control-label mt-2" for="isActive"></label>
+        </div>
+      </div>
+    </div>
+-->
