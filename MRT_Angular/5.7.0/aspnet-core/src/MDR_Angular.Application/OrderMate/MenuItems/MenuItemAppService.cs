@@ -23,7 +23,7 @@ namespace MDR_Angular.OrderMate.MenuItems
                 .GetAll()
                 .Include(i => i.MenuItemAllergy).ThenInclude(i => i.AllergyIdFkNavigation)
                 .Include(i => i.MenuItemCategoryIdFkNavigation)
-                .Include(i => i.MenuItemPriceIdFkNavigation)
+                //.Include(i => i.MenuItemPriceIdFkNavigation)
                 .Include(i => i.ItemTypeMenuMenuItem).ThenInclude(i => i.MenuItemTypeIdFkNavigation)
                 .Where(x => x.Id == id)
                 .ToList();
@@ -37,7 +37,7 @@ namespace MDR_Angular.OrderMate.MenuItems
             return base.CreateFilteredQuery(input)
                 .Include(i => i.MenuItemAllergy)     
                 .Include(i => i.MenuItemCategoryIdFkNavigation)
-                .Include(i => i.MenuItemPriceIdFkNavigation)
+                //.Include(i => i.MenuItemPriceIdFkNavigation)
                 //.Include(i => i.Menu)
                 .Include(i => i.MenuItemSpecial).ThenInclude(x => x.SpecialIdFkNavigation)
                 .Include(i => i.ItemTypeMenuMenuItem).ThenInclude(x => x.MenuItemTypeIdFkNavigation)

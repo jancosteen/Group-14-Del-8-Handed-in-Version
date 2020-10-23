@@ -22,7 +22,7 @@ namespace MDR_Angular.OrderMate.OrderLines
                 .GetAll().Where(x => x.OrderIdFk == id)
                 .Include(i => i.MenuItemIdFkNavigation)
                .Include(i => i.UserIdFkNavigation)
-               .Include(i => i.MenuItemIdFkNavigation).ThenInclude(i => i.MenuItemPriceIdFkNavigation)
+               //.Include(i => i.MenuItemIdFkNavigation).ThenInclude(i => i.MenuItemPriceIdFkNavigation)
                 
                 .ToList();
             return new ListResultDto<OrderLineDto>(ObjectMapper.Map<List<OrderLineDto>>(orderLines));
@@ -32,7 +32,7 @@ namespace MDR_Angular.OrderMate.OrderLines
         {
             return base.CreateFilteredQuery(input)
                 .Include(i => i.MenuItemIdFkNavigation)
-                .Include(i => i.MenuItemIdFkNavigation).ThenInclude(i=>i.MenuItemPriceIdFkNavigation)
+                //.Include(i => i.MenuItemIdFkNavigation).ThenInclude(i=>i.MenuItemPriceIdFkNavigation)
                 .Include(i => i.UserIdFkNavigation);             
         }
     }

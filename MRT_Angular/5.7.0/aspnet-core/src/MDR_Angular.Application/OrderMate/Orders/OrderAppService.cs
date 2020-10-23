@@ -20,7 +20,7 @@ namespace MDR_Angular.OrderMate.Orders
         {
             var order = Repository
                 .GetAll().Where(x => x.Id == id)
-                .Include(i => i.OrderLine).ThenInclude(i => i.MenuItemIdFkNavigation).ThenInclude(i => i.MenuItemPriceIdFkNavigation)
+                //.Include(i => i.OrderLine).ThenInclude(i => i.MenuItemIdFkNavigation).ThenInclude(i => i.MenuItemPriceIdFkNavigation)
                 .Include(i => i.OrderStatusIdFkNavigation)
                 .Include(i => i.QrCodeSeating)
                 //.Include(i => i.OrderLine).ThenInclude(i => i.UserIdFkNavigation)

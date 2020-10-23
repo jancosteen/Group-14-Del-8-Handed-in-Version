@@ -12,6 +12,6 @@ namespace MDR_Angular.OrderMate.AdvertisementPrices
         public double AdvertismentPrice { get; set; }
         public DateTime AdvertisementPriceDateUpdated { get; set; }
 
-        public virtual ICollection<Advertisement> Advertisement { get; set; }
+        //public virtual ICollection<Advertisement> Advertisement { get; set; }
     }
 }

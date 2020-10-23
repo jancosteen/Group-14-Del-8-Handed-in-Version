@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MDR_Angular.Migrations
 {
     [DbContext(typeof(MDR_AngularDbContext))]
-    [Migration("20201019180926_SocialMedia RestaurantFK")]
-    partial class SocialMediaRestaurantFK
+    [Migration("20201022095540_5")]
+    partial class _5
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -1662,8 +1662,11 @@ namespace MDR_Angular.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("AdvertisementDateIdFk")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("AdvertisementDateActiveTo")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("AdvertisementDateAcvtiveFrom")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("AdvertisementDescription")
                         .HasColumnType("nvarchar(max)");
@@ -1674,8 +1677,8 @@ namespace MDR_Angular.Migrations
                     b.Property<string>("AdvertisementName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("AdvertisementPriceIdFk")
-                        .HasColumnType("int");
+                    b.Property<float>("AdvertisementPrice")
+                        .HasColumnType("real");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
@@ -1698,11 +1701,12 @@ namespace MDR_Angular.Migrations
                     b.Property<long?>("LastModifierUserId")
                         .HasColumnType("bigint");
 
+                    b.Property<int>("RestaurantIdFK")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("AdvertisementDateIdFk");
-
-                    b.HasIndex("AdvertisementPriceIdFk");
+                    b.HasIndex("RestaurantIdFK");
 
                     b.ToTable("Advertisement");
                 });
@@ -1785,6 +1789,78 @@ namespace MDR_Angular.Migrations
                     b.HasIndex("EmployeeIdFk");
 
                     b.ToTable("AttendanceSheet");
+                });
+
+            modelBuilder.Entity("MDR_Angular.OrderMate.Cities.City", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CityName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("City");
+                });
+
+            modelBuilder.Entity("MDR_Angular.OrderMate.Countries.Country", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CountryName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Country");
                 });
 
             modelBuilder.Entity("MDR_Angular.OrderMate.EmployeeShifts.EmployeeShift", b =>
@@ -2190,16 +2266,14 @@ namespace MDR_Angular.Migrations
                     b.Property<string>("MenuItemName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("MenuItemPriceIdFk")
-                        .HasColumnType("int");
+                    b.Property<float>("MenuItemPrice")
+                        .HasColumnType("real");
 
                     b.HasKey("Id");
 
                     b.HasIndex("MenuIdFk");
 
                     b.HasIndex("MenuItemCategoryIdFk");
-
-                    b.HasIndex("MenuItemPriceIdFk");
 
                     b.ToTable("MenuItem");
                 });
@@ -2273,9 +2347,6 @@ namespace MDR_Angular.Migrations
 
                     b.Property<long?>("LastModifierUserId")
                         .HasColumnType("bigint");
-
-                    b.Property<DateTime>("MenuDateCreated")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("MenuDescription")
                         .HasColumnType("nvarchar(max)");
@@ -2713,6 +2784,42 @@ namespace MDR_Angular.Migrations
                     b.ToTable("ProductWrittenOff");
                 });
 
+            modelBuilder.Entity("MDR_Angular.OrderMate.Provinces.Province", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("ProvinceName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Province");
+                });
+
             modelBuilder.Entity("MDR_Angular.OrderMate.QrCodeSeatings.QrCodeSeating", b =>
                 {
                     b.Property<int>("Id")
@@ -2746,6 +2853,9 @@ namespace MDR_Angular.Migrations
 
                     b.Property<int?>("OrderIdFk")
                         .HasColumnType("int");
+
+                    b.Property<byte[]>("QrCodeFile")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<int>("QrCodeIdFk")
                         .HasColumnType("int");
@@ -3325,6 +3435,12 @@ namespace MDR_Angular.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("CityIdFk")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CountryIdFk")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
 
@@ -3346,20 +3462,14 @@ namespace MDR_Angular.Migrations
                     b.Property<long?>("LastModifierUserId")
                         .HasColumnType("bigint");
 
+                    b.Property<int>("ProvinceIdFk")
+                        .HasColumnType("int");
+
                     b.Property<string>("ResaturantAddressLine2")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RestaurantAddressLine1")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RestaurantCity")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RestaurantCountry")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("RestaurantDateCreated")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("RestaurantDescription")
                         .HasColumnType("nvarchar(max)");
@@ -3367,11 +3477,8 @@ namespace MDR_Angular.Migrations
                     b.Property<string>("RestaurantName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("RestaurantPostalCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RestaurantProvince")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("RestaurantPostalCode")
+                        .HasColumnType("int");
 
                     b.Property<int?>("RestaurantStatusIdFk")
                         .HasColumnType("int");
@@ -3380,6 +3487,12 @@ namespace MDR_Angular.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CityIdFk");
+
+                    b.HasIndex("CountryIdFk");
+
+                    b.HasIndex("ProvinceIdFk");
 
                     b.HasIndex("RestaurantStatusIdFk");
 
@@ -4316,13 +4429,11 @@ namespace MDR_Angular.Migrations
 
             modelBuilder.Entity("MDR_Angular.OrderMate.Advertisements.Advertisement", b =>
                 {
-                    b.HasOne("MDR_Angular.OrderMate.AdvertisementDates.AdvertisementDate", "AdvertisementDateIdFkNavigation")
-                        .WithMany("Advertisement")
-                        .HasForeignKey("AdvertisementDateIdFk");
-
-                    b.HasOne("MDR_Angular.OrderMate.AdvertisementPrices.AdvertisementPrice", "AdvertisementPriceIdFkNavigation")
-                        .WithMany("Advertisement")
-                        .HasForeignKey("AdvertisementPriceIdFk");
+                    b.HasOne("MDR_Angular.OrderMate.Restaurants.Restaurant", "RestaurantIdFKFkNavigation")
+                        .WithMany()
+                        .HasForeignKey("RestaurantIdFK")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("MDR_Angular.OrderMate.AttendanceSheets.AttendanceSheet", b =>
@@ -4408,10 +4519,6 @@ namespace MDR_Angular.Migrations
                     b.HasOne("MDR_Angular.OrderMate.MenuItemCategories.MenuItemCategory", "MenuItemCategoryIdFkNavigation")
                         .WithMany("MenuItem")
                         .HasForeignKey("MenuItemCategoryIdFk");
-
-                    b.HasOne("MDR_Angular.OrderMate.MenuItemPrices.MenuItemPrice", "MenuItemPriceIdFkNavigation")
-                        .WithMany("MenuItem")
-                        .HasForeignKey("MenuItemPriceIdFk");
                 });
 
             modelBuilder.Entity("MDR_Angular.OrderMate.Menus.Menu", b =>
@@ -4595,6 +4702,24 @@ namespace MDR_Angular.Migrations
 
             modelBuilder.Entity("MDR_Angular.OrderMate.Restaurants.Restaurant", b =>
                 {
+                    b.HasOne("MDR_Angular.OrderMate.Cities.City", "CityIdFkNavigation")
+                        .WithMany("Restaurants")
+                        .HasForeignKey("CityIdFk")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MDR_Angular.OrderMate.Countries.Country", "CountryIdFkNavigation")
+                        .WithMany("Restaurants")
+                        .HasForeignKey("CountryIdFk")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MDR_Angular.OrderMate.Provinces.Province", "ProvinceIdFkNavigation")
+                        .WithMany("Restaurants")
+                        .HasForeignKey("ProvinceIdFk")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("MDR_Angular.OrderMate.RestaurantStatusses.RestaurantStatus", "RestaurantStatusIdFkNavigation")
                         .WithMany("Restaurant")
                         .HasForeignKey("RestaurantStatusIdFk");
@@ -4632,7 +4757,7 @@ namespace MDR_Angular.Migrations
             modelBuilder.Entity("MDR_Angular.OrderMate.SocialMedias.SocialMedia", b =>
                 {
                     b.HasOne("MDR_Angular.OrderMate.Restaurants.Restaurant", "RestaurantIdFkNavigation")
-                        .WithMany()
+                        .WithMany("SocialMedias")
                         .HasForeignKey("RestaurantIdFk")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

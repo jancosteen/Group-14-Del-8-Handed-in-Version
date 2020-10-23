@@ -23,7 +23,7 @@ namespace MDR_Angular.OrderMate.Menus
                 .Include(i => i.RestaurantIdFkNavigation)
                 .Include(i => i.MenuItem)
                 .Include(i => i.MenuItem).ThenInclude(i=> i.MenuItemCategoryIdFkNavigation)
-                .Include(i => i.MenuItem).ThenInclude(i => i.MenuItemPriceIdFkNavigation)
+                //.Include(i => i.MenuItem).ThenInclude(i => i.MenuItemPriceIdFkNavigation)
                 .ToList();
             return new ListResultDto<MenuDto>(ObjectMapper.Map<List<MenuDto>>(menus));
         }
@@ -35,7 +35,7 @@ namespace MDR_Angular.OrderMate.Menus
                 .Include(i => i.RestaurantIdFkNavigation)
                 .Include(i => i.MenuItem)
                 .Include(i => i.MenuItem).ThenInclude(i => i.MenuItemCategoryIdFkNavigation)
-                .Include(i => i.MenuItem).ThenInclude(i => i.MenuItemPriceIdFkNavigation)
+                //.Include(i => i.MenuItem).ThenInclude(i => i.MenuItemPriceIdFkNavigation)
                 .ToList();
             return new ListResultDto<MenuDto>(ObjectMapper.Map<List<MenuDto>>(menus));
         }

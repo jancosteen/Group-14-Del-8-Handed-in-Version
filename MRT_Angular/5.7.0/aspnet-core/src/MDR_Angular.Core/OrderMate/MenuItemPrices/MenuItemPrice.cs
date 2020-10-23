@@ -12,6 +12,6 @@ namespace MDR_Angular.OrderMate.MenuItemPrices
         public DateTime MenuItemDateUpdated { get; set; }
         public Boolean isActive { get; set; }
 
-        public virtual ICollection<MenuItem> MenuItem { get; set; }
+        //public virtual ICollection<MenuItem> MenuItem { get; set; }
     }
 }

@@ -12,6 +12,7 @@ namespace MDR_Angular.OrderMate.QrCodeSeatings
         public int NrOfPeople { get; set; }
         public int QrCodeIdFk { get; set; }
         public int SeatingIdFk { get; set; }
+        public byte[] QrCodeFile { get; set; }
         public int? OrderIdFk { get; set; }
 
         [ForeignKey("OrderIdFk")]

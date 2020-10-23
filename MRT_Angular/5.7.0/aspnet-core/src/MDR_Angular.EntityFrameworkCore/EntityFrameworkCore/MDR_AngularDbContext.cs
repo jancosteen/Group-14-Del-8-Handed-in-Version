@@ -7,6 +7,8 @@ using MDR_Angular.OrderMate.AdvertisementPrices;
 using MDR_Angular.OrderMate.Advertisements;
 using MDR_Angular.OrderMate.Allergies;
 using MDR_Angular.OrderMate.AttendanceSheets;
+using MDR_Angular.OrderMate.Cities;
+using MDR_Angular.OrderMate.Countries;
 using MDR_Angular.OrderMate.Employees;
 using MDR_Angular.OrderMate.EmployeeShifts;
 using MDR_Angular.OrderMate.ItemTypeMenuMenuItems;
@@ -28,6 +30,7 @@ using MDR_Angular.OrderMate.Products;
 using MDR_Angular.OrderMate.ProductStockTakes;
 using MDR_Angular.OrderMate.ProductsWrittenOff;
 using MDR_Angular.OrderMate.ProductTypes;
+using MDR_Angular.OrderMate.Provinces;
 using MDR_Angular.OrderMate.QrCodes;
 using MDR_Angular.OrderMate.QrCodeSeatings;
 using MDR_Angular.OrderMate.Reports;
@@ -124,6 +127,9 @@ namespace MDR_Angular.EntityFrameworkCore
         public DbSet<WrittenOffStock> WrittenOffStock { get; set; }
         public DbSet<TotalSalesByDayOfWeekReport> TotalSalesByDayOfWeekReport { get; set; }
         public DbSet<TotalSalesByMenuItemReport> TotalSalesByMenuItemReport { get; set; }
+        public DbSet<Country> Country { get; set; }
+        public DbSet<City> City { get; set; }
+        public DbSet<Province> Province { get; set; }
 
 
 

@@ -4,14 +4,16 @@ using MDR_Angular.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MDR_Angular.Migrations
 {
     [DbContext(typeof(MDR_AngularDbContext))]
-    partial class MDR_AngularDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201022094934_4")]
+    partial class _4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -4755,7 +4757,7 @@ namespace MDR_Angular.Migrations
             modelBuilder.Entity("MDR_Angular.OrderMate.SocialMedias.SocialMedia", b =>
                 {
                     b.HasOne("MDR_Angular.OrderMate.Restaurants.Restaurant", "RestaurantIdFkNavigation")
-                        .WithMany("SocialMedias")
+                        .WithMany()
                         .HasForeignKey("RestaurantIdFk")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

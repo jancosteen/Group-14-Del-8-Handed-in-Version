@@ -19,17 +19,17 @@ namespace MDR_Angular.OrderMate.Advertisements
 
         protected override IQueryable<Advertisement> CreateFilteredQuery(PagedAndSortedResultRequestDto input)
         {
-            return base.CreateFilteredQuery(input)
-                .Include(i => i.AdvertisementDateIdFkNavigation)
-                .Include(i => i.AdvertisementPriceIdFkNavigation);
+            return base.CreateFilteredQuery(input);
+                //.Include(i => i.AdvertisementDateIdFkNavigation)
+                //.Include(i => i.AdvertisementPriceIdFkNavigation);
                 
         }
 
         public List<Advertisement> GetAdvById(int adId)
         {
             var advs = Repository.GetAll().Where(x => x.Id.Equals(adId))
-                .Include(i => i.AdvertisementDateIdFkNavigation)
-                .Include(i => i.AdvertisementPriceIdFkNavigation)
+                //.Include(i => i.AdvertisementDateIdFkNavigation)
+                //.Include(i => i.AdvertisementPriceIdFkNavigation)
                 .ToList();
                 
             return advs;

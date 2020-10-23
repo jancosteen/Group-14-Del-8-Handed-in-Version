@@ -1,7 +1,10 @@
 ﻿using Abp.Domain.Entities.Auditing;
+using MDR_Angular.OrderMate.Cities;
+using MDR_Angular.OrderMate.Countries;
 using MDR_Angular.OrderMate.Employees;
 using MDR_Angular.OrderMate.MenuRestaurants;
 using MDR_Angular.OrderMate.Menus;
+using MDR_Angular.OrderMate.Provinces;
 using MDR_Angular.OrderMate.QrCodes;
 using MDR_Angular.OrderMate.ReservationRestaurants;
 using MDR_Angular.OrderMate.Reservations;
@@ -11,6 +14,7 @@ using MDR_Angular.OrderMate.RestaurantImages;
 using MDR_Angular.OrderMate.RestaurantStatusses;
 using MDR_Angular.OrderMate.RestaurantTypeReferences;
 using MDR_Angular.OrderMate.SeatingLayouts;
+using MDR_Angular.OrderMate.SocialMedias;
 using MDR_Angular.OrderMate.UserComments;
 using System;
 using System.Collections.Generic;
@@ -24,17 +28,22 @@ namespace MDR_Angular.OrderMate.Restaurants
         public string RestaurantName { get; set; }
         public string RestaurantUrl { get; set; }
         public string RestaurantDescription { get; set; }
-        public DateTime? RestaurantDateCreated { get; set; }
         public string RestaurantAddressLine1 { get; set; }
         public string ResaturantAddressLine2 { get; set; }
-        public string RestaurantCity { get; set; }
-        public string RestaurantPostalCode { get; set; }
-        public string RestaurantProvince { get; set; }
-        public string RestaurantCountry { get; set; }
+        public int CityIdFk { get; set; }
+        public int RestaurantPostalCode { get; set; }
+        public int ProvinceIdFk { get; set; }
+        public int CountryIdFk { get; set; }
         public int? RestaurantStatusIdFk { get; set; }
 
         [ForeignKey("RestaurantStatusIdFk")]
         public virtual RestaurantStatus RestaurantStatusIdFkNavigation { get; set; }
+        [ForeignKey("CityIdFk")]
+        public virtual City CityIdFkNavigation { get; set; }
+        [ForeignKey("ProvinceIdFk")]
+        public virtual Province ProvinceIdFkNavigation { get; set; }
+        [ForeignKey("CountryIdFk")]
+        public virtual Country CountryIdFkNavigation { get; set; }
         public virtual ICollection<Employee> Employee { get; set; }
         public virtual ICollection<Menu> Menu { get; set; }
         public virtual ICollection<QrCode> QrCode { get; set; }
@@ -46,6 +55,7 @@ namespace MDR_Angular.OrderMate.Restaurants
         public virtual ICollection<SeatingLayout> SeatingLayout { get; set; }
         public virtual ICollection<UserComment> UserComment { get; set; }
         public virtual ICollection<Reservation> Reservation { get; set; }
+        public virtual ICollection<SocialMedia> SocialMedias { get; set; }
 
     }
 }
