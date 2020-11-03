@@ -10,7 +10,16 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import { AppComponentBase } from '../../../shared/app-component-base';
 import {
   RestaurantServiceProxy,
-  RestaurantDto
+  RestaurantDto,
+  CityDto,
+  CountryDto,
+  ProvinceDto,
+  CityServiceProxy,
+  CountryServiceProxy,
+  ProvinceServiceProxy,
+  CityDtoPagedResultDto,
+  CountryDtoPagedResultDto,
+  ProvinceDtoPagedResultDto
 } from '../../../shared/service-proxies/service-proxies';
 
 @Component({
@@ -21,13 +30,19 @@ export class EditRestaurantDialogComponent extends AppComponentBase
   saving = false;
   restaurant: RestaurantDto = new RestaurantDto();
   id: number;
+  provinces: ProvinceDto[]=[];
+  cities: CityDto[]=[];
+  countries: CountryDto[]=[];
 
   @Output() onSave = new EventEmitter<any>();
 
   constructor(
     injector: Injector,
     public _restaurantService: RestaurantServiceProxy,
-    public bsModalRef: BsModalRef
+    public bsModalRef: BsModalRef,
+    public _provinceService:ProvinceServiceProxy,
+    public _cityService: CityServiceProxy,
+    public _countryService: CountryServiceProxy
   ) {
     super(injector);
   }
@@ -36,6 +51,51 @@ export class EditRestaurantDialogComponent extends AppComponentBase
     this._restaurantService.get(this.id).subscribe((result: RestaurantDto) => {
       this.restaurant = result;
     });
+
+    this._provinceService
+      .getAll(
+        '',
+        0,
+        1000
+      )
+      .pipe(
+        finalize(() => {
+          console.log('provinces');
+        })
+      )
+      .subscribe((res:ProvinceDtoPagedResultDto) =>{
+        this.provinces = res.items;
+      });
+
+      this._cityService
+      .getAll(
+        '',
+        0,
+        1000
+      )
+      .pipe(
+        finalize(() => {
+          console.log('cities');
+        })
+      )
+      .subscribe((res:CityDtoPagedResultDto) =>{
+        this.cities = res.items;
+      });
+
+      this._countryService
+      .getAll(
+        '',
+        0,
+        1000
+      )
+      .pipe(
+        finalize(() => {
+          console.log('countries');
+        })
+      )
+      .subscribe((res:CountryDtoPagedResultDto) =>{
+        this.countries = res.items;
+      });
   }
 
   save(): void {

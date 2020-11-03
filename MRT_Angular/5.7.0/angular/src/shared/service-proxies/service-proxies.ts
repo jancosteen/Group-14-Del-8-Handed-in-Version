@@ -2055,6 +2055,62 @@ export class CountryServiceProxy {
      * @param id (optional)
      * @return Success
      */
+    getCountryById(id: number | undefined): Observable<CountryDtoListResultDto> {
+        let url_ = this.baseUrl + "/api/services/app/Country/GetCountryById?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetCountryById(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetCountryById(<any>response_);
+                } catch (e) {
+                    return <Observable<CountryDtoListResultDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<CountryDtoListResultDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetCountryById(response: HttpResponseBase): Observable<CountryDtoListResultDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = CountryDtoListResultDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<CountryDtoListResultDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional)
+     * @return Success
+     */
     get(id: number | undefined): Observable<CountryDto> {
         let url_ = this.baseUrl + "/api/services/app/Country/Get?";
         if (id === null)
@@ -6340,6 +6396,62 @@ export class ProvinceServiceProxy {
     constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http;
         this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param id (optional)
+     * @return Success
+     */
+    getProvinceById(id: number | undefined): Observable<ProvinceDtoListResultDto> {
+        let url_ = this.baseUrl + "/api/services/app/Province/GetProvinceById?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetProvinceById(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetProvinceById(<any>response_);
+                } catch (e) {
+                    return <Observable<ProvinceDtoListResultDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ProvinceDtoListResultDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetProvinceById(response: HttpResponseBase): Observable<ProvinceDtoListResultDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = ProvinceDtoListResultDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ProvinceDtoListResultDto>(<any>null);
     }
 
     /**
@@ -15952,183 +16064,10 @@ export interface IRestaurantStatus {
     id: number;
 }
 
-export class City implements ICity {
-    cityName: string | undefined;
-    restaurants: Restaurant[] | undefined;
-    isDeleted: boolean;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment;
-    creatorUserId: number | undefined;
-    id: number;
-
-    constructor(data?: ICity) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.cityName = _data["cityName"];
-            if (Array.isArray(_data["restaurants"])) {
-                this.restaurants = [] as any;
-                for (let item of _data["restaurants"])
-                    this.restaurants.push(Restaurant.fromJS(item));
-            }
-            this.isDeleted = _data["isDeleted"];
-            this.deleterUserId = _data["deleterUserId"];
-            this.deletionTime = _data["deletionTime"] ? moment(_data["deletionTime"].toString()) : <any>undefined;
-            this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = _data["lastModifierUserId"];
-            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = _data["creatorUserId"];
-            this.id = _data["id"];
-        }
-    }
-
-    static fromJS(data: any): City {
-        data = typeof data === 'object' ? data : {};
-        let result = new City();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["cityName"] = this.cityName;
-        if (Array.isArray(this.restaurants)) {
-            data["restaurants"] = [];
-            for (let item of this.restaurants)
-                data["restaurants"].push(item.toJSON());
-        }
-        data["isDeleted"] = this.isDeleted;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["id"] = this.id;
-        return data;
-    }
-
-    clone(): City {
-        const json = this.toJSON();
-        let result = new City();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface ICity {
-    cityName: string | undefined;
-    restaurants: Restaurant[] | undefined;
-    isDeleted: boolean;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment;
-    creatorUserId: number | undefined;
-    id: number;
-}
-
-export class Province implements IProvince {
-    provinceName: string | undefined;
-    restaurants: Restaurant[] | undefined;
-    isDeleted: boolean;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment;
-    creatorUserId: number | undefined;
-    id: number;
-
-    constructor(data?: IProvince) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.provinceName = _data["provinceName"];
-            if (Array.isArray(_data["restaurants"])) {
-                this.restaurants = [] as any;
-                for (let item of _data["restaurants"])
-                    this.restaurants.push(Restaurant.fromJS(item));
-            }
-            this.isDeleted = _data["isDeleted"];
-            this.deleterUserId = _data["deleterUserId"];
-            this.deletionTime = _data["deletionTime"] ? moment(_data["deletionTime"].toString()) : <any>undefined;
-            this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = _data["lastModifierUserId"];
-            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = _data["creatorUserId"];
-            this.id = _data["id"];
-        }
-    }
-
-    static fromJS(data: any): Province {
-        data = typeof data === 'object' ? data : {};
-        let result = new Province();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["provinceName"] = this.provinceName;
-        if (Array.isArray(this.restaurants)) {
-            data["restaurants"] = [];
-            for (let item of this.restaurants)
-                data["restaurants"].push(item.toJSON());
-        }
-        data["isDeleted"] = this.isDeleted;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["id"] = this.id;
-        return data;
-    }
-
-    clone(): Province {
-        const json = this.toJSON();
-        let result = new Province();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IProvince {
-    provinceName: string | undefined;
-    restaurants: Restaurant[] | undefined;
-    isDeleted: boolean;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment;
-    creatorUserId: number | undefined;
-    id: number;
-}
-
 export class Country implements ICountry {
     countryName: string | undefined;
     restaurants: Restaurant[] | undefined;
+    provinces: Province[] | undefined;
     isDeleted: boolean;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -16154,6 +16093,11 @@ export class Country implements ICountry {
                 this.restaurants = [] as any;
                 for (let item of _data["restaurants"])
                     this.restaurants.push(Restaurant.fromJS(item));
+            }
+            if (Array.isArray(_data["provinces"])) {
+                this.provinces = [] as any;
+                for (let item of _data["provinces"])
+                    this.provinces.push(Province.fromJS(item));
             }
             this.isDeleted = _data["isDeleted"];
             this.deleterUserId = _data["deleterUserId"];
@@ -16181,6 +16125,11 @@ export class Country implements ICountry {
             for (let item of this.restaurants)
                 data["restaurants"].push(item.toJSON());
         }
+        if (Array.isArray(this.provinces)) {
+            data["provinces"] = [];
+            for (let item of this.provinces)
+                data["provinces"].push(item.toJSON());
+        }
         data["isDeleted"] = this.isDeleted;
         data["deleterUserId"] = this.deleterUserId;
         data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
@@ -16202,6 +16151,209 @@ export class Country implements ICountry {
 
 export interface ICountry {
     countryName: string | undefined;
+    restaurants: Restaurant[] | undefined;
+    provinces: Province[] | undefined;
+    isDeleted: boolean;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    id: number;
+}
+
+export class City implements ICity {
+    cityName: string | undefined;
+    provinceIdFk: number;
+    provinceIdFkNavigation: Province;
+    restaurants: Restaurant[] | undefined;
+    isDeleted: boolean;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    id: number;
+
+    constructor(data?: ICity) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.cityName = _data["cityName"];
+            this.provinceIdFk = _data["provinceIdFk"];
+            this.provinceIdFkNavigation = _data["provinceIdFkNavigation"] ? Province.fromJS(_data["provinceIdFkNavigation"]) : <any>undefined;
+            if (Array.isArray(_data["restaurants"])) {
+                this.restaurants = [] as any;
+                for (let item of _data["restaurants"])
+                    this.restaurants.push(Restaurant.fromJS(item));
+            }
+            this.isDeleted = _data["isDeleted"];
+            this.deleterUserId = _data["deleterUserId"];
+            this.deletionTime = _data["deletionTime"] ? moment(_data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = _data["lastModifierUserId"];
+            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = _data["creatorUserId"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): City {
+        data = typeof data === 'object' ? data : {};
+        let result = new City();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["cityName"] = this.cityName;
+        data["provinceIdFk"] = this.provinceIdFk;
+        data["provinceIdFkNavigation"] = this.provinceIdFkNavigation ? this.provinceIdFkNavigation.toJSON() : <any>undefined;
+        if (Array.isArray(this.restaurants)) {
+            data["restaurants"] = [];
+            for (let item of this.restaurants)
+                data["restaurants"].push(item.toJSON());
+        }
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data;
+    }
+
+    clone(): City {
+        const json = this.toJSON();
+        let result = new City();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICity {
+    cityName: string | undefined;
+    provinceIdFk: number;
+    provinceIdFkNavigation: Province;
+    restaurants: Restaurant[] | undefined;
+    isDeleted: boolean;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    id: number;
+}
+
+export class Province implements IProvince {
+    provinceName: string | undefined;
+    countryIdFk: number;
+    countryIdFkNavigation: Country;
+    cities: City[] | undefined;
+    restaurants: Restaurant[] | undefined;
+    isDeleted: boolean;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    id: number;
+
+    constructor(data?: IProvince) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.provinceName = _data["provinceName"];
+            this.countryIdFk = _data["countryIdFk"];
+            this.countryIdFkNavigation = _data["countryIdFkNavigation"] ? Country.fromJS(_data["countryIdFkNavigation"]) : <any>undefined;
+            if (Array.isArray(_data["cities"])) {
+                this.cities = [] as any;
+                for (let item of _data["cities"])
+                    this.cities.push(City.fromJS(item));
+            }
+            if (Array.isArray(_data["restaurants"])) {
+                this.restaurants = [] as any;
+                for (let item of _data["restaurants"])
+                    this.restaurants.push(Restaurant.fromJS(item));
+            }
+            this.isDeleted = _data["isDeleted"];
+            this.deleterUserId = _data["deleterUserId"];
+            this.deletionTime = _data["deletionTime"] ? moment(_data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = _data["lastModifierUserId"];
+            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = _data["creatorUserId"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): Province {
+        data = typeof data === 'object' ? data : {};
+        let result = new Province();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["provinceName"] = this.provinceName;
+        data["countryIdFk"] = this.countryIdFk;
+        data["countryIdFkNavigation"] = this.countryIdFkNavigation ? this.countryIdFkNavigation.toJSON() : <any>undefined;
+        if (Array.isArray(this.cities)) {
+            data["cities"] = [];
+            for (let item of this.cities)
+                data["cities"].push(item.toJSON());
+        }
+        if (Array.isArray(this.restaurants)) {
+            data["restaurants"] = [];
+            for (let item of this.restaurants)
+                data["restaurants"].push(item.toJSON());
+        }
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data;
+    }
+
+    clone(): Province {
+        const json = this.toJSON();
+        let result = new Province();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IProvince {
+    provinceName: string | undefined;
+    countryIdFk: number;
+    countryIdFkNavigation: Country;
+    cities: City[] | undefined;
     restaurants: Restaurant[] | undefined;
     isDeleted: boolean;
     deleterUserId: number | undefined;
@@ -19654,7 +19806,6 @@ export interface IQrCodeSeating {
 }
 
 export class Order implements IOrder {
-    orderDateCreated: string;
     orderDateCompleted: string | undefined;
     qrCodeSeatingIdFk: number | undefined;
     orderStatusIdFk: number | undefined;
@@ -19681,7 +19832,6 @@ export class Order implements IOrder {
 
     init(_data?: any) {
         if (_data) {
-            this.orderDateCreated = _data["orderDateCreated"];// ? moment(_data["orderDateCreated"].toString()) : <any>undefined;
             this.orderDateCompleted = _data["orderDateCompleted"];// ? moment(_data["orderDateCompleted"].toString()) : <any>undefined;
             this.qrCodeSeatingIdFk = _data["qrCodeSeatingIdFk"];
             this.orderStatusIdFk = _data["orderStatusIdFk"];
@@ -19712,7 +19862,6 @@ export class Order implements IOrder {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["orderDateCreated"] = this.orderDateCreated;// ? this.orderDateCreated.toISOString() : <any>undefined;
         data["orderDateCompleted"] = this.orderDateCompleted;// ? this.orderDateCompleted.toISOString() : <any>undefined;
         data["qrCodeSeatingIdFk"] = this.qrCodeSeatingIdFk;
         data["orderStatusIdFk"] = this.orderStatusIdFk;
@@ -19743,7 +19892,6 @@ export class Order implements IOrder {
 }
 
 export interface IOrder {
-    orderDateCreated: string;
     orderDateCompleted: string | undefined;
     qrCodeSeatingIdFk: number | undefined;
     orderStatusIdFk: number | undefined;
@@ -21409,14 +21557,14 @@ export class Restaurant implements IRestaurant {
     restaurantDescription: string | undefined;
     restaurantAddressLine1: string | undefined;
     resaturantAddressLine2: string | undefined;
-    cityIdFk: number;
     restaurantPostalCode: string | undefined;
-    provinceIdFk: number;
     countryIdFk: number;
+    provinceIdFk: number;
+    cityIdFk: number;
     restaurantStatusIdFk: number | undefined;
     restaurantStatusIdFkNavigation: RestaurantStatus;
-    cityIdFkNavigation: City;
     provinceIdFkNavigation: Province;
+    cityIdFkNavigation: City;
     countryIdFkNavigation: Country;
     employee: Employee[] | undefined;
     menu: Menu[] | undefined;
@@ -21454,14 +21602,14 @@ export class Restaurant implements IRestaurant {
             this.restaurantDescription = _data["restaurantDescription"];
             this.restaurantAddressLine1 = _data["restaurantAddressLine1"];
             this.resaturantAddressLine2 = _data["resaturantAddressLine2"];
-            this.cityIdFk = _data["cityIdFk"];
             this.restaurantPostalCode = _data["restaurantPostalCode"];
-            this.provinceIdFk = _data["provinceIdFk"];
             this.countryIdFk = _data["countryIdFk"];
+            this.provinceIdFk = _data["provinceIdFk"];
+            this.cityIdFk = _data["cityIdFk"];
             this.restaurantStatusIdFk = _data["restaurantStatusIdFk"];
             this.restaurantStatusIdFkNavigation = _data["restaurantStatusIdFkNavigation"] ? RestaurantStatus.fromJS(_data["restaurantStatusIdFkNavigation"]) : <any>undefined;
-            this.cityIdFkNavigation = _data["cityIdFkNavigation"] ? City.fromJS(_data["cityIdFkNavigation"]) : <any>undefined;
             this.provinceIdFkNavigation = _data["provinceIdFkNavigation"] ? Province.fromJS(_data["provinceIdFkNavigation"]) : <any>undefined;
+            this.cityIdFkNavigation = _data["cityIdFkNavigation"] ? City.fromJS(_data["cityIdFkNavigation"]) : <any>undefined;
             this.countryIdFkNavigation = _data["countryIdFkNavigation"] ? Country.fromJS(_data["countryIdFkNavigation"]) : <any>undefined;
             if (Array.isArray(_data["employee"])) {
                 this.employee = [] as any;
@@ -21543,14 +21691,14 @@ export class Restaurant implements IRestaurant {
         data["restaurantDescription"] = this.restaurantDescription;
         data["restaurantAddressLine1"] = this.restaurantAddressLine1;
         data["resaturantAddressLine2"] = this.resaturantAddressLine2;
-        data["cityIdFk"] = this.cityIdFk;
         data["restaurantPostalCode"] = this.restaurantPostalCode;
-        data["provinceIdFk"] = this.provinceIdFk;
         data["countryIdFk"] = this.countryIdFk;
+        data["provinceIdFk"] = this.provinceIdFk;
+        data["cityIdFk"] = this.cityIdFk;
         data["restaurantStatusIdFk"] = this.restaurantStatusIdFk;
         data["restaurantStatusIdFkNavigation"] = this.restaurantStatusIdFkNavigation ? this.restaurantStatusIdFkNavigation.toJSON() : <any>undefined;
-        data["cityIdFkNavigation"] = this.cityIdFkNavigation ? this.cityIdFkNavigation.toJSON() : <any>undefined;
         data["provinceIdFkNavigation"] = this.provinceIdFkNavigation ? this.provinceIdFkNavigation.toJSON() : <any>undefined;
+        data["cityIdFkNavigation"] = this.cityIdFkNavigation ? this.cityIdFkNavigation.toJSON() : <any>undefined;
         data["countryIdFkNavigation"] = this.countryIdFkNavigation ? this.countryIdFkNavigation.toJSON() : <any>undefined;
         if (Array.isArray(this.employee)) {
             data["employee"] = [];
@@ -21632,14 +21780,14 @@ export interface IRestaurant {
     restaurantDescription: string | undefined;
     restaurantAddressLine1: string | undefined;
     resaturantAddressLine2: string | undefined;
-    cityIdFk: number;
     restaurantPostalCode: string | undefined;
-    provinceIdFk: number;
     countryIdFk: number;
+    provinceIdFk: number;
+    cityIdFk: number;
     restaurantStatusIdFk: number | undefined;
     restaurantStatusIdFkNavigation: RestaurantStatus;
-    cityIdFkNavigation: City;
     provinceIdFkNavigation: Province;
+    cityIdFkNavigation: City;
     countryIdFkNavigation: Country;
     employee: Employee[] | undefined;
     menu: Menu[] | undefined;
@@ -21668,7 +21816,7 @@ export class Advertisement implements IAdvertisement {
     advertisementFile: string | undefined;
     advertisementPrice: number;
     restaurantIdFK: number;
-    advertisementDateAcvtiveFrom: string;
+    advertisementDateAcvtiveFrom:string;
     advertisementDateActiveTo: string;
     restaurantIdFKFkNavigation: Restaurant;
     isDeleted: boolean;
@@ -22383,6 +22531,7 @@ export interface IUserCommentDto {
 
 export class CityDto implements ICityDto {
     cityName: string | undefined;
+    provinceIdFk: number;
     id: number;
 
     constructor(data?: ICityDto) {
@@ -22397,6 +22546,7 @@ export class CityDto implements ICityDto {
     init(_data?: any) {
         if (_data) {
             this.cityName = _data["cityName"];
+            this.provinceIdFk = _data["provinceIdFk"];
             this.id = _data["id"];
         }
     }
@@ -22411,6 +22561,7 @@ export class CityDto implements ICityDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["cityName"] = this.cityName;
+        data["provinceIdFk"] = this.provinceIdFk;
         data["id"] = this.id;
         return data;
     }
@@ -22425,11 +22576,15 @@ export class CityDto implements ICityDto {
 
 export interface ICityDto {
     cityName: string | undefined;
+    provinceIdFk: number;
     id: number;
 }
 
 export class ProvinceDto implements IProvinceDto {
     provinceName: string | undefined;
+    countryIdFk: number;
+    cities: CityDto[] | undefined;
+    countryIdFkNavigation: CountryDto;
     id: number;
 
     constructor(data?: IProvinceDto) {
@@ -22444,6 +22599,13 @@ export class ProvinceDto implements IProvinceDto {
     init(_data?: any) {
         if (_data) {
             this.provinceName = _data["provinceName"];
+            this.countryIdFk = _data["countryIdFk"];
+            if (Array.isArray(_data["cities"])) {
+                this.cities = [] as any;
+                for (let item of _data["cities"])
+                    this.cities.push(CityDto.fromJS(item));
+            }
+            this.countryIdFkNavigation = _data["countryIdFkNavigation"] ? CountryDto.fromJS(_data["countryIdFkNavigation"]) : <any>undefined;
             this.id = _data["id"];
         }
     }
@@ -22458,6 +22620,13 @@ export class ProvinceDto implements IProvinceDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["provinceName"] = this.provinceName;
+        data["countryIdFk"] = this.countryIdFk;
+        if (Array.isArray(this.cities)) {
+            data["cities"] = [];
+            for (let item of this.cities)
+                data["cities"].push(item.toJSON());
+        }
+        data["countryIdFkNavigation"] = this.countryIdFkNavigation ? this.countryIdFkNavigation.toJSON() : <any>undefined;
         data["id"] = this.id;
         return data;
     }
@@ -22472,11 +22641,15 @@ export class ProvinceDto implements IProvinceDto {
 
 export interface IProvinceDto {
     provinceName: string | undefined;
+    countryIdFk: number;
+    cities: CityDto[] | undefined;
+    countryIdFkNavigation: CountryDto;
     id: number;
 }
 
 export class CountryDto implements ICountryDto {
     countryName: string | undefined;
+    provinces: ProvinceDto[] | undefined;
     id: number;
 
     constructor(data?: ICountryDto) {
@@ -22491,6 +22664,11 @@ export class CountryDto implements ICountryDto {
     init(_data?: any) {
         if (_data) {
             this.countryName = _data["countryName"];
+            if (Array.isArray(_data["provinces"])) {
+                this.provinces = [] as any;
+                for (let item of _data["provinces"])
+                    this.provinces.push(ProvinceDto.fromJS(item));
+            }
             this.id = _data["id"];
         }
     }
@@ -22505,6 +22683,11 @@ export class CountryDto implements ICountryDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["countryName"] = this.countryName;
+        if (Array.isArray(this.provinces)) {
+            data["provinces"] = [];
+            for (let item of this.provinces)
+                data["provinces"].push(item.toJSON());
+        }
         data["id"] = this.id;
         return data;
     }
@@ -22519,6 +22702,7 @@ export class CountryDto implements ICountryDto {
 
 export interface ICountryDto {
     countryName: string | undefined;
+    provinces: ProvinceDto[] | undefined;
     id: number;
 }
 
@@ -22528,10 +22712,10 @@ export class RestaurantDto implements IRestaurantDto {
     restaurantDescription: string | undefined;
     restaurantAddressLine1: string | undefined;
     resaturantAddressLine2: string | undefined;
-    cityIdFk: number;
     restaurantPostalCode: string | undefined;
-    provinceIdFk: number;
     countryIdFk: number;
+    provinceIdFk: number;
+    cityIdFk: number;
     restaurantStatusIdFk: number | undefined;
     restaurantStatusIdFkNavigation: RestaurantStatusDto;
     employee: EmployeeDto[] | undefined;
@@ -22541,9 +22725,9 @@ export class RestaurantDto implements IRestaurantDto {
     seatingLayout: SeatingLayoutDto[] | undefined;
     userComment: UserCommentDto[] | undefined;
     advertisements: AdvertisementDto[] | undefined;
-    cityIdFkNavigation: CityDto;
-    provinceIdFkNavigation: ProvinceDto;
     countryIdFkNavigation: CountryDto;
+    provinceIdFkNavigation: ProvinceDto;
+    cityIdFkNavigation: CityDto;
     isDeleted: boolean;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -22569,10 +22753,10 @@ export class RestaurantDto implements IRestaurantDto {
             this.restaurantDescription = _data["restaurantDescription"];
             this.restaurantAddressLine1 = _data["restaurantAddressLine1"];
             this.resaturantAddressLine2 = _data["resaturantAddressLine2"];
-            this.cityIdFk = _data["cityIdFk"];
             this.restaurantPostalCode = _data["restaurantPostalCode"];
-            this.provinceIdFk = _data["provinceIdFk"];
             this.countryIdFk = _data["countryIdFk"];
+            this.provinceIdFk = _data["provinceIdFk"];
+            this.cityIdFk = _data["cityIdFk"];
             this.restaurantStatusIdFk = _data["restaurantStatusIdFk"];
             this.restaurantStatusIdFkNavigation = _data["restaurantStatusIdFkNavigation"] ? RestaurantStatusDto.fromJS(_data["restaurantStatusIdFkNavigation"]) : <any>undefined;
             if (Array.isArray(_data["employee"])) {
@@ -22610,9 +22794,9 @@ export class RestaurantDto implements IRestaurantDto {
                 for (let item of _data["advertisements"])
                     this.advertisements.push(AdvertisementDto.fromJS(item));
             }
-            this.cityIdFkNavigation = _data["cityIdFkNavigation"] ? CityDto.fromJS(_data["cityIdFkNavigation"]) : <any>undefined;
-            this.provinceIdFkNavigation = _data["provinceIdFkNavigation"] ? ProvinceDto.fromJS(_data["provinceIdFkNavigation"]) : <any>undefined;
             this.countryIdFkNavigation = _data["countryIdFkNavigation"] ? CountryDto.fromJS(_data["countryIdFkNavigation"]) : <any>undefined;
+            this.provinceIdFkNavigation = _data["provinceIdFkNavigation"] ? ProvinceDto.fromJS(_data["provinceIdFkNavigation"]) : <any>undefined;
+            this.cityIdFkNavigation = _data["cityIdFkNavigation"] ? CityDto.fromJS(_data["cityIdFkNavigation"]) : <any>undefined;
             this.isDeleted = _data["isDeleted"];
             this.deleterUserId = _data["deleterUserId"];
             this.deletionTime = _data["deletionTime"] ? moment(_data["deletionTime"].toString()) : <any>undefined;
@@ -22638,10 +22822,10 @@ export class RestaurantDto implements IRestaurantDto {
         data["restaurantDescription"] = this.restaurantDescription;
         data["restaurantAddressLine1"] = this.restaurantAddressLine1;
         data["resaturantAddressLine2"] = this.resaturantAddressLine2;
-        data["cityIdFk"] = this.cityIdFk;
         data["restaurantPostalCode"] = this.restaurantPostalCode;
-        data["provinceIdFk"] = this.provinceIdFk;
         data["countryIdFk"] = this.countryIdFk;
+        data["provinceIdFk"] = this.provinceIdFk;
+        data["cityIdFk"] = this.cityIdFk;
         data["restaurantStatusIdFk"] = this.restaurantStatusIdFk;
         data["restaurantStatusIdFkNavigation"] = this.restaurantStatusIdFkNavigation ? this.restaurantStatusIdFkNavigation.toJSON() : <any>undefined;
         if (Array.isArray(this.employee)) {
@@ -22679,9 +22863,9 @@ export class RestaurantDto implements IRestaurantDto {
             for (let item of this.advertisements)
                 data["advertisements"].push(item.toJSON());
         }
-        data["cityIdFkNavigation"] = this.cityIdFkNavigation ? this.cityIdFkNavigation.toJSON() : <any>undefined;
-        data["provinceIdFkNavigation"] = this.provinceIdFkNavigation ? this.provinceIdFkNavigation.toJSON() : <any>undefined;
         data["countryIdFkNavigation"] = this.countryIdFkNavigation ? this.countryIdFkNavigation.toJSON() : <any>undefined;
+        data["provinceIdFkNavigation"] = this.provinceIdFkNavigation ? this.provinceIdFkNavigation.toJSON() : <any>undefined;
+        data["cityIdFkNavigation"] = this.cityIdFkNavigation ? this.cityIdFkNavigation.toJSON() : <any>undefined;
         data["isDeleted"] = this.isDeleted;
         data["deleterUserId"] = this.deleterUserId;
         data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
@@ -22707,10 +22891,10 @@ export interface IRestaurantDto {
     restaurantDescription: string | undefined;
     restaurantAddressLine1: string | undefined;
     resaturantAddressLine2: string | undefined;
-    cityIdFk: number;
     restaurantPostalCode: string | undefined;
-    provinceIdFk: number;
     countryIdFk: number;
+    provinceIdFk: number;
+    cityIdFk: number;
     restaurantStatusIdFk: number | undefined;
     restaurantStatusIdFkNavigation: RestaurantStatusDto;
     employee: EmployeeDto[] | undefined;
@@ -22720,9 +22904,9 @@ export interface IRestaurantDto {
     seatingLayout: SeatingLayoutDto[] | undefined;
     userComment: UserCommentDto[] | undefined;
     advertisements: AdvertisementDto[] | undefined;
-    cityIdFkNavigation: CityDto;
-    provinceIdFkNavigation: ProvinceDto;
     countryIdFkNavigation: CountryDto;
+    provinceIdFkNavigation: ProvinceDto;
+    cityIdFkNavigation: CityDto;
     isDeleted: boolean;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -22738,7 +22922,7 @@ export class AdvertisementDto implements IAdvertisementDto {
     advertisementDescription: string | undefined;
     advertisementFile: string | undefined;
     advertisementDateAcvtiveFrom: string;
-    advertisementDateActiveTo: string;
+    advertisementDateActiveTo:string;
     restaurantIdFK: number;
     restaurantIdFKFkNavigation: RestaurantDto;
     isDeleted: boolean;
@@ -23023,7 +23207,7 @@ export interface IAdvertisementDateDtoPagedResultDto {
 
 export class AdvertisementPriceDto implements IAdvertisementPriceDto {
     advertismentPrice: number;
-    advertisementPriceDateUpdated: string;
+    advertisementPriceDateUpdated: moment.Moment;
     isDeleted: boolean;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -23045,7 +23229,7 @@ export class AdvertisementPriceDto implements IAdvertisementPriceDto {
     init(_data?: any) {
         if (_data) {
             this.advertismentPrice = _data["advertismentPrice"];
-            this.advertisementPriceDateUpdated = _data["advertisementPriceDateUpdated"];// ? moment(_data["advertisementPriceDateUpdated"].toString()) : <any>undefined;
+            this.advertisementPriceDateUpdated = _data["advertisementPriceDateUpdated"] ? moment(_data["advertisementPriceDateUpdated"].toString()) : <any>undefined;
             this.isDeleted = _data["isDeleted"];
             this.deleterUserId = _data["deleterUserId"];
             this.deletionTime = _data["deletionTime"] ? moment(_data["deletionTime"].toString()) : <any>undefined;
@@ -23067,7 +23251,7 @@ export class AdvertisementPriceDto implements IAdvertisementPriceDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["advertismentPrice"] = this.advertismentPrice;
-        data["advertisementPriceDateUpdated"] = this.advertisementPriceDateUpdated;// ? this.advertisementPriceDateUpdated.toISOString() : <any>undefined;
+        data["advertisementPriceDateUpdated"] = this.advertisementPriceDateUpdated ? this.advertisementPriceDateUpdated.toISOString() : <any>undefined;
         data["isDeleted"] = this.isDeleted;
         data["deleterUserId"] = this.deleterUserId;
         data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
@@ -23089,7 +23273,7 @@ export class AdvertisementPriceDto implements IAdvertisementPriceDto {
 
 export interface IAdvertisementPriceDto {
     advertismentPrice: number;
-    advertisementPriceDateUpdated: string;
+    advertisementPriceDateUpdated: moment.Moment;
     isDeleted: boolean;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -23519,6 +23703,57 @@ export class ChangeUiThemeInput implements IChangeUiThemeInput {
 
 export interface IChangeUiThemeInput {
     theme: string;
+}
+
+export class CountryDtoListResultDto implements ICountryDtoListResultDto {
+    items: CountryDto[] | undefined;
+
+    constructor(data?: ICountryDtoListResultDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items.push(CountryDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): CountryDtoListResultDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CountryDtoListResultDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data;
+    }
+
+    clone(): CountryDtoListResultDto {
+        const json = this.toJSON();
+        let result = new CountryDtoListResultDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICountryDtoListResultDto {
+    items: CountryDto[] | undefined;
 }
 
 export class CountryDtoPagedResultDto implements ICountryDtoPagedResultDto {
@@ -25126,7 +25361,7 @@ export interface IMenuItemCategoryDtoPagedResultDto {
 
 export class MenuItemPriceDto implements IMenuItemPriceDto {
     menuItemPrice1: number;
-    menuItemDateUpdated: string;
+    menuItemDateUpdated: moment.Moment;
     isActive: boolean;
     isDeleted: boolean;
     deleterUserId: number | undefined;
@@ -25149,7 +25384,7 @@ export class MenuItemPriceDto implements IMenuItemPriceDto {
     init(_data?: any) {
         if (_data) {
             this.menuItemPrice1 = _data["menuItemPrice1"];
-            this.menuItemDateUpdated = _data["menuItemDateUpdated"];// ? moment(_data["menuItemDateUpdated"].toString()) : <any>undefined;
+            this.menuItemDateUpdated = _data["menuItemDateUpdated"] ? moment(_data["menuItemDateUpdated"].toString()) : <any>undefined;
             this.isActive = _data["isActive"];
             this.isDeleted = _data["isDeleted"];
             this.deleterUserId = _data["deleterUserId"];
@@ -25172,7 +25407,7 @@ export class MenuItemPriceDto implements IMenuItemPriceDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["menuItemPrice1"] = this.menuItemPrice1;
-        data["menuItemDateUpdated"] = this.menuItemDateUpdated;// ? this.menuItemDateUpdated.toISOString() : <any>undefined;
+        data["menuItemDateUpdated"] = this.menuItemDateUpdated ? this.menuItemDateUpdated.toISOString() : <any>undefined;
         data["isActive"] = this.isActive;
         data["isDeleted"] = this.isDeleted;
         data["deleterUserId"] = this.deleterUserId;
@@ -25195,7 +25430,7 @@ export class MenuItemPriceDto implements IMenuItemPriceDto {
 
 export interface IMenuItemPriceDto {
     menuItemPrice1: number;
-    menuItemDateUpdated: string;
+    menuItemDateUpdated: moment.Moment;
     isActive: boolean;
     isDeleted: boolean;
     deleterUserId: number | undefined;
@@ -25763,7 +25998,6 @@ export interface IQrCodeSeatingCandUDto {
 }
 
 export class OrderDto implements IOrderDto {
-    orderDateCreated: string;
     orderDateCompleted: string | undefined;
     qrCodeSeatingIdFk: number | undefined;
     orderStatusIdFk: number | undefined;
@@ -25790,7 +26024,6 @@ export class OrderDto implements IOrderDto {
 
     init(_data?: any) {
         if (_data) {
-            this.orderDateCreated = _data["orderDateCreated"];// ? moment(_data["orderDateCreated"].toString()) : <any>undefined;
             this.orderDateCompleted = _data["orderDateCompleted"];// ? moment(_data["orderDateCompleted"].toString()) : <any>undefined;
             this.qrCodeSeatingIdFk = _data["qrCodeSeatingIdFk"];
             this.orderStatusIdFk = _data["orderStatusIdFk"];
@@ -25821,7 +26054,6 @@ export class OrderDto implements IOrderDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["orderDateCreated"] = this.orderDateCreated;// ? this.orderDateCreated.toISOString() : <any>undefined;
         data["orderDateCompleted"] = this.orderDateCompleted;// ? this.orderDateCompleted.toISOString() : <any>undefined;
         data["qrCodeSeatingIdFk"] = this.qrCodeSeatingIdFk;
         data["orderStatusIdFk"] = this.orderStatusIdFk;
@@ -25852,7 +26084,6 @@ export class OrderDto implements IOrderDto {
 }
 
 export interface IOrderDto {
-    orderDateCreated: string;
     orderDateCompleted: string | undefined;
     qrCodeSeatingIdFk: number | undefined;
     orderStatusIdFk: number | undefined;
@@ -26399,6 +26630,57 @@ export class OrderStatusDtoPagedResultDto implements IOrderStatusDtoPagedResultD
 export interface IOrderStatusDtoPagedResultDto {
     totalCount: number;
     items: OrderStatusDto[] | undefined;
+}
+
+export class ProvinceDtoListResultDto implements IProvinceDtoListResultDto {
+    items: ProvinceDto[] | undefined;
+
+    constructor(data?: IProvinceDtoListResultDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items.push(ProvinceDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ProvinceDtoListResultDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ProvinceDtoListResultDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data;
+    }
+
+    clone(): ProvinceDtoListResultDto {
+        const json = this.toJSON();
+        let result = new ProvinceDtoListResultDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IProvinceDtoListResultDto {
+    items: ProvinceDto[] | undefined;
 }
 
 export class ProvinceDtoPagedResultDto implements IProvinceDtoPagedResultDto {

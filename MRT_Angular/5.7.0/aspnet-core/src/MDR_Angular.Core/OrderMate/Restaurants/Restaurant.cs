@@ -31,18 +31,19 @@ namespace MDR_Angular.OrderMate.Restaurants
         public string RestaurantDescription { get; set; }
         public string RestaurantAddressLine1 { get; set; }
         public string ResaturantAddressLine2 { get; set; }
-        public int CityIdFk { get; set; }
-        public string RestaurantPostalCode { get; set; }
-        public int ProvinceIdFk { get; set; }
+        public string RestaurantPostalCode { get; set; }        
         public int CountryIdFk { get; set; }
+        public int ProvinceIdFk { get; set; }
+        public int CityIdFk { get; set; }
         public int? RestaurantStatusIdFk { get; set; }
 
         [ForeignKey("RestaurantStatusIdFk")]
         public virtual RestaurantStatus RestaurantStatusIdFkNavigation { get; set; }
-        [ForeignKey("CityIdFk")]
-        public virtual City CityIdFkNavigation { get; set; }
+        
         [ForeignKey("ProvinceIdFk")]
         public virtual Province ProvinceIdFkNavigation { get; set; }
+        [ForeignKey("CityIdFk")]
+        public virtual City CityIdFkNavigation { get; set; }
         [ForeignKey("CountryIdFk")]
         public virtual Country CountryIdFkNavigation { get; set; }
         public virtual ICollection<Employee> Employee { get; set; }

@@ -1,5 +1,6 @@
 ﻿using Abp.Domain.Entities.Auditing;
 using MDR_Angular.OrderMate.Cities;
+using MDR_Angular.OrderMate.Provinces;
 using MDR_Angular.OrderMate.Restaurants;
 using System;
 using System.Collections.Generic;
@@ -13,5 +14,6 @@ namespace MDR_Angular.OrderMate.Countries
 
         
         public ICollection<Restaurant> Restaurants { get; set; }
+        public ICollection<Province> Provinces { get; set; }
     }
 }

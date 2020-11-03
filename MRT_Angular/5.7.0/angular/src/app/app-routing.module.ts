@@ -40,6 +40,8 @@ import { CustomerMenuComponent } from './customerMenu/customerMenu.component';
 import { CustomerReservationsComponent } from './customerReservations/customerReservations.component';
 import { CheckInComponent } from './checkIn/checkIn.component';
 import { CountriesComponent} from './countries/countries.component';
+import { CitiesComponent } from './cities/cities.component';
+import { ProvincesComponent } from './provinces/provinces.component';
 
 @NgModule({
     imports: [
@@ -86,6 +88,8 @@ import { CountriesComponent} from './countries/countries.component';
                     { path: 'cusReser', component: CustomerReservationsComponent, data: { permission: '' }, canActivate: [AppRouteGuard] },
                     { path: 'checkIn', component: CheckInComponent, data: { permission: '' }, canActivate: [AppRouteGuard] },
                     { path: 'countries', component: CountriesComponent, data: { permission: '' }, canActivate: [AppRouteGuard] },
+                    { path: 'cities', component: CitiesComponent, data: { permission: '' }, canActivate: [AppRouteGuard] },
+                    { path: 'provinces', component: ProvincesComponent, data: { permission: '' }, canActivate: [AppRouteGuard] },
 
 
                 ]

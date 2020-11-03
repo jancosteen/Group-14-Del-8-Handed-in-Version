@@ -11,5 +11,7 @@ namespace MDR_Angular.OrderMate.Cities.Dto
     public class CityDto: EntityDto<int>
     {
         public string CityName { get; set; }
+        public int ProvinceIdFk { get; set; }
+
     }
 }

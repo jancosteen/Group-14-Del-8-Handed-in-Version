@@ -148,71 +148,68 @@
       </div>
     </div>
 
-    <div class="form-group row">
-      <label class="col-md-3 col-form-label" for="province">
+    <div class="form-group row required">
+      <label class="col-md-3 col-form-label" for="prov">
         {{ "Province" | localize }}
       </label>
       <div class="col-md-9">
-        <input
-          type="text"
+        <select
           class="form-control"
-          name="province"
-          id="province"
-          maxlength="128"
+          name="prov"
+          id="prov"
           required
           [(ngModel)]="restaurant.provinceIdFk"
-          #resProvinceModel="ngModel"
-          #resProvinceEl
-        />
+          #provModel="ngModel"
+          #provEl>
+            <option *ngFor="let p of provinces" value={{p.id}}>{{p.provinceName}}</option>
+        </select>
         <abp-validation-summary
-          [control]="resProvinceModel"
-          [controlEl]="resProvinceEl"
+          [control]="provModel"
+          [controlEl]="provEl"
         ></abp-validation-summary>
       </div>
     </div>
 
-    <div class="form-group row">
+    <div class="form-group row required">
       <label class="col-md-3 col-form-label" for="city">
         {{ "City" | localize }}
       </label>
       <div class="col-md-9">
-        <input
-          type="text"
+        <select
           class="form-control"
           name="city"
           id="city"
-          maxlength="128"
           required
           [(ngModel)]="restaurant.cityIdFk"
-          #resCityModel="ngModel"
-          #resCityEl
-        />
+          #cityModel="ngModel"
+          #cityEl>
+            <option *ngFor="let c of cities" value={{c.id}}>{{c.cityName}}</option>
+        </select>
         <abp-validation-summary
-          [control]="resCityModel"
-          [controlEl]="resCityEl"
+          [control]="cityModel"
+          [controlEl]="cityEl"
         ></abp-validation-summary>
       </div>
     </div>
 
-    <div class="form-group row">
+    <div class="form-group row required">
       <label class="col-md-3 col-form-label" for="country">
         {{ "Country" | localize }}
       </label>
       <div class="col-md-9">
-        <input
-          type="text"
+        <select
           class="form-control"
           name="country"
           id="country"
-          maxlength="128"
           required
           [(ngModel)]="restaurant.countryIdFk"
-          #resCountryModel="ngModel"
-          #resCountryEl
-        />
+          #countryModel="ngModel"
+          #countryEl>
+            <option *ngFor="let co of countries" value={{co.id}}>{{co.countryName}}</option>
+        </select>
         <abp-validation-summary
-          [control]="resCountryModel"
-          [controlEl]="resCountryEl"
+          [control]="cityModel"
+          [controlEl]="cityEl"
         ></abp-validation-summary>
       </div>
     </div>

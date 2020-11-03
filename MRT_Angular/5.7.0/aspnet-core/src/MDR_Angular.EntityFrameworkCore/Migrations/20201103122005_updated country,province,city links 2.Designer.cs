@@ -4,14 +4,16 @@ using MDR_Angular.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MDR_Angular.Migrations
 {
     [DbContext(typeof(MDR_AngularDbContext))]
-    partial class MDR_AngularDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201103122005_updated country,province,city links 2")]
+    partial class updatedcountryprovincecitylinks2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

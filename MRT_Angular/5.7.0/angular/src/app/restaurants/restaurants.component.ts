@@ -13,6 +13,13 @@ import {
   MenuServiceProxy,
   MenuDto,
   MenuDtoPagedResultDto,
+  CountryDto,
+  ProvinceDto,
+  CityDto,
+  CountryServiceProxy,
+  ProvinceServiceProxy,
+  CityServiceProxy,
+  CountryDtoPagedResultDto,
 } from '../../shared/service-proxies/service-proxies';
 import { CreateRestaurantDialogComponent } from './create-restaurant/create-restaurant-dialog.component';
 import { EditRestaurantDialogComponent } from './edit-restaurant/edit-restaurant-dialog.component';
@@ -35,13 +42,19 @@ export class RestaurantsComponent extends PagedListingComponentBase<RestaurantDt
   searchText:string;
   menus:MenuDto[]=[];
   isRelated=false;
+  countries: CountryDto[]=[];
+  provinces: ProvinceDto[]=[];
+  cities: CityDto[]=[];
 
   constructor(
     injector: Injector,
     private _restaurantService: RestaurantServiceProxy,
     private _modalService: BsModalService,
     private _router: Router,
-    private _menuService: MenuServiceProxy
+    private _menuService: MenuServiceProxy,
+    private _countryService: CountryServiceProxy,
+    private _provinceService: ProvinceServiceProxy,
+    private _cityService: CityServiceProxy
   ) {
     super(injector);
   }
@@ -85,6 +98,22 @@ export class RestaurantsComponent extends PagedListingComponentBase<RestaurantDt
         this.menus = result.items;
 
       });
+
+      this._countryService
+        .getAll(
+          '',
+          0,
+          1000
+        )
+        .pipe(
+          finalize(() => {
+            finishedCallback();
+          })
+        )
+        .subscribe((res: CountryDtoPagedResultDto) => {
+          this.countries = res.items
+        })
+
   }
 
   checkIfRelated(id){

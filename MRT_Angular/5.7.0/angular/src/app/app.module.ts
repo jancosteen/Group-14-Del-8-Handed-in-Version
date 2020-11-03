@@ -125,6 +125,12 @@ import { CheckInComponent} from './checkIn/checkIn.component';
 import { CountriesComponent} from './countries/countries.component';
 import { CreateCountryDialogComponent} from './countries/create-country/create-country-dialog.component';
 import { EditCountryDialogComponent} from './countries/edit-country/edit-country-dialog.component';
+import { CitiesComponent} from './cities/cities.component';
+import { CreateCityDialogComponent} from './cities/create-city/create-city-dialog.component';
+import { EditCityDialogComponent} from './cities/edit-city/edit-city-dialog.component';
+import { ProvincesComponent} from './provinces/provinces.component';
+import { CreateProvinceDialogComponent} from './provinces/create-province/create-province-dialog.component';
+import { EditProvinceDialogComponent} from './provinces/edit-province/edit-province-dialog.component';
 
 
 
@@ -247,7 +253,13 @@ import { EditCountryDialogComponent} from './countries/edit-country/edit-country
     CustomerMenuComponent,
     CountriesComponent,
     CreateCountryDialogComponent,
-    EditCountryDialogComponent
+    EditCountryDialogComponent,
+    CitiesComponent,
+    EditCityDialogComponent,
+    CreateCityDialogComponent,
+    ProvincesComponent,
+    CreateProvinceDialogComponent,
+    EditProvinceDialogComponent
 
   ],
   imports: [
@@ -338,7 +350,11 @@ import { EditCountryDialogComponent} from './countries/edit-country/edit-country
     EditStarRatingDialogComponent,
     CartModalComponent,
     CreateCountryDialogComponent,
-    EditCountryDialogComponent
+    EditCountryDialogComponent,
+    EditCityDialogComponent,
+    CreateCityDialogComponent,
+    CreateProvinceDialogComponent,
+    EditProvinceDialogComponent
 
   ],
 })

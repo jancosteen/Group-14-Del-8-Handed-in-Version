@@ -12,8 +12,12 @@ namespace MDR_Angular.OrderMate.Cities
     public class City:FullAuditedEntity<int>
     {
         public string CityName { get; set; }
-        
+        public int ProvinceIdFk { get; set; }
+
+        [ForeignKey("ProvinceIdFk")]
+        public virtual Province ProvinceIdFkNavigation { get; set; }
         public ICollection<Restaurant> Restaurants { get; set; }
+        
         
     }
 }

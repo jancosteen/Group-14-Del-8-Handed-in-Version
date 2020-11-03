@@ -33,13 +33,16 @@ namespace MDR_Angular.OrderMate.Restaurants
         //public DateTime? RestaurantDateCreated { get; set; }
         public string RestaurantAddressLine1 { get; set; }
         public string ResaturantAddressLine2 { get; set; }
-        public int CityIdFk { get; set; }
+        
         public string RestaurantPostalCode { get; set; }
-        public int ProvinceIdFk { get; set; }
+        
         public int CountryIdFk { get; set; }
+        public int ProvinceIdFk { get; set; }
+        public int CityIdFk { get; set; }
         public int? RestaurantStatusIdFk { get; set; }
 
         public virtual RestaurantStatusDto RestaurantStatusIdFkNavigation { get; set; }
+
         public virtual ICollection<EmployeeDto> Employee { get; set; }
         //public virtual ICollection<MenuRestaurantDto> MenuRestaurant { get; set; }
         //public virtual ICollection<MenuDto> Menu { get; set; }
@@ -56,11 +59,9 @@ namespace MDR_Angular.OrderMate.Restaurants
         public virtual ICollection<AdvertisementDto> Advertisements { get; set; }
 
         
-        public virtual CityDto CityIdFkNavigation { get; set; }
-        
-        public virtual ProvinceDto ProvinceIdFkNavigation { get; set; }
-        
         public virtual CountryDto CountryIdFkNavigation { get; set; }
+        public virtual ProvinceDto ProvinceIdFkNavigation { get; set; }
+        public virtual CityDto CityIdFkNavigation { get; set; }
 
 
     }

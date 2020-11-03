@@ -4,14 +4,16 @@ using MDR_Angular.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MDR_Angular.Migrations
 {
     [DbContext(typeof(MDR_AngularDbContext))]
-    partial class MDR_AngularDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201103105239_updated country,province,city links")]
+    partial class updatedcountryprovincecitylinks
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1823,9 +1825,12 @@ namespace MDR_Angular.Migrations
                     b.Property<int>("ProvinceIdFk")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ProvinceIdFkNavigationId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("ProvinceIdFk");
+                    b.HasIndex("ProvinceIdFkNavigationId");
 
                     b.ToTable("City");
                 });
@@ -2497,6 +2502,9 @@ namespace MDR_Angular.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<DateTime?>("OrderDateCompleted")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("OrderDateCreated")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("OrderStatusIdFk")
@@ -3432,9 +3440,6 @@ namespace MDR_Angular.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CityIdFk")
-                        .HasColumnType("int");
-
                     b.Property<int>("CountryIdFk")
                         .HasColumnType("int");
 
@@ -3459,9 +3464,6 @@ namespace MDR_Angular.Migrations
                     b.Property<long?>("LastModifierUserId")
                         .HasColumnType("bigint");
 
-                    b.Property<int>("ProvinceIdFk")
-                        .HasColumnType("int");
-
                     b.Property<string>("ResaturantAddressLine2")
                         .HasColumnType("nvarchar(max)");
 
@@ -3485,11 +3487,7 @@ namespace MDR_Angular.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CityIdFk");
-
                     b.HasIndex("CountryIdFk");
-
-                    b.HasIndex("ProvinceIdFk");
 
                     b.HasIndex("RestaurantStatusIdFk");
 
@@ -4444,9 +4442,7 @@ namespace MDR_Angular.Migrations
                 {
                     b.HasOne("MDR_Angular.OrderMate.Provinces.Province", "ProvinceIdFkNavigation")
                         .WithMany("Cities")
-                        .HasForeignKey("ProvinceIdFk")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ProvinceIdFkNavigationId");
                 });
 
             modelBuilder.Entity("MDR_Angular.OrderMate.EmployeeShifts.EmployeeShift", b =>
@@ -4710,21 +4706,9 @@ namespace MDR_Angular.Migrations
 
             modelBuilder.Entity("MDR_Angular.OrderMate.Restaurants.Restaurant", b =>
                 {
-                    b.HasOne("MDR_Angular.OrderMate.Cities.City", "CityIdFkNavigation")
-                        .WithMany("Restaurants")
-                        .HasForeignKey("CityIdFk")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("MDR_Angular.OrderMate.Countries.Country", "CountryIdFkNavigation")
                         .WithMany("Restaurants")
                         .HasForeignKey("CountryIdFk")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MDR_Angular.OrderMate.Provinces.Province", "ProvinceIdFkNavigation")
-                        .WithMany("Restaurants")
-                        .HasForeignKey("ProvinceIdFk")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
