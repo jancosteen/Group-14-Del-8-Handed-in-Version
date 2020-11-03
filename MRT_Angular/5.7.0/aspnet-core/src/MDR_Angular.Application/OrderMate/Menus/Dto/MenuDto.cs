@@ -15,13 +15,12 @@ namespace MDR_Angular.OrderMate.Menus
     {
         public string MenuName { get; set; }
         public string MenuDescription { get; set; }
-        public DateTime MenuDateCreated { get; set; }
         public TimeSpan? MenuTimeActiveFrom { get; set; }
         public TimeSpan? MenuTimeActiveTo { get; set; }
         public int? RestaurantIdFk { get; set; }
 
-        public virtual ICollection<MenuItemDto> MenuItem { get; set; }
+        public virtual ICollection<MenuItemCandUDto> MenuItem { get; set; }
         [ForeignKey("RestaurantIdFk")]
-        public virtual RestaurantDto RestaurantIdFkNavigation { get; set; }
+        public virtual RestaurantCandUDto RestaurantIdFkNavigation { get; set; }
     }
 }

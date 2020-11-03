@@ -85,24 +85,18 @@ export class MenuItemPricesComponent extends PagedListingComponentBase<MenuItemP
       });
   }
 
-  checkIfRelated(id){
+  /*checkIfRelated(id){
     for(let x=0;x<this.menuItems.length;x++){
       if(this.menuItems[x].menuItemPriceIdFk === id){
         this.isRelated=true;
         console.log(this.isRelated);
       }
     }
-  }
+  }*/
 
   delete(menuItemPrice: MenuItemPriceDto): void {
 
-    this.checkIfRelated(menuItemPrice.id);
-    if(this.isRelated === true){
-      abp.message.error(
-        this.l('Unable to delete Price, it has related menu items', menuItemPrice.menuItemPrice1)
-      )
-    }
-    if(this.isRelated === false){
+
     abp.message.confirm(
       this.l('Are you sure you want to delete this record?', menuItemPrice.menuItemPrice1),
       undefined,
@@ -120,7 +114,7 @@ export class MenuItemPricesComponent extends PagedListingComponentBase<MenuItemP
         }
       }
     );
-    }
+
   }
 
   createMenuItemPrice(): void {

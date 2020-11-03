@@ -15,7 +15,7 @@ namespace MDR_Angular.OrderMate.Reservations
     public class ReservationDto : FullAuditedEntityDto<int>
     {
         //public int ReservationId { get; set; }
-        public DateTime ReservationDateCreated { get; set; }
+        //public DateTime ReservationDateCreated { get; set; }
         public DateTime ReservationDateReserved { get; set; }
         public int ReservationPartyQty { get; set; }
         public long UserIdFk { get; set; }
@@ -23,11 +23,11 @@ namespace MDR_Angular.OrderMate.Reservations
         public int ReservationNumberOfBills { get; set; }
         public int RestaurantIdFk { get; set; }
 
-        public virtual ReservationStatusDto ReservationStatusIdFkNavigation { get; set; }
+        public virtual ReservationStatusCandUDto ReservationStatusIdFkNavigation { get; set; }
         public virtual UserDto UserIdFkNavigation { get; set; }
         //public virtual ICollection<ReservationRestaurantDto> ReservationRestaurant { get; set; }
-        public virtual ICollection<SeatingDto> Seating { get; set; }
-        public virtual RestaurantDto RestaurantIdFkNavigation { get; set; }
+        public virtual ICollection<SeatingCandUDto> Seating { get; set; }
+        public virtual RestaurantCandUDto RestaurantIdFkNavigation { get; set; }
 
 
 

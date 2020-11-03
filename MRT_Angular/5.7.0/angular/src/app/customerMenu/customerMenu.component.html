@@ -3,7 +3,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-6">
-          <h1>{{restaurant.restaurantName}}'s Menu</h1>
+          <h1>{{restaurant}}'s Menu</h1>
         </div>
         <div  class="col-6 text-right">
           <a href="javascript:;" class="btn bg-blue" (click)="createMenuItemCategory()">
@@ -15,43 +15,50 @@
     </div>
   </section>
 
-  <div class="container-fluid"  style="margin-top: 15px;">
-    <div class="row">
-      <div class="col-12">
-        <div class="card">
-          <div class="card-header text-center" style="font-weight: bold;">BEER</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="container-fluid content-row">
-    <div class="row">
-      <div class="col-sm-12 col-md-auto" *ngFor="let m of finalMenuItems" ><!---->
-        <div class="card h-100">
-        <div class="card-header d-flex flex-column">
-          <div class="card-title">{{m.menuItemName}}</div><!---->
-          <div class="text-right">
-            <a href="javascript:;" class="btn bg-blue" (click)="addToOrder(m)">
-              <i class="fa fa-plus-square"></i>
-              {{ "" | localize }}
-            </a>
+  <div *ngFor="let mic of menuItemCategories">
+    <div *ngIf="mic.menuItems.length > 0" class="container-fluid"  style="margin-top: 15px;">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header text-center" style="font-weight: bold;">{{mic.menuItemCategory1}}</div>
           </div>
         </div>
-        <div class="card-body">
-          <p class="card-text">{{m.menuItemDescription}}</p>
-        </div>
-        <div class="card-footer mt-auto">
-          <p class="card-text">{{m.menuItemPriceIdFkNavigation.menuItemPrice1 | currency:"R "}}</p><!---->
-        </div>
-      </div>
       </div>
     </div>
+
+    <div *ngFor="let mi of mic.menuItems" class="container-fluid content-row">
+      <div class="row">
+        <div class="col-sm-12 col-md-auto" ><!---->
+          <div class="card h-100">
+          <div class="card-header d-flex flex-column">
+            <div class="card-title">{{mi.menuItemName}}</div><!---->
+            <div class="text-right">
+              <a href="javascript:;" class="btn bg-blue" (click)="addToOrder(mi)">
+                <i class="fa fa-plus-square"></i>
+                {{ "" | localize }}
+              </a>
+            </div>
+          </div>
+          <div class="card-body">
+            <p class="card-text">{{mi.menuItemDescription}}</p>
+          </div>
+          <div class="card-footer mt-auto">
+            <p class="card-text">{{mi.menuItemPrice}}</p><!---->
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
 
 
-  <div *ngIf="miBEER.length !=0">
+
+
+
+
+  <!--<div *ngIf="miBEER.length !=0">
     <div class="container-fluid"  style="margin-top: 15px;">
       <div class="row">
         <div class="col-12">
@@ -64,10 +71,10 @@
 
     <div class="container-fluid content-row">
       <div class="row">
-        <div class="col-sm-12 col-md-auto" *ngFor="let m of miBEER" ><!---->
+        <div class="col-sm-12 col-md-auto" *ngFor="let m of miBEER" >
           <div class="card h-100">
           <div class="card-header d-flex flex-column">
-            <div class="card-title">{{m.menuItemName}}</div><!---->
+            <div class="card-title">{{m.menuItemName}}</div>
             <div class="text-right">
               <a href="javascript:;" class="btn bg-blue" (click)="addToOrder(m)">
                 <i class="fa fa-plus-square"></i>
@@ -79,7 +86,7 @@
             <p class="card-text">{{m.menuItemDescription}}</p>
           </div>
           <div class="card-footer mt-auto">
-            <p class="card-text">{{m.menuItemPriceIdFkNavigation.menuItemPrice1 | currency:"R "}}</p><!---->
+            <p class="card-text">{{m.menuItemPrice | currency:"R "}}</p>
           </div>
         </div>
         </div>
@@ -100,10 +107,10 @@
 
   <div class="container-fluid content-row">
     <div class="row">
-      <div class="col-sm-12 col-md-auto" *ngFor="let m of miLAGERS" ><!---->
+      <div class="col-sm-12 col-md-auto" *ngFor="let m of miLAGERS" >
         <div class="card h-100">
         <div class="card-header d-flex flex-column">
-          <div class="card-title">{{m.menuItemName}}</div><!---->
+          <div class="card-title">{{m.menuItemName}}</div>
           <div class="text-right">
             <a href="javascript:;" class="btn bg-blue" (click)="addToOrder(m)">
               <i class="fa fa-plus-square"></i>
@@ -115,7 +122,7 @@
           <p class="card-text">{{m.menuItemDescription}}</p>
         </div>
         <div class="card-footer mt-auto">
-          <p class="card-text">{{m.menuItemPriceIdFkNavigation.menuItemPrice1 | currency:"R "}}</p><!---->
+          <p class="card-text">{{m.menuItemPrice | currency:"R "}}</p>
         </div>
       </div>
       </div>
@@ -137,10 +144,10 @@
 
   <div class="container-fluid content-row">
     <div class="row">
-      <div class="col-sm-12 col-md-auto" *ngFor="let m of miPILSNER" ><!---->
+      <div class="col-sm-12 col-md-auto" *ngFor="let m of miPILSNER" >
         <div class="card h-100">
         <div class="card-header d-flex flex-column">
-          <div class="card-title">{{m.menuItemName}}</div><!---->
+          <div class="card-title">{{m.menuItemName}}</div>
           <div class="text-right">
             <a href="javascript:;" class="btn bg-blue" (click)="addToOrder(m)">
               <i class="fa fa-plus-square"></i>
@@ -152,7 +159,7 @@
           <p class="card-text">{{m.menuItemDescription}}</p>
         </div>
         <div class="card-footer mt-auto">
-          <p class="card-text">{{m.menuItemPriceIdFkNavigation.menuItemPrice1 | currency:"R "}}</p><!---->
+          <p class="card-text">{{m.menuItemPrice| currency:"R "}}</p>
         </div>
       </div>
       </div>
@@ -173,10 +180,10 @@
 
   <div class="container-fluid content-row">
     <div class="row">
-      <div class="col-sm-12 col-md-auto" *ngFor="let m of miWEIS" ><!---->
+      <div class="col-sm-12 col-md-auto" *ngFor="let m of miWEIS" >
         <div class="card h-100">
         <div class="card-header d-flex flex-column">
-          <div class="card-title">{{m.menuItemName}}</div><!---->
+          <div class="card-title">{{m.menuItemName}}</div>
           <div class="text-right">
             <a href="javascript:;" class="btn bg-blue" (click)="addToOrder(m)">
               <i class="fa fa-plus-square"></i>
@@ -188,7 +195,7 @@
           <p class="card-text">{{m.menuItemDescription}}</p>
         </div>
         <div class="card-footer mt-auto">
-          <p class="card-text">{{m.menuItemPriceIdFkNavigation.menuItemPrice1 | currency:"R "}}</p><!---->
+          <p class="card-text">{{m.menuItemPrice | currency:"R "}}</p>
         </div>
       </div>
       </div>
@@ -209,10 +216,10 @@
 
 <div class="container-fluid content-row">
   <div class="row">
-    <div class="col-sm-12 col-md-auto" *ngFor="let m of miLAGERS" ><!---->
+    <div class="col-sm-12 col-md-auto" *ngFor="let m of miLAGERS" >
       <div class="card h-100">
       <div class="card-header d-flex flex-column">
-        <div class="card-title">{{m.menuItemName}}</div><!---->
+        <div class="card-title">{{m.menuItemName}}</div>
         <div class="text-right">
           <a href="javascript:;" class="btn bg-blue" (click)="addToOrder(m)">
             <i class="fa fa-plus-square"></i>
@@ -224,7 +231,7 @@
         <p class="card-text">{{m.menuItemDescription}}</p>
       </div>
       <div class="card-footer mt-auto">
-        <p class="card-text">{{m.menuItemPriceIdFkNavigation.menuItemPrice1 | currency:"R "}}</p><!---->
+        <p class="card-text">{{m.menuItemPrice | currency:"R "}}</p>
       </div>
     </div>
     </div>
@@ -246,10 +253,10 @@
 
 <div class="container-fluid content-row">
   <div class="row">
-    <div class="col-sm-12 col-md-auto" *ngFor="let m of miAMBER" ><!---->
+    <div class="col-sm-12 col-md-auto" *ngFor="let m of miAMBER" >
       <div class="card h-100">
       <div class="card-header d-flex flex-column">
-        <div class="card-title">{{m.menuItemName}}</div><!---->
+        <div class="card-title">{{m.menuItemName}}</div>
         <div class="text-right">
           <a href="javascript:;" class="btn bg-blue" (click)="addToOrder(m)">
             <i class="fa fa-plus-square"></i>
@@ -261,7 +268,7 @@
         <p class="card-text">{{m.menuItemDescription}}</p>
       </div>
       <div class="card-footer mt-auto">
-        <p class="card-text">{{m.menuItemPriceIdFkNavigation.menuItemPrice1 | currency:"R "}}</p><!---->
+        <p class="card-text">{{m.menuItemPrice | currency:"R "}}</p>
       </div>
     </div>
     </div>
@@ -282,10 +289,10 @@
 
 <div class="container-fluid content-row">
   <div class="row">
-    <div class="col-sm-12 col-md-auto" *ngFor="let m of miBLONDE" ><!---->
+    <div class="col-sm-12 col-md-auto" *ngFor="let m of miBLONDE" >
       <div class="card h-100">
       <div class="card-header d-flex flex-column">
-        <div class="card-title">{{m.menuItemName}}</div><!---->
+        <div class="card-title">{{m.menuItemName}}</div>
         <div class="text-right">
           <a href="javascript:;" class="btn bg-blue" (click)="addToOrder(m)">
             <i class="fa fa-plus-square"></i>
@@ -297,7 +304,7 @@
         <p class="card-text">{{m.menuItemDescription}}</p>
       </div>
       <div class="card-footer mt-auto">
-        <p class="card-text">{{m.menuItemPriceIdFkNavigation.menuItemPrice1 | currency:"R "}}</p><!---->
+        <p class="card-text">{{m.menuItemPrice | currency:"R "}}</p>
       </div>
     </div>
     </div>
@@ -318,10 +325,10 @@
 
 <div class="container-fluid content-row">
 <div class="row">
-  <div class="col-sm-12 col-md-auto" *ngFor="let m of miSTRONG" ><!---->
+  <div class="col-sm-12 col-md-auto" *ngFor="let m of miSTRONG" >
     <div class="card h-100">
     <div class="card-header d-flex flex-column">
-      <div class="card-title">{{m.menuItemName}}</div><!---->
+      <div class="card-title">{{m.menuItemName}}</div>
       <div class="text-right">
         <a href="javascript:;" class="btn bg-blue" (click)="addToOrder(m)">
           <i class="fa fa-plus-square"></i>
@@ -333,7 +340,7 @@
       <p class="card-text">{{m.menuItemDescription}}</p>
     </div>
     <div class="card-footer mt-auto">
-      <p class="card-text">{{m.menuItemPriceIdFkNavigation.menuItemPrice1 | currency:"R "}}</p><!---->
+      <p class="card-text">{{m.menuItemPrice | currency:"R "}}</p>
     </div>
   </div>
   </div>
@@ -355,10 +362,10 @@
 
 <div class="container-fluid content-row">
 <div class="row">
-  <div class="col-sm-12 col-md-auto" *ngFor="let m of miIPA" ><!---->
+  <div class="col-sm-12 col-md-auto" *ngFor="let m of miIPA" >
     <div class="card h-100">
     <div class="card-header d-flex flex-column">
-      <div class="card-title">{{m.menuItemName}}</div><!---->
+      <div class="card-title">{{m.menuItemName}}</div>
       <div class="text-right">
         <a href="javascript:;" class="btn bg-blue" (click)="addToOrder(m)">
           <i class="fa fa-plus-square"></i>
@@ -370,7 +377,7 @@
       <p class="card-text">{{m.menuItemDescription}}</p>
     </div>
     <div class="card-footer mt-auto">
-      <p class="card-text">{{m.menuItemPriceIdFkNavigation.menuItemPrice1 | currency:"R "}}</p><!---->
+      <p class="card-text">{{m.menuItemPrice | currency:"R "}}</p>
     </div>
   </div>
   </div>
@@ -391,10 +398,10 @@
 
 <div class="container-fluid content-row">
 <div class="row">
-  <div class="col-sm-12 col-md-auto" *ngFor="let m of miPALE" ><!---->
+  <div class="col-sm-12 col-md-auto" *ngFor="let m of miPALE" >
     <div class="card h-100">
     <div class="card-header d-flex flex-column">
-      <div class="card-title">{{m.menuItemName}}</div><!---->
+      <div class="card-title">{{m.menuItemName}}</div>
       <div class="text-right">
         <a href="javascript:;" class="btn bg-blue" (click)="addToOrder(m)">
           <i class="fa fa-plus-square"></i>
@@ -406,7 +413,7 @@
       <p class="card-text">{{m.menuItemDescription}}</p>
     </div>
     <div class="card-footer mt-auto">
-      <p class="card-text">{{m.menuItemPriceIdFkNavigation.menuItemPrice1 | currency:"R "}}</p><!---->
+      <p class="card-text">{{m.menuItemPrice | currency:"R "}}</p>
     </div>
   </div>
   </div>
@@ -427,10 +434,10 @@
 
 <div class="container-fluid content-row">
 <div class="row">
-<div class="col-sm-12 col-md-auto" *ngFor="let m of miSTOUT" ><!---->
+<div class="col-sm-12 col-md-auto" *ngFor="let m of miSTOUT" >
   <div class="card h-100">
   <div class="card-header d-flex flex-column">
-    <div class="card-title">{{m.menuItemName}}</div><!---->
+    <div class="card-title">{{m.menuItemName}}</div>
     <div class="text-right">
       <a href="javascript:;" class="btn bg-blue" (click)="addToOrder(m)">
         <i class="fa fa-plus-square"></i>
@@ -442,7 +449,7 @@
     <p class="card-text">{{m.menuItemDescription}}</p>
   </div>
   <div class="card-footer mt-auto">
-    <p class="card-text">{{m.menuItemPriceIdFkNavigation.menuItemPrice1 | currency:"R "}}</p><!---->
+    <p class="card-text">{{m.menuItemPrice | currency:"R "}}</p>
   </div>
 </div>
 </div>
@@ -464,10 +471,10 @@
 
 <div class="container-fluid content-row">
 <div class="row">
-<div class="col-sm-12 col-md-auto" *ngFor="let m of miTRAPPIST" ><!---->
+<div class="col-sm-12 col-md-auto" *ngFor="let m of miTRAPPIST" >
   <div class="card h-100">
   <div class="card-header d-flex flex-column">
-    <div class="card-title">{{m.menuItemName}}</div><!---->
+    <div class="card-title">{{m.menuItemName}}</div>
     <div class="text-right">
       <a href="javascript:;" class="btn bg-blue" (click)="addToOrder(m)">
         <i class="fa fa-plus-square"></i>
@@ -479,7 +486,7 @@
     <p class="card-text">{{m.menuItemDescription}}</p>
   </div>
   <div class="card-footer mt-auto">
-    <p class="card-text">{{m.menuItemPriceIdFkNavigation.menuItemPrice1 | currency:"R "}}</p><!---->
+    <p class="card-text">{{m.menuItemPrice | currency:"R "}}</p>
   </div>
 </div>
 </div>
@@ -500,10 +507,10 @@
 
   <div class="container-fluid content-row">
   <div class="row">
-  <div class="col-sm-12 col-md-auto" *ngFor="let m of miCIDER" ><!---->
+  <div class="col-sm-12 col-md-auto" *ngFor="let m of miCIDER" >
     <div class="card h-100">
     <div class="card-header d-flex flex-column">
-      <div class="card-title">{{m.menuItemName}}</div><!---->
+      <div class="card-title">{{m.menuItemName}}</div>
       <div class="text-right">
         <a href="javascript:;" class="btn bg-blue" (click)="addToOrder(m)">
           <i class="fa fa-plus-square"></i>
@@ -515,13 +522,13 @@
       <p class="card-text">{{m.menuItemDescription}}</p>
     </div>
     <div class="card-footer mt-auto">
-      <p class="card-text">{{m.menuItemPriceIdFkNavigation.menuItemPrice1 | currency:"R "}}</p><!---->
+      <p class="card-text">{{m.menuItemPrice | currency:"R "}}</p>
     </div>
   </div>
   </div>
   </div>
   </div>
-  </div>
+  </div>-->
 
 
 

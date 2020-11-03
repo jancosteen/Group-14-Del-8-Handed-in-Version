@@ -49,9 +49,6 @@ import { EditAllergyDialogComponent} from './allergies/edit-allergy/edit-allergy
 import { AdvPricesComponent } from './advPrices/advPrices.component';
 import { EditAdvPriceDialogComponent } from './advPrices/edit-advPrice/edit-advPrice-dialog.component';
 import { CreateAdvPriceDialogComponent } from './advPrices/create-advPrice/create-advPrice-dialog.component';
-import { AdvDatesComponent } from './advDates/advDates.component';
-import { EditAdvDateDialogComponent } from './advDates/edit-advDate/edit-advDate-dialog.component';
-import { CreateAdvDateDialogComponent } from './advDates/create-advDate/create-advDate-dialog.component';
 import { RestaurantsComponent } from './restaurants/restaurants.component';
 import { EditRestaurantDialogComponent } from './restaurants/edit-restaurant/edit-restaurant-dialog.component';
 import { CreateRestaurantDialogComponent } from './restaurants/create-restaurant/create-restaurant-dialog.component';
@@ -125,6 +122,9 @@ import { CustomerReservationsComponent} from './customerReservations/customerRes
 import { EditCustomerReservationDialogComponent} from './customerReservations/edit-customerReservation/edit-customerReservation-dialogcomponent'
 import { CreateCustomerReservationDialogComponent} from './customerReservations/create-customerReservation/create-customerReservation-dialog.component';
 import { CheckInComponent} from './checkIn/checkIn.component';
+import { CountriesComponent} from './countries/countries.component';
+import { CreateCountryDialogComponent} from './countries/create-country/create-country-dialog.component';
+import { EditCountryDialogComponent} from './countries/edit-country/edit-country-dialog.component';
 
 
 
@@ -172,9 +172,6 @@ import { CheckInComponent} from './checkIn/checkIn.component';
     AdvPricesComponent,
     EditAdvPriceDialogComponent,
     CreateAdvPriceDialogComponent,
-    CreateAdvDateDialogComponent,
-    EditAdvDateDialogComponent,
-    AdvDatesComponent,
     //menuItems
     CreateMenuItemCategoryDialogComponent,
     MenuItemCategoriesComponent,
@@ -247,7 +244,10 @@ import { CheckInComponent} from './checkIn/checkIn.component';
     StarRatingsComponent,
     CreateStarRatingDialogComponent,
     EditStarRatingDialogComponent,
-    CustomerMenuComponent
+    CustomerMenuComponent,
+    CountriesComponent,
+    CreateCountryDialogComponent,
+    EditCountryDialogComponent
 
   ],
   imports: [
@@ -288,8 +288,6 @@ import { CheckInComponent} from './checkIn/checkIn.component';
     //adv
     EditAdvPriceDialogComponent,
     CreateAdvPriceDialogComponent,
-    CreateAdvDateDialogComponent,
-    EditAdvDateDialogComponent,
     //menuItems
     CreateMenuItemCategoryDialogComponent,
     EditMenuItemCategoryDialogComponent,
@@ -338,7 +336,9 @@ import { CheckInComponent} from './checkIn/checkIn.component';
     EditMenuDialogComponent,
     CreateStarRatingDialogComponent,
     EditStarRatingDialogComponent,
-    CartModalComponent
+    CartModalComponent,
+    CreateCountryDialogComponent,
+    EditCountryDialogComponent
 
   ],
 })

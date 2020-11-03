@@ -1,10 +1,11 @@
-﻿using Abp.AutoMapper;
+﻿using Abp.Application.Services.Dto;
+using Abp.AutoMapper;
 
 namespace MDR_Angular.OrderMate.QrCodeSeatings
 {
     [AutoMapFrom(typeof(QrCodeSeating))]
     [AutoMapTo(typeof(QrCodeSeating))]
-    public class QrCodeSeatingCandUDto
+    public class QrCodeSeatingCandUDto: EntityDto<int>
     {
         //public int QrCodeSeatingId { get; set; }
         public int NrOfPeople { get; set; }

@@ -1,8 +1,12 @@
 ﻿using Abp.Application.Services.Dto;
 using Abp.AutoMapper;
+using MDR_Angular.OrderMate.Advertisements.Dto;
+using MDR_Angular.OrderMate.Cities.Dto;
+using MDR_Angular.OrderMate.Countries.Dto;
 using MDR_Angular.OrderMate.Employees.Dto;
 using MDR_Angular.OrderMate.MenuRestaurants.Dto;
 using MDR_Angular.OrderMate.Menus;
+using MDR_Angular.OrderMate.Provinces.Dto;
 using MDR_Angular.OrderMate.QrCodes;
 using MDR_Angular.OrderMate.ReservationRestaurants;
 using MDR_Angular.OrderMate.Reservations;
@@ -26,13 +30,13 @@ namespace MDR_Angular.OrderMate.Restaurants
         public string RestaurantName { get; set; }
         public string RestaurantUrl { get; set; }
         public string RestaurantDescription { get; set; }
-        public DateTime? RestaurantDateCreated { get; set; }
+        //public DateTime? RestaurantDateCreated { get; set; }
         public string RestaurantAddressLine1 { get; set; }
         public string ResaturantAddressLine2 { get; set; }
-        public string RestaurantCity { get; set; }
+        public int CityIdFk { get; set; }
         public string RestaurantPostalCode { get; set; }
-        public string RestaurantProvince { get; set; }
-        public string RestaurantCountry { get; set; }
+        public int ProvinceIdFk { get; set; }
+        public int CountryIdFk { get; set; }
         public int? RestaurantStatusIdFk { get; set; }
 
         public virtual RestaurantStatusDto RestaurantStatusIdFkNavigation { get; set; }
@@ -49,6 +53,14 @@ namespace MDR_Angular.OrderMate.Restaurants
         public virtual ICollection<SeatingLayoutDto> SeatingLayout { get; set; }
         public virtual ICollection<UserCommentDto> UserComment { get; set; }
         //public virtual ICollection<ReservationDto> Reservation { get; set; }
+        public virtual ICollection<AdvertisementDto> Advertisements { get; set; }
+
+        
+        public virtual CityDto CityIdFkNavigation { get; set; }
+        
+        public virtual ProvinceDto ProvinceIdFkNavigation { get; set; }
+        
+        public virtual CountryDto CountryIdFkNavigation { get; set; }
 
 
     }

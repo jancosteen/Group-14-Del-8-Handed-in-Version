@@ -9,6 +9,6 @@ namespace MDR_Angular.OrderMate.MenuItems.Dto
         public string MenuItemName { get; set; }
         public string MenuItemDescription { get; set; }
         public int? MenuItemCategoryIdFk { get; set; }
-        public int? MenuItemPriceIdFk { get; set; }
+        public float MenuItemPrice { get; set; }
     }
 }

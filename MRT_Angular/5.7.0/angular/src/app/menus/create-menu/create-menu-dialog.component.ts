@@ -33,6 +33,9 @@ export class CreateMenuDialogComponent extends AppComponentBase
   menuRestaurant:MenuRestaurantDto = new MenuRestaurantDto();
   createdMenuId;
   createdMenu:MenuDto = new MenuDto();
+  sRestuarantIdCheck: string;
+  restaurantIdCheck: number;
+  restaurantName:string;
 
 
   @Output() onSave = new EventEmitter<any>();
@@ -49,6 +52,9 @@ export class CreateMenuDialogComponent extends AppComponentBase
   }
 
   ngOnInit(): void {
+    this.sRestuarantIdCheck = localStorage.getItem('restaurantId');
+    this.restaurantIdCheck = parseInt(this.sRestuarantIdCheck);
+
     this._restaurantService
     .getAll(
       '',
@@ -81,6 +87,17 @@ export class CreateMenuDialogComponent extends AppComponentBase
       //this.showPaging(result, pageNumber);
     });
 
+    this.getRestaurant();
+
+  }
+
+  getRestaurant(){
+    for(let x=0;x<this.restaurants.length;x++){
+      if(this.restaurantIdCheck === this.restaurants[x].id){
+        this.restaurantName = this.restaurants[x].restaurantName;
+        break;
+      }
+    }
   }
 
   save(): void {

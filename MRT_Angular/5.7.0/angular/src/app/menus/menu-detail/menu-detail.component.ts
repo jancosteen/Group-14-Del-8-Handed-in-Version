@@ -11,7 +11,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { AppComponentBase } from '../../../shared/app-component-base';
 import {
   MenuServiceProxy,
-  MenuDto, RestaurantServiceProxy, RestaurantDtoPagedResultDto, RestaurantDto, MenuItemServiceProxy, MenuItemDto, MenuItemDtoPagedResultDto, MenuItemAllergyServiceProxy, MenuItemAllergyDto, MenuDtoListResultDto
+  MenuDto, RestaurantServiceProxy, RestaurantDtoPagedResultDto, RestaurantDto, MenuItemServiceProxy, MenuItemDto, MenuItemDtoPagedResultDto, MenuItemAllergyServiceProxy, MenuItemAllergyDto, MenuDtoListResultDto, RestaurantCandUDto, MenuItemCandUDto
 } from '../../../shared/service-proxies/service-proxies';
 import { EditMenuItemDialogComponent } from '../../menuItems/edit-menuItem/edit-menuItem-dialog.component';
 import { CreateMenuItemDialogComponent } from '../../menuItems/create-menuItem/create-menuItem-dialog.component';
@@ -36,9 +36,9 @@ export class MenuDetailComponent extends AppComponentBase
   Iid: number;
   restaurants: RestaurantDto[]=[];
   restautrant: RestaurantDto = new RestaurantDto();
-  restaurant: RestaurantDto = new RestaurantDto();
+  restaurant: RestaurantCandUDto = new RestaurantCandUDto();
   restaurantdIdFk:number;
-  menuItems: MenuItemDto[]=[];
+  menuItems: MenuItemCandUDto[]=[];
   linkedMenuItems:MenuItemDto[]=[];
   menuId:number;
   menuItemAllergies: MenuItemAllergyDto[]=[];
@@ -50,6 +50,8 @@ export class MenuDetailComponent extends AppComponentBase
   keyword = '';
   isActive: boolean | null;
   menus:MenuDto[]=[];
+  sMenuId:string;
+
 
 
 
@@ -79,6 +81,8 @@ export class MenuDetailComponent extends AppComponentBase
       this.loading = false;
       this.menuItems = this.menus[0].menuItem;
       console.log('menuItems',this.menus[0].menuItem);
+      this.sMenuId += this.menuId
+      localStorage.setItem('menuId',this.sMenuId);
     });
 
 

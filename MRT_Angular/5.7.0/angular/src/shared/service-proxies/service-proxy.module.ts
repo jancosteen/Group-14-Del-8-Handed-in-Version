@@ -42,6 +42,7 @@ import * as ApiServiceProxies from './service-proxies';
         ApiServiceProxies.MenuServiceProxy,
         ApiServiceProxies.MenuRestaurantServiceProxy,
         ApiServiceProxies.StarRatingServiceProxy,
+        ApiServiceProxies.CountryServiceProxy,
 
         { provide: HTTP_INTERCEPTORS, useClass: AbpHttpInterceptor, multi: true }
     ]

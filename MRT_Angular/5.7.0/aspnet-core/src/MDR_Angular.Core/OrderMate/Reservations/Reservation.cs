@@ -13,7 +13,7 @@ namespace MDR_Angular.OrderMate.Reservations
     public class Reservation : FullAuditedEntity<int>
     {
         //public int ReservationId { get; set; }
-        public DateTime ReservationDateCreated { get; set; }
+        //public DateTime ReservationDateCreated { get; set; }
         public DateTime ReservationDateReserved { get; set; }
         public int ReservationPartyQty { get; set; }
         public long UserIdFk { get; set; }

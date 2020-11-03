@@ -1,11 +1,12 @@
-﻿using Abp.AutoMapper;
+﻿using Abp.Application.Services.Dto;
+using Abp.AutoMapper;
 using System;
 
 namespace MDR_Angular.OrderMate.Seatings
 {
     [AutoMapFrom(typeof(Seating))]
     [AutoMapTo(typeof(Seating))]
-    public class SeatingCandUDto
+    public class SeatingCandUDto: EntityDto<int>
     {
         //public int SeatingId { get; set; }
         public DateTime SeatingDate { get; set; }

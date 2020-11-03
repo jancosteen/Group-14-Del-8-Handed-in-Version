@@ -32,6 +32,8 @@ namespace MDR_Angular.OrderMate.MenuItems
 
         }
 
+        
+
         protected override IQueryable<MenuItem> CreateFilteredQuery(PagedAndSortedResultRequestDto input)
         {
             return base.CreateFilteredQuery(input)

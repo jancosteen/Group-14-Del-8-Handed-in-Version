@@ -55,27 +55,54 @@
       </div>
     </div>
 
-    <div class="form-group row required">
-      <label class="col-md-3 col-form-label" for="menu">
-        {{ "Menu" | localize }}
-      </label>
-      <div class="col-md-9">
-        <select
-          class="form-control"
-          name="menu"
-          id="menu"
-          required
-          [(ngModel)]="menuItem.menuIdFk"
-          #menuModel="ngModel"
-          #menuEl>
-            <option *ngFor="let r of menus" value={{r.id}}>{{r.menuName}}</option>
-        </select>
-        <abp-validation-summary
-          [control]="menuModel"
-          [controlEl]="menuEl"
-        ></abp-validation-summary>
+    <div *ngIf='sMenuId != null'>
+      <div class="form-group row required">
+        <label class="col-md-3 col-form-label" for="menu">
+          {{ "Menu" | localize }}
+        </label>
+        <div class="col-md-9">
+          <input
+            class="form-control"
+            name="menu"
+            id="menu"
+            required
+            disabled
+            [value]='menuName'
+            [(ngModel)]="menuItem.menuIdFk"
+            #menuModel="ngModel"
+            #menuEl/>
+          <abp-validation-summary
+            [control]="menuModel"
+            [controlEl]="menuEl"
+          ></abp-validation-summary>
+        </div>
       </div>
     </div>
+
+    <div *ngIf='sMenuId == null'>
+      <div class="form-group row required">
+        <label class="col-md-3 col-form-label" for="menu">
+          {{ "Menu" | localize }}
+        </label>
+        <div class="col-md-9">
+          <select
+            class="form-control"
+            name="menu"
+            id="menu"
+            required
+            [(ngModel)]="menuItem.menuIdFk"
+            #menuModel="ngModel"
+            #menuEl>
+              <option *ngFor="let r of menus" value={{r.id}}>{{r.menuName}}</option>
+          </select>
+          <abp-validation-summary
+            [control]="menuModel"
+            [controlEl]="menuEl"
+          ></abp-validation-summary>
+        </div>
+      </div>
+    </div>
+
 
     <div class="form-group row required">
       <label class="col-md-3 col-form-label" for="miCat">
@@ -100,23 +127,24 @@
     </div>
 
     <div class="form-group row required">
-      <label class="col-md-3 col-form-label" for="miPrice">
+      <label class="col-md-3 col-form-label" for="mPrice">
         {{ "Price" | localize }}
       </label>
       <div class="col-md-9">
-        <select
+        <input
+          type="text"
           class="form-control"
-          name="miPrice"
-          id="miPrice"
+          name="mPrice"
+          id="mPrice"
+          maxlength="128"
           required
-          [(ngModel)]="menuItem.menuItemPriceIdFk"
-          #miPriceModel="ngModel"
-          #miPriceEl>
-            <option *ngFor="let p of menuItemPrices" value={{p.id}}>{{p.menuItemPrice1}}</option>
-        </select>
+          [(ngModel)]="menuItem.menuItemPrice"
+          #mPriceModel="ngModel"
+          #mPriceEl
+        />
         <abp-validation-summary
-          [control]="miPriceModel"
-          [controlEl]="miPriceEl"
+          [control]="mPriceModel"
+          [controlEl]="mPriceEl"
         ></abp-validation-summary>
       </div>
     </div>

@@ -9,39 +9,38 @@ import { finalize } from 'rxjs/operators';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { AppComponentBase } from '../../../shared/app-component-base';
 import {
-  AdvertisementDateDto,
-  AdvertisementDateServiceProxy
+  CountryDto,
+  CountryServiceProxy
 } from '../../../shared/service-proxies/service-proxies';
 
 @Component({
-  templateUrl: 'create-advDate-dialog.component.html'
+  templateUrl: 'create-country-dialog.component.html'
 })
-export class CreateAdvDateDialogComponent extends AppComponentBase
+export class CreateCountryDialogComponent extends AppComponentBase
   implements OnInit {
   saving = false;
-  advDate: AdvertisementDateDto = new AdvertisementDateDto();
-  currentDate
+  country: CountryDto = new CountryDto();
+
 
   @Output() onSave = new EventEmitter<any>();
 
   constructor(
     injector: Injector,
-    public _advDateService: AdvertisementDateServiceProxy,
+    public _countryService: CountryServiceProxy,
     public bsModalRef: BsModalRef
   ) {
     super(injector);
   }
 
   ngOnInit(): void {
-     this.currentDate = new Date().toISOString().substring(0, 16);
-     console.log(this.currentDate);
+
   }
 
   save(): void {
     this.saving = true;
 
-    this._advDateService
-      .create(this.advDate)
+    this._countryService
+      .create(this.country)
       .pipe(
         finalize(() => {
           this.saving = false;

@@ -1,11 +1,12 @@
-﻿using Abp.AutoMapper;
+﻿using Abp.Application.Services.Dto;
+using Abp.AutoMapper;
 using System;
 
 namespace MDR_Angular.OrderMate.UserComments
 {
     [AutoMapFrom(typeof(UserComment))]
     [AutoMapTo(typeof(UserComment))]
-    public class UserCommentCandUDto
+    public class UserCommentCandUDto: EntityDto<int>
     {
         // public int UserCommentId { get; set; }
         public string UserComment1 { get; set; }

@@ -1,4 +1,5 @@
 ﻿using Abp.Domain.Entities.Auditing;
+using MDR_Angular.OrderMate.Advertisements;
 using MDR_Angular.OrderMate.Cities;
 using MDR_Angular.OrderMate.Countries;
 using MDR_Angular.OrderMate.Employees;
@@ -31,7 +32,7 @@ namespace MDR_Angular.OrderMate.Restaurants
         public string RestaurantAddressLine1 { get; set; }
         public string ResaturantAddressLine2 { get; set; }
         public int CityIdFk { get; set; }
-        public int RestaurantPostalCode { get; set; }
+        public string RestaurantPostalCode { get; set; }
         public int ProvinceIdFk { get; set; }
         public int CountryIdFk { get; set; }
         public int? RestaurantStatusIdFk { get; set; }
@@ -49,13 +50,14 @@ namespace MDR_Angular.OrderMate.Restaurants
         public virtual ICollection<QrCode> QrCode { get; set; }
         public virtual ICollection<RestaurantFacilityRef> ResaurantFacilityRef { get; set; }
         //public virtual ICollection<ReservationRestaurant> ReservationRestaurant { get; set; }
-        public virtual ICollection<RestaurantAdvertisement> RestaurantAdvertisement { get; set; }
+        //public virtual ICollection<RestaurantAdvertisement> RestaurantAdvertisement { get; set; }
         public virtual ICollection<RestaurantImage> RestaurantImage { get; set; }
         public virtual ICollection<RestaurantTypeRef> RestaurantTypeReference { get; set; }
         public virtual ICollection<SeatingLayout> SeatingLayout { get; set; }
         public virtual ICollection<UserComment> UserComment { get; set; }
         public virtual ICollection<Reservation> Reservation { get; set; }
         public virtual ICollection<SocialMedia> SocialMedias { get; set; }
+        public virtual ICollection<Advertisement> Advertisements { get; set; }
 
     }
 }

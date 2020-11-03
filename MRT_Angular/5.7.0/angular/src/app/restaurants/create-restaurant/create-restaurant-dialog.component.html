@@ -159,7 +159,7 @@
           id="province"
           maxlength="128"
           required
-          [(ngModel)]="restaurant.restaurantProvince"
+          [(ngModel)]="restaurant.provinceIdFk"
           #resProvinceModel="ngModel"
           #resProvinceEl
         />
@@ -182,7 +182,7 @@
           id="city"
           maxlength="128"
           required
-          [(ngModel)]="restaurant.restaurantCity"
+          [(ngModel)]="restaurant.cityIdFk"
           #resCityModel="ngModel"
           #resCityEl
         />
@@ -205,7 +205,7 @@
           id="country"
           maxlength="128"
           required
-          [(ngModel)]="restaurant.restaurantCountry"
+          [(ngModel)]="restaurant.countryIdFk"
           #resCountryModel="ngModel"
           #resCountryEl
         />

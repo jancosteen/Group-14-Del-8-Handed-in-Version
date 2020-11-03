@@ -14,7 +14,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { AppComponentBase } from '@shared/app-component-base';
 import {
   MenuServiceProxy,
-  MenuDto, RestaurantServiceProxy, RestaurantDtoPagedResultDto, RestaurantDto, MenuItemServiceProxy, MenuItemDto, MenuItemDtoPagedResultDto, MenuItemAllergyServiceProxy, MenuItemAllergyDto, MenuDtoPagedResultDto, MenuItemCategoryDto
+  MenuDto, RestaurantServiceProxy, RestaurantDtoPagedResultDto, RestaurantDto, MenuItemServiceProxy, MenuItemDto, MenuItemDtoPagedResultDto, MenuItemAllergyServiceProxy, MenuItemAllergyDto, MenuDtoPagedResultDto, MenuItemCategoryDto, RestaurantCandUDto, MenuItemCategoryServiceProxy, MenuItemCategoryDetailsDtoListResultDto, MenuItemCategoryDetailsDto
 } from '@shared/service-proxies/service-proxies';
 import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listing-component-base';
 import { AppSessionService } from '@shared/session/app-session.service';
@@ -45,7 +45,7 @@ export class CustomerMenuComponent extends PagedListingComponentBase<MenuItemDto
   menu: MenuDto = new MenuDto();
   Iid: number;
   restaurants: RestaurantDto[]=[];
-  restautrant: RestaurantDto = new RestaurantDto();
+  //restautrant: RestaurantCandUDto = new RestaurantCandUDto();
   restaurantdIdFk:number;
   menuItems: MenuItemDto[]=[];
   menus:MenuDto[]=[];
@@ -57,7 +57,7 @@ export class CustomerMenuComponent extends PagedListingComponentBase<MenuItemDto
   loading:boolean = true;
   advancedFiltersVisible = false;
   finalMenuItems:MenuItemDto[]=[];
-  restaurant:RestaurantDto = new RestaurantDto();
+  restaurant;
   miBEER:MenuItemDto[]=[];
   miLAGERS:MenuItemDto[]=[];
   miPILSNER:MenuItemDto[]=[];
@@ -75,7 +75,8 @@ export class CustomerMenuComponent extends PagedListingComponentBase<MenuItemDto
   cart=[];
   cartItem:Cart=new Cart();
   startQty:number = 0;
-  menuItemCategories:MenuItemCategoryDto[]=[];
+  menuItemCategories:MenuItemCategoryDetailsDto[]=[];
+  menuItems2:MenuItemDto[]=[];
 
   cart3 = [];
   cartItemCount: BehaviorSubject<number>;
@@ -90,6 +91,7 @@ export class CustomerMenuComponent extends PagedListingComponentBase<MenuItemDto
     public _restaurantService: RestaurantServiceProxy,
     private activeRoute: ActivatedRoute,
     private _router: Router,
+    private _menuItemCategoryService: MenuItemCategoryServiceProxy,
     public _menuItemService:MenuItemServiceProxy,
     public __menuItemAllergyService: MenuItemAllergyServiceProxy,
     private _modalService: BsModalService,
@@ -103,7 +105,7 @@ export class CustomerMenuComponent extends PagedListingComponentBase<MenuItemDto
     request: PagedMenuItemRequestDto,
     pageNumber: number,
     finishedCallback: Function
-  ): void {
+  ) {
     request.keyword = '';
 
     let id: string = this.activeRoute.snapshot.params['id'];
@@ -112,9 +114,11 @@ export class CustomerMenuComponent extends PagedListingComponentBase<MenuItemDto
       this.menus = result.items;
       this.restaurantdIdFk = this.menus[0].restaurantIdFk;
       //this.menuId = this.menus[0].id;
-      this.restaurant = this.menus[0].restaurantIdFkNavigation;
+      this.restaurant = this.menus[0].restaurantIdFkNavigation.restaurantName;
       this.populateMenuItems(this.menus[0]);
     });
+
+    this.popCategories();
 
     this.cartCount = 0;
     this.cart3 = this._sessionService.getCart();
@@ -128,14 +132,26 @@ export class CustomerMenuComponent extends PagedListingComponentBase<MenuItemDto
   }
 
   popCategories(){
-    for(let x=0;x<this.menuItems.length;x++){
+    /*for(let x=0;x<this.menuItems.length;x++){
       this.menuItemCategories.push(this.menuItems[x].menuItemCategoryIdFkNavigation);
-    }
+    }*/
+
+    this._menuItemCategoryService
+      .getMicAndMi()
+      .pipe(
+        finalize(() => {
+          console.log('Pop Categories');
+        })
+      )
+      .subscribe((result: MenuItemCategoryDetailsDtoListResultDto) => {
+        this.menuItemCategories = result.items;
+      });
   }
 
 
+  //Change
   populateMenuItems(menu:MenuDto){
-      this.finalMenuItems= [];
+      /*this.finalMenuItems= [];
       this.miBEER=[];
   this.miLAGERS=[];
   this.miPILSNER=[];
@@ -179,7 +195,7 @@ export class CustomerMenuComponent extends PagedListingComponentBase<MenuItemDto
         }else if(this.finalMenuItems[x].menuItemCategoryIdFk === 26){
           this.miCIDER.push(this.finalMenuItems[x]);
         }
-      }
+      }*/
 
   }
 

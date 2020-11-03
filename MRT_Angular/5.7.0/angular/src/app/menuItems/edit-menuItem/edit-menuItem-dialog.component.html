@@ -101,23 +101,24 @@
     </div>
 
     <div class="form-group row required">
-      <label class="col-md-3 col-form-label" for="price">
+      <label class="col-md-3 col-form-label" for="mPrice">
         {{ "Price" | localize }}
       </label>
       <div class="col-md-9">
-        <select
+        <input
+          type="text"
           class="form-control"
-          name="price"
-          id="price"
+          name="mPrice"
+          id="mPrice"
+          maxlength="128"
           required
-          [(ngModel)]="menuItem.menuItemPriceIdFk"
-          #restModel="ngModel"
-          #restEl>
-            <option *ngFor="let p of menuItemPrices" value={{p.id}}>{{p.menuItemPrice1}}</option>
-        </select>
+          [(ngModel)]="menuItem.menuItemPrice"
+          #mPriceModel="ngModel"
+          #mPriceEl
+        />
         <abp-validation-summary
-          [control]="restModel"
-          [controlEl]="restEl"
+          [control]="mPriceModel"
+          [controlEl]="mPriceEl"
         ></abp-validation-summary>
       </div>
     </div>

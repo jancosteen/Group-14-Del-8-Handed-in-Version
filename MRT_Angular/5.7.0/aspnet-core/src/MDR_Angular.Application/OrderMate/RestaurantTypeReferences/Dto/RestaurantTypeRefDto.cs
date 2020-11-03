@@ -13,7 +13,7 @@ namespace MDR_Angular.OrderMate.RestaurantTypeReferences
         public int RestaurantIdFk { get; set; }
 
         //public virtual RestaurantDto RestaurantIdFkNavigation { get; set; }
-        public virtual RestaurantTypeDto RestaurantTypeIdFkNavigation { get; set; }
+        public virtual RestaurantTypeCandUDto RestaurantTypeIdFkNavigation { get; set; }
 
     }
 }

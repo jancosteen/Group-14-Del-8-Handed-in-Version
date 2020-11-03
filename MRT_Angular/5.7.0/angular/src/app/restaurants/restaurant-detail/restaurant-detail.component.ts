@@ -39,6 +39,7 @@ export class RestaurantDetailComponent extends AppComponentBase
   statusses: RestaurantStatusDto[]=[];
   resStatus:RestaurantStatusDto = new RestaurantStatusDto();
   restaurantStatusIdFk:number;
+  sRestaurantId:string;
 
 
 
@@ -63,6 +64,8 @@ export class RestaurantDetailComponent extends AppComponentBase
       this.restaurant = result;
       this.restaurantStatusIdFk = this.restaurant.restaurantStatusIdFk;
       this.restaurantId = this.restaurant.id;
+      this.sRestaurantId += this.restaurantId
+      localStorage.setItem('restaurantId', this.sRestaurantId);
     });
 
     this._statusService

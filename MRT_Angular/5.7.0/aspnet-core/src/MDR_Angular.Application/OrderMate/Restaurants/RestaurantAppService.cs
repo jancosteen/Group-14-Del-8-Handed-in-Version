@@ -25,6 +25,9 @@ namespace MDR_Angular.OrderMate.Restaurants
                 .Include(i => i.UserComment).ThenInclude(i => i.StarRatingIdFkNavigation)
                 .Include(i => i.SeatingLayout).ThenInclude(i => i.LayoutTypeIdFkNavigation)
                 .Include(i => i.RestaurantTypeReference).ThenInclude(i => i.RestaurantTypeIdFkNavigation)
+                .Include(i => i.ProvinceIdFkNavigation)
+                .Include(i => i.CountryIdFkNavigation)
+                .Include(i => i.CityIdFkNavigation)
                 
 
                 .ToList();
@@ -38,10 +41,13 @@ namespace MDR_Angular.OrderMate.Restaurants
                 .Include(i=> i.RestaurantStatusIdFkNavigation)
                 .Include(i => i.Menu)
                 .Include(i => i.ResaurantFacilityRef).ThenInclude(x => x.RestaurantFacilityIdFkNavigation)
-                .Include(i => i.RestaurantAdvertisement)
+                //.Include(i => i.RestaurantAdvertisement)
                 .Include(i => i.RestaurantImage)
                 .Include(i => i.RestaurantTypeReference).ThenInclude(x => x.RestaurantTypeIdFkNavigation)
-                .Include(i => i.UserComment).ThenInclude(x => x.StarRatingIdFkNavigation);
+                .Include(i => i.UserComment).ThenInclude(x => x.StarRatingIdFkNavigation)
+                .Include(i => i.ProvinceIdFkNavigation)
+                .Include(i => i.CountryIdFkNavigation)
+                .Include(i => i.CityIdFkNavigation);
         }
     }
 }

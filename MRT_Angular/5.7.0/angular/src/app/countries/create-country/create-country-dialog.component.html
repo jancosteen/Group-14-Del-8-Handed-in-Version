@@ -1,28 +1,27 @@
 <form
   class="form-horizontal"
   autocomplete="off"
-  #createAdvDateForm="ngForm"
+  #createCountryForm="ngForm"
   (ngSubmit)="save()"
 >
   <abp-modal-header
-    [title]="'Create New Advertsisement Date' | localize"
+    [title]="'CreateNewCountry' | localize"
     (onCloseClick)="bsModalRef.hide()"
   ></abp-modal-header>
   <div class="modal-body">
     <div class="form-group row required">
       <label class="col-md-3 col-form-label" for="name">
-        {{ "Advertisement Date Active From " | localize }}
+        {{ "Country" | localize }}
       </label>
       <div class="col-md-9">
         <input
-          type="datetime-local"
+          type="text"
           class="form-control"
           name="name"
           id="name"
           maxlength="128"
           required
-          [min]="currentDate"
-          [(ngModel)]="advDate.advertisementDateAcvtiveFrom"
+          [(ngModel)]="country.countryName"
           #nameModel="ngModel"
           #nameEl
         />
@@ -32,25 +31,9 @@
         ></abp-validation-summary>
       </div>
     </div>
-    <div class="form-group row">
-      <label class="col-md-3 col-form-label" for="connectionString">
-        {{ "Advertisement Date Active To" | localize }}
-      </label>
-      <div class="col-md-9">
-        <input
-          type="datetime-local"
-          class="form-control"
-          [min]="currentDate"
-          name="connectionString"
-          id="connectionString"
-          maxlength="1024"
-          [(ngModel)]="advDate.advertisementDateActiveTo"
-        />
-      </div>
-    </div>
     <abp-modal-footer
     [cancelDisabled]="saving"
-    [saveDisabled]="!createAdvDateForm.form.valid || saving"
+    [saveDisabled]="!createCountryForm.form.valid || saving"
     (onCancelClick)="bsModalRef.hide()"
   ></abp-modal-footer>
 </div>
@@ -67,7 +50,7 @@
           name="connectionString"
           id="connectionString"
           maxlength="1024"
-          [(ngModel)]="advDate.connectionString"
+          [(ngModel)]="country.connectionString"
         />
       </div>
     </div>
@@ -84,7 +67,7 @@
           minlength="2"
           maxlength="64"
           required
-          [(ngModel)]="advDate.id"
+          [(ngModel)]="country.id"
           #tenancyNameModel="ngModel"
           #tenancyNameEl
         />
@@ -107,7 +90,7 @@
           pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{1,})+$"
           maxlength="256"
           required
-          [(ngModel)]="advDate.adminEmailAddress"
+          [(ngModel)]="country.adminEmailAddress"
           #adminEmailAddressModel="ngModel"
           #adminEmailAddressEl
         />
@@ -128,7 +111,7 @@
             class="custom-control-input"
             name="isActive"
             id="isActive"
-            [(ngModel)]="advDate.isActive"
+            [(ngModel)]="country.isActive"
           />
           <label class="custom-control-label mt-2" for="isActive"></label>
         </div>

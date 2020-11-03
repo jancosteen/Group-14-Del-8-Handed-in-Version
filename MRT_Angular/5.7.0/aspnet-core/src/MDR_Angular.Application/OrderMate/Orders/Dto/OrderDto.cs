@@ -18,9 +18,9 @@ namespace MDR_Angular.OrderMate.Orders.Dto
         public int? OrderStatusIdFk { get; set; }
 
         
-        public virtual OrderStatusDto OrderStatusIdFkNavigation { get; set; }
-        public virtual ICollection<OrderLineDto> OrderLine { get; set; }
+        public virtual OrderStatusCandUDto OrderStatusIdFkNavigation { get; set; }
+        public virtual ICollection<OrderLineCandUDto> OrderLine { get; set; }
         
-        public virtual QrCodeSeatingDto QrCodeSeating { get; set; }
+        public virtual QrCodeSeatingCandUDto QrCodeSeating { get; set; }
     }
 }

@@ -1,10 +1,11 @@
-﻿using Abp.AutoMapper;
+﻿using Abp.Application.Services.Dto;
+using Abp.AutoMapper;
 
 namespace MDR_Angular.OrderMate.OrderLines.Dto
 {
     [AutoMapFrom(typeof(OrderLine))]
     [AutoMapTo(typeof(OrderLine))]
-    public class OrderLineCandUDto
+    public class OrderLineCandUDto:EntityDto<int>
     {
         public int ItemQty { get; set; }
         public string ItemComments { get; set; }

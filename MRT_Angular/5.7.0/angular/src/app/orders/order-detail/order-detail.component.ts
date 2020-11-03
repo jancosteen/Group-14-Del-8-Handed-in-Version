@@ -10,7 +10,7 @@ import { finalize } from 'rxjs/operators';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { AppComponentBase } from '../../../shared/app-component-base';
 import {
-  OrderDto, OrderServiceProxy, OrderDtoPagedResultDto, MenuItemServiceProxy, MenuServiceProxy, MenuDto, MenuDtoPagedResultDto, OrderStatusDtoPagedResultDto, OrderStatusServiceProxy, OrderStatusDto, OrderDtoListResultDto, OrderLineDto, OrderLineServiceProxy
+  OrderDto, OrderServiceProxy, OrderDtoPagedResultDto, MenuItemServiceProxy, MenuServiceProxy, MenuDto, MenuDtoPagedResultDto, OrderStatusDtoPagedResultDto, OrderStatusServiceProxy, OrderStatusDto, OrderDtoListResultDto, OrderLineDto, OrderLineServiceProxy, OrderLineCandUDto
 } from '../../../shared/service-proxies/service-proxies';
 import { EditOrderDialogComponent } from '../edit-order/edit-order-dialog.component';
 import { CreateOrderDialogComponent } from '../create-order/create-order-dialog.component';
@@ -38,7 +38,7 @@ export class OrderDetailComponent extends AppComponentBase
   resStatus:OrderStatusDto = new OrderStatusDto();
   orderStatusIdFk:number;
   orders:OrderDto[]=[];
-  linkedOrderLines: OrderLineDto[]=[];
+  linkedOrderLines: OrderLineCandUDto[]=[];
 
 
 

@@ -16,7 +16,7 @@ namespace MDR_Angular.OrderMate.OrderLines.Dto
         public int? OrderIdFk { get; set; }
         public long UserIdFk { get; set; }
 
-        public virtual MenuItemDto MenuItemIdFkNavigation { get; set; }
+        public virtual MenuItemCandUDto MenuItemIdFkNavigation { get; set; }
         public virtual UserDto UserIdFkNavigation { get; set; }
     }
 }

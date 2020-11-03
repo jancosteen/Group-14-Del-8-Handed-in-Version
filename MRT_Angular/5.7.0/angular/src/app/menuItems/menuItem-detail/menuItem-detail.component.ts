@@ -11,7 +11,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { AppComponentBase } from '../../../shared/app-component-base';
 import {
   MenuItemServiceProxy,
-  MenuItemDto, RestaurantServiceProxy, RestaurantDtoPagedResultDto, RestaurantDto, MenuItemCategoryServiceProxy, MenuItemCategoryDtoPagedResultDto, MenuItemCategoryDto, MenuDtoPagedResultDto, MenuDto, MenuServiceProxy, MenuItemPriceServiceProxy, MenuItemPriceDtoPagedResultDto, MenuItemPriceDto, MenuItemAllergyServiceProxy, MenuItemAllergyDto, AllergyServiceProxy, AllergyDto, AllergyDtoPagedResultDto
+  MenuItemDto, RestaurantServiceProxy, RestaurantDtoPagedResultDto, RestaurantDto, MenuItemCategoryServiceProxy, MenuItemCategoryDtoPagedResultDto, MenuItemCategoryDto, MenuDtoPagedResultDto, MenuDto, MenuServiceProxy, MenuItemPriceServiceProxy, MenuItemPriceDtoPagedResultDto, MenuItemPriceDto, MenuItemAllergyServiceProxy, MenuItemAllergyDto, AllergyServiceProxy, AllergyDto, AllergyDtoPagedResultDto, MenuItemCandUDto
 } from '../../../shared/service-proxies/service-proxies';
 import { EditMenuItemDialogComponent } from '../edit-menuItem/edit-menuItem-dialog.component';
 import { CreateMenuItemDialogComponent } from '../create-menuItem/create-menuItem-dialog.component';
@@ -73,7 +73,7 @@ export class MenuItemDetailComponent extends AppComponentBase
     this._menuItemService.get(this.Iid).subscribe((result: MenuItemDto) => {
       this.menuItem = result;
       this.menuItemCategoryIdFk = this.menuItem.menuItemCategoryIdFk;
-      this.menuItemPriceIdFk = this.menuItem.menuItemPriceIdFk;
+
       this.menuIdFk = this.menuItem.menuIdFk;
       this.menuItemId = this.menuItem.id;
     });
@@ -241,7 +241,7 @@ export class MenuItemDetailComponent extends AppComponentBase
     this._menuItemService.get(this.Iid).subscribe((result: MenuItemDto) => {
       this.menuItem = result;
       this.menuItemCategoryIdFk = this.menuItem.menuItemCategoryIdFk;
-      this.menuItemPriceIdFk = this.menuItem.menuItemPriceIdFk;
+
       this.menuIdFk = this.menuItem.menuIdFk;
       this.menuItemId = this.menuItem.id;
     });

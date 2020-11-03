@@ -50,7 +50,6 @@ export class EditCustomerReservationDialogComponent extends AppComponentBase
     this.iUserId = this.sessionService.userId;
     this.currentDate = new Date().toISOString().substring(0, 16);
      console.log(this.currentDate);
-     this.reservation.reservationDateCreated = this.currentDate;
      this.reservation.userIdFk=this.iUserId;
     this._restaurantService
     .getAll(

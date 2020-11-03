@@ -10,7 +10,6 @@ import { RolesComponent } from 'app/roles/roles.component';
 import { ChangePasswordComponent } from './users/change-password/change-password.component';
 import { AllergiesComponent } from './allergies/allergies.component';
 import { AdvPricesComponent } from './advPrices/advPrices.component';
-import { AdvDatesComponent } from './advDates/advDates.component';
 import { RestaurantsComponent } from './restaurants/restaurants.component';
 import { RestaurantImagesComponent } from './restaurant-images/restaurantImages.component';
 import { RestaurantFacilitiesComponent } from './restaurant-facilities/restaurantFacilities.component';
@@ -40,6 +39,7 @@ import { CreateOrderLineDialogComponent } from './orderLines/create-orderLine/cr
 import { CustomerMenuComponent } from './customerMenu/customerMenu.component';
 import { CustomerReservationsComponent } from './customerReservations/customerReservations.component';
 import { CheckInComponent } from './checkIn/checkIn.component';
+import { CountriesComponent} from './countries/countries.component';
 
 @NgModule({
     imports: [
@@ -48,7 +48,7 @@ import { CheckInComponent } from './checkIn/checkIn.component';
                 path: '',
                 component: AppComponent,
                 children: [
-                    { path: 'home', component: HomeComponent,  canActivate: [AppRouteGuard] },
+                    { path: 'home', component: HomeComponent },
                     { path: 'users', component: UsersComponent, data: { permission: '' }, canActivate: [AppRouteGuard] },
                     { path: 'roles', component: RolesComponent, data: { permission: '' }, canActivate: [AppRouteGuard] },
                     { path: 'tenants', component: TenantsComponent, data: { permission: '' }, canActivate: [AppRouteGuard] },
@@ -56,7 +56,6 @@ import { CheckInComponent } from './checkIn/checkIn.component';
                     { path: 'update-password', component: ChangePasswordComponent },
                     { path: 'allergies', component: AllergiesComponent, data: { permission: 'Pages.SYSTEM_ADMIN' }, canActivate: [AppRouteGuard] },
                     { path: 'advPrices', component: AdvPricesComponent, data: { permission: 'Pages.SYSTEM_ADMIN' }, canActivate: [AppRouteGuard] },
-                    { path: 'advDates', component: AdvDatesComponent, data: { permission: 'Pages.SYSTEM_ADMIN' }, canActivate: [AppRouteGuard] },
                     { path: 'restaurants', component: RestaurantsComponent, data: { permission: 'Pages.SYSTEM_ADMIN' }, canActivate: [AppRouteGuard] },
                     { path: 'resImages', component: RestaurantImagesComponent, data: { permission: 'Pages.SYSTEM_ADMIN' }, canActivate: [AppRouteGuard] },
                     { path: 'resFacs', component: RestaurantFacilitiesComponent, data: { permission: 'Pages.SYSTEM_ADMIN' }, canActivate: [AppRouteGuard] },
@@ -86,6 +85,7 @@ import { CheckInComponent } from './checkIn/checkIn.component';
                     { path: 'cusMenu/:id', component: CustomerMenuComponent, data: { permission: '' }, canActivate: [AppRouteGuard] },
                     { path: 'cusReser', component: CustomerReservationsComponent, data: { permission: '' }, canActivate: [AppRouteGuard] },
                     { path: 'checkIn', component: CheckInComponent, data: { permission: '' }, canActivate: [AppRouteGuard] },
+                    { path: 'countries', component: CountriesComponent, data: { permission: '' }, canActivate: [AppRouteGuard] },
 
 
                 ]

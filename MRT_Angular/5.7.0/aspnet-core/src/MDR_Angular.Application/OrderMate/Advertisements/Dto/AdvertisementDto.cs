@@ -2,6 +2,8 @@
 using Abp.AutoMapper;
 using MDR_Angular.OrderMate.AdvertisementDates.Dto;
 using MDR_Angular.OrderMate.AdvertisementPrices.Dto;
+using MDR_Angular.OrderMate.Restaurants;
+using System;
 
 namespace MDR_Angular.OrderMate.Advertisements.Dto
 {
@@ -12,12 +14,16 @@ namespace MDR_Angular.OrderMate.Advertisements.Dto
         public string AdvertisementName { get; set; }
         public string AdvertisementDescription { get; set; }
         public byte[] AdvertisementFile { get; set; }
+        
 
-        public int? AdvertisementDateIdFk { get; set; }
-        public int? AdvertisementPriceIdFk { get; set; }
+        public DateTime AdvertisementDateAcvtiveFrom { get; set; }
+        public DateTime AdvertisementDateActiveTo { get; set; }
+        public int RestaurantIdFK { get; set; }
 
-        public virtual AdvertisementDateDto AdvertisementDateIdFkNavigation { get; set; }
-        public virtual AdvertisementPriceDto AdvertisementPriceIdFkNavigation { get; set; }
+        public virtual RestaurantDto RestaurantIdFKFkNavigation { get; set; }
+
+        //public virtual AdvertisementDateDto AdvertisementDateIdFkNavigation { get; set; }
+        //public virtual AdvertisementPriceDto AdvertisementPriceIdFkNavigation { get; set; }
 
     }
 }

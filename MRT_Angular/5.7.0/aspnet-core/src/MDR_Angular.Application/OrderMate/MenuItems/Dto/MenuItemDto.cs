@@ -20,15 +20,15 @@ namespace MDR_Angular.OrderMate.MenuItems.Dto
         public string MenuItemName { get; set; }
         public string MenuItemDescription { get; set; }
         public int? MenuItemCategoryIdFk { get; set; }
-        public int? MenuItemPriceIdFk { get; set; }
+        public float MenuItemPrice { get; set; }
         public int? MenuIdFk { get; set; }
 
-        public virtual MenuItemCategoryDto MenuItemCategoryIdFkNavigation { get; set; }
-        public virtual MenuItemPriceDto MenuItemPriceIdFkNavigation { get; set; }
-        public virtual ICollection<ItemTypeMenuItemDto> ItemTypeMenuMenuItem { get; set; }
+        public virtual MenuItemCategoryCandUDto MenuItemCategoryIdFkNavigation { get; set; }
+       // public virtual MenuItemPriceDto MenuItemPriceIdFkNavigation { get; set; }
+        public virtual ICollection<ItemTypeMenuItemCandUDto> ItemTypeMenuMenuItem { get; set; }
         //public virtual ICollection<MenuItemAllergyDto> MenuItemAllergy { get; set; }
-        public virtual ICollection<MenuItemSpecialDto> MenuItemSpecial { get; set; }
+        public virtual ICollection<MenuItemSpecialCandUDto> MenuItemSpecial { get; set; }
         [ForeignKey("MenuIdFk")]
-        public virtual MenuDto Menu { get; set; }
+        public virtual MenuCandUDto MenuIdFkNavigation { get; set; }
     }
 }

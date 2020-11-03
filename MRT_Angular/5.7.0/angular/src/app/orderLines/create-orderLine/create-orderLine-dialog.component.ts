@@ -90,7 +90,7 @@ export class CreateOrderLineDialogComponent extends AppComponentBase
 
       this.lineAmount.menuItem = item;
       this.lineAmount.itemQty = ItemQty;
-      this.lineAmount.total = this.lineAmount.menuItem.menuItemPriceIdFkNavigation.menuItemPrice1 * ItemQty;
+      this.lineAmount.total = this.lineAmount.menuItem.menuItemPrice * ItemQty;
 
       console.log('lineAmount',this.lineAmount);
       this.lineAmounts.push(this.lineAmount);

@@ -13,6 +13,6 @@ namespace MDR_Angular.OrderMate.MenuItemAllergies.Dto
         public int AllergyIdFk { get; set; }
 
         public virtual AllergyDto AllergyIdFkNavigation { get; set; }
-        public virtual MenuItemDto MenuItemIdFkNavigation { get; set; }
+        public virtual MenuItemCandUDto MenuItemIdFkNavigation { get; set; }
     }
 }

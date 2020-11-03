@@ -101,27 +101,56 @@
       </div>
     </div>
 
-    <div class="form-group row required">
-      <label class="col-md-3 col-form-label" for="rest">
-        {{ "Restaurant" | localize }}
-      </label>
-      <div class="col-md-9">
-        <select
-          class="form-control"
-          name="rest"
-          id="rest"
-          required
-          [(ngModel)]="menu.restaurantIdFk"
-          #restModel="ngModel"
-          #restEl>
-            <option *ngFor="let r of restaurants" value={{r.id}}>{{r.restaurantName}}</option>
-        </select>
-        <abp-validation-summary
-          [control]="restModel"
-          [controlEl]="restEl"
-        ></abp-validation-summary>
+    <div *ngIf='sRestuarantIdCheck != null'>
+      <div class="form-group row required">
+        <label class="col-md-3 col-form-label" for="rest">
+          {{ "Restaurant" | localize }}
+        </label>
+        <div class="col-md-9">
+          <input
+            class="form-control"
+            name="rest"
+            id="rest"
+            disabled
+            required
+            [value]="restaurantName"
+            [(ngModel)]="menu.restaurantIdFk"
+            #restModel="ngModel"
+            #restEl
+            />
+
+          <abp-validation-summary
+            [control]="restModel"
+            [controlEl]="restEl"
+          ></abp-validation-summary>
+        </div>
       </div>
     </div>
+
+    <div *ngIf='sRestuarantIdCheck == null'>
+      <div class="form-group row required">
+        <label class="col-md-3 col-form-label" for="rest">
+          {{ "Restaurant" | localize }}
+        </label>
+        <div class="col-md-9">
+          <select
+            class="form-control"
+            name="rest"
+            id="rest"
+            required
+            [(ngModel)]="menu.restaurantIdFk"
+            #restModel="ngModel"
+            #restEl>
+              <option *ngFor="let r of restaurants" value={{r.id}}>{{r.restaurantName}}</option>
+          </select>
+          <abp-validation-summary
+            [control]="restModel"
+            [controlEl]="restEl"
+          ></abp-validation-summary>
+        </div>
+      </div>
+    </div>
+
     <abp-modal-footer
     [cancelDisabled]="saving"
     [saveDisabled]="!createMenuForm.form.valid || saving"

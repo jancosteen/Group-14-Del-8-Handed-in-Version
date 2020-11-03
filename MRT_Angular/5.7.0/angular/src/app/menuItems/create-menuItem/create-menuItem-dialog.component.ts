@@ -48,6 +48,9 @@ export class CreateMenuItemDialogComponent extends AppComponentBase
   currentDate;
   sCurrentDate: string;
   menus: MenuDto[]=[];
+  sMenuId: string;
+  menuId:number;
+  menuName:string;
 
 
 
@@ -69,6 +72,8 @@ export class CreateMenuItemDialogComponent extends AppComponentBase
 
   ngOnInit(): void {
 
+    this.sMenuId = localStorage.getItem('menuId');
+    this.menuId = parseInt(this.sMenuId);
     this.currentDate = new Date().toISOString().substring(0, 16);
     this.sCurrentDate = this.currentDate.toString();
 
@@ -137,6 +142,17 @@ export class CreateMenuItemDialogComponent extends AppComponentBase
       this.menuItemPrices = result.items;
       //this.showPaging(result, pageNumber);
     });
+
+    this.getMenuName();
+  }
+
+  getMenuName(){
+    for(let x=0;x<this.menus.length;x++){
+      if(this.menuId === this.menus[x].id){
+        this.menuName = this.menus[x].menuName;
+        break;
+      }
+    }
   }
 
   show(id){

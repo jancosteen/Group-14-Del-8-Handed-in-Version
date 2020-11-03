@@ -14,8 +14,8 @@ namespace MDR_Angular.OrderMate.SocialMedias
         public string SocialMediaAddress { get; set; }
         public int RestaurantIdFk { get; set; }
 
-        public virtual SocialMediaTypeDto SocialMediaTypeIdFkNavigation { get; set; }
-        public virtual RestaurantDto RestaurantIdFkNavigation { get; set; }
+        public virtual SocialMediaTypeCandUDto SocialMediaTypeIdFkNavigation { get; set; }
+        public virtual RestaurantCandUDto RestaurantIdFkNavigation { get; set; }
 
 
     }

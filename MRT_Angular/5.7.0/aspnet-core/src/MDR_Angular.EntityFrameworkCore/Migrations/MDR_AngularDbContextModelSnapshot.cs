@@ -3073,9 +3073,6 @@ namespace MDR_Angular.Migrations
                     b.Property<long?>("LastModifierUserId")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTime>("ReservationDateCreated")
-                        .HasColumnType("datetime2");
-
                     b.Property<DateTime>("ReservationDateReserved")
                         .HasColumnType("datetime2");
 
@@ -3136,15 +3133,10 @@ namespace MDR_Angular.Migrations
                     b.Property<long?>("LastModifierUserId")
                         .HasColumnType("bigint");
 
-                    b.Property<int?>("RestaurantId")
-                        .HasColumnType("int");
-
                     b.Property<int>("RestaurantIdFk")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("RestaurantId");
 
                     b.ToTable("RestaurantAdvertisement");
                 });
@@ -3475,8 +3467,8 @@ namespace MDR_Angular.Migrations
                     b.Property<string>("RestaurantName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RestaurantPostalCode")
-                        .HasColumnType("int");
+                    b.Property<string>("RestaurantPostalCode")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("RestaurantStatusIdFk")
                         .HasColumnType("int");
@@ -4428,7 +4420,7 @@ namespace MDR_Angular.Migrations
             modelBuilder.Entity("MDR_Angular.OrderMate.Advertisements.Advertisement", b =>
                 {
                     b.HasOne("MDR_Angular.OrderMate.Restaurants.Restaurant", "RestaurantIdFKFkNavigation")
-                        .WithMany()
+                        .WithMany("Advertisements")
                         .HasForeignKey("RestaurantIdFK")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -4652,13 +4644,6 @@ namespace MDR_Angular.Migrations
                         .HasForeignKey("UserIdFk")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("MDR_Angular.OrderMate.RestaurantAdvertisements.RestaurantAdvertisement", b =>
-                {
-                    b.HasOne("MDR_Angular.OrderMate.Restaurants.Restaurant", null)
-                        .WithMany("RestaurantAdvertisement")
-                        .HasForeignKey("RestaurantId");
                 });
 
             modelBuilder.Entity("MDR_Angular.OrderMate.RestaurantFacilityRefs.RestaurantFacilityRef", b =>

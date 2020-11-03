@@ -12,6 +12,5 @@ namespace MDR_Angular.OrderMate.RestaurantImages
         public byte[] ImageFile { get; set; }
         public int? RestaurantIdFk { get; set; }
 
-
     }
 }
