@@ -10,7 +10,10 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import { AppComponentBase } from '../../../shared/app-component-base';
 import {
   ProvinceServiceProxy,
-  ProvinceDto
+  ProvinceDto,
+  CountryDtoPagedResultDto,
+  CountryDto,
+  CountryServiceProxy
 } from '../../../shared/service-proxies/service-proxies';
 
 @Component({
@@ -21,13 +24,15 @@ export class EditProvinceDialogComponent extends AppComponentBase
   saving = false;
   province: ProvinceDto = new ProvinceDto();
   id: number;
+  countries: CountryDto[]=[];
 
   @Output() onSave = new EventEmitter<any>();
 
   constructor(
     injector: Injector,
     public _provinceService: ProvinceServiceProxy,
-    public bsModalRef: BsModalRef
+    public bsModalRef: BsModalRef,
+    public _countryService: CountryServiceProxy
   ) {
     super(injector);
   }
@@ -36,6 +41,22 @@ export class EditProvinceDialogComponent extends AppComponentBase
     this._provinceService.get(this.id).subscribe((result: ProvinceDto) => {
       this.province = result;
     });
+
+    this._countryService
+      .getAll(
+        '',
+        0,
+        1000
+      )
+      .pipe(
+        finalize(() => {
+          console.log('country');
+        })
+      )
+      .subscribe((result: CountryDtoPagedResultDto) => {
+        this.countries = result.items;
+        //this.showPaging(result, pageNumber);
+      });
   }
 
   save(): void {

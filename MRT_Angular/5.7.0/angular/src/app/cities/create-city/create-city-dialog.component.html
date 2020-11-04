@@ -31,6 +31,29 @@
         ></abp-validation-summary>
       </div>
     </div>
+
+    <div class="form-group row required">
+      <label class="col-md-3 col-form-label" for="prov">
+        {{ "Province" | localize }}
+      </label>
+      <div class="col-md-9">
+        <select
+          class="form-control"
+          name="prov"
+          id="prov"
+          required
+          [(ngModel)]="city.provinceIdFk"
+          #provModel="ngModel"
+          #provEl>
+            <option *ngFor="let r of provinces" value={{r.id}}>{{r.provinceName}}</option>
+        </select>
+        <abp-validation-summary
+          [control]="provModel"
+          [controlEl]="provEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+
     <abp-modal-footer
     [cancelDisabled]="saving"
     [saveDisabled]="!createCityForm.form.valid || saving"

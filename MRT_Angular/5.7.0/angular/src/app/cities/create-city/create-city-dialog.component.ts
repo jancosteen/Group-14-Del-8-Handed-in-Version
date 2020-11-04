@@ -10,7 +10,10 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import { AppComponentBase } from '../../../shared/app-component-base';
 import {
   CityDto,
-  CityServiceProxy
+  CityServiceProxy,
+  ProvinceDto,
+  ProvinceDtoPagedResultDto,
+  ProvinceServiceProxy
 } from '../../../shared/service-proxies/service-proxies';
 
 @Component({
@@ -20,6 +23,7 @@ export class CreateCityDialogComponent extends AppComponentBase
   implements OnInit {
   saving = false;
   city: CityDto = new CityDto();
+  provinces: ProvinceDto[]=[];
 
 
   @Output() onSave = new EventEmitter<any>();
@@ -27,13 +31,28 @@ export class CreateCityDialogComponent extends AppComponentBase
   constructor(
     injector: Injector,
     public _cityService: CityServiceProxy,
-    public bsModalRef: BsModalRef
+    public bsModalRef: BsModalRef,
+    public _provinceService: ProvinceServiceProxy
   ) {
     super(injector);
   }
 
   ngOnInit(): void {
-
+    this._provinceService
+    .getAll(
+      '',
+      0,
+      1000
+    )
+    .pipe(
+      finalize(() => {
+        console.log('provinces');
+      })
+    )
+    .subscribe((result: ProvinceDtoPagedResultDto) => {
+      this.provinces = result.items;
+      //this.showPaging(result, pageNumber);
+    });
   }
 
   save(): void {

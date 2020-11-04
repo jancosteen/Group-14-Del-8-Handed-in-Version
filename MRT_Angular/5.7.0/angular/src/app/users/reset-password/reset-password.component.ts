@@ -5,7 +5,7 @@ import {
   UserServiceProxy,
   ResetPasswordDto
 } from '@shared/service-proxies/service-proxies';
-import { BsModalRef } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal'; 
 
 @Component({
   selector: 'app-reset-password',

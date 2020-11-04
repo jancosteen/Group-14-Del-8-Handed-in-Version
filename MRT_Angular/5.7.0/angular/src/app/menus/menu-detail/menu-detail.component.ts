@@ -81,7 +81,8 @@ export class MenuDetailComponent extends AppComponentBase
       this.loading = false;
       this.menuItems = this.menus[0].menuItem;
       console.log('menuItems',this.menus[0].menuItem);
-      this.sMenuId += this.menuId
+      this.sMenuId = this.menuId.toString();
+      console.log('sMenuId', this.sMenuId);
       localStorage.setItem('menuId',this.sMenuId);
     });
 

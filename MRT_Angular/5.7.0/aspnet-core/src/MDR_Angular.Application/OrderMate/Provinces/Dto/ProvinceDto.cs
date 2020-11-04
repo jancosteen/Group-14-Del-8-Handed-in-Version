@@ -17,7 +17,7 @@ namespace MDR_Angular.OrderMate.Provinces.Dto
         public int CountryIdFk { get; set; }
 
         public ICollection<CityDto> Cities { get; set; }
-        //public ICollection<RestaurantDto> Restaurants { get; set; }
+        public ICollection<RestaurantCandUDto> Restaurants { get; set; }
         public virtual CountryDto CountryIdFkNavigation { get; set; }
     }
 }

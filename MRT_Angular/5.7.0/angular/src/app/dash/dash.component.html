@@ -1,0 +1,21 @@
+<!--dash.component.html-->
+<div class="grid-container">
+  <h1 class="mat-h1">Dashboard</h1>
+  <mat-grid-list cols="{{ ( cardLayout | async )?.columns }}" rowHeight="250px">
+    <!--Charts-->
+    <mat-grid-tile [colspan]="( cardLayout | async )?.chart.cols" [rowspan]="( cardLayout | async )?.chart.rows">
+      <app-card title="Total Monthly Sales">
+          <app-monthly-sales-chart></app-monthly-sales-chart>
+      </app-card>
+   </mat-grid-tile>
+   <mat-grid-tile [colspan]="( cardLayout | async )?.chart.cols" [rowspan]="( cardLayout | async )?.chart.rows">
+    <app-card title="Total Monthly Sales">
+        <app-store-sessions-chart></app-store-sessions-chart>
+    </app-card>
+ </mat-grid-tile>
+    <!--Table-->
+    <mat-grid-tile [colspan]="( cardLayout | async )?.table.cols" [rowspan]="( cardLayout | async )?.table.rows">
+      <app-card title="Todays Orders"><div>Table Content Here</div></app-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+ </div>

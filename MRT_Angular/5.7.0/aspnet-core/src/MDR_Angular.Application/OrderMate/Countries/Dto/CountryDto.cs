@@ -14,7 +14,7 @@ namespace MDR_Angular.OrderMate.Countries.Dto
     {
         public string CountryName { get; set; }
 
-        public ICollection<ProvinceDto> Provinces { get; set; }
-        //public ICollection<RestaurantDto> Restaurants { get; set; }
+        public ICollection<ProvinceCandUDto> Provinces { get; set; }
+        public ICollection<RestaurantCandUDto> Restaurants { get; set; }
     }
 }

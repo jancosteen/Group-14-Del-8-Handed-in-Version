@@ -73,11 +73,10 @@
                           currentPage: pageNumber,
                           totalItems: totalItems
                         }
-                        | grdFilter: {id: searchText, orderDateCreated:searchText, orderDateCompleted:searchText}
+                        | grdFilter: {id: searchText,  orderDateCompleted:searchText}
                 "
               >
                 <td>{{ order.id }}</td>
-                <td>{{ order.orderDateCreated }}</td>
                 <td>{{ order.orderDateCompleted }}</td>
                 <td>{{ order.qrCodeSeating.id }}</td>
                 <td>{{order.orderStatusIdFkNavigation.orderStatus1}}</td>

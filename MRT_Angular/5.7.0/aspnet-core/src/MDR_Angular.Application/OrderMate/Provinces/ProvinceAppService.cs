@@ -20,6 +20,7 @@ namespace MDR_Angular.OrderMate.Provinces
             var menuItem = Repository
                 .GetAll()
                 .Include(i => i.Cities)
+                .Include(i => i.CountryIdFkNavigation)
                 .Where(x => x.Id == id)
                 .ToList();
 
@@ -32,6 +33,7 @@ namespace MDR_Angular.OrderMate.Provinces
         protected override IQueryable<Province> CreateFilteredQuery(PagedAndSortedResultRequestDto input)
         {
             return base.CreateFilteredQuery(input)
+                .Include(i => i.CountryIdFkNavigation)
                 .Include(i => i.Cities);
 
         }

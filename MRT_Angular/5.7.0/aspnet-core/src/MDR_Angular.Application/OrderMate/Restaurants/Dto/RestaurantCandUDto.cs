@@ -11,7 +11,6 @@ namespace MDR_Angular.OrderMate.Restaurants
         public string RestaurantName { get; set; }
         public string RestaurantUrl { get; set; }
         public string RestaurantDescription { get; set; }
-        //public DateTime? RestaurantDateCreated { get; set; }
         public string RestaurantAddressLine1 { get; set; }
         public string ResaturantAddressLine2 { get; set; }
         public int CityIdFk { get; set; }

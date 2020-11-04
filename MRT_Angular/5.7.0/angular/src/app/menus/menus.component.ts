@@ -167,5 +167,8 @@ export class MenusComponent extends PagedListingComponentBase<MenuDto> {
   viewMenu(menu:MenuDto): void {
     const detailsUrl: string = `/app/menu/${menu.id}`;
     this._router.navigate([detailsUrl]);
+    //let sMenuId;
+    //sMenuId += menu.id;
+    //localStorage.setItem('menuId', sMenuId);
   }
 }

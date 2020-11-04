@@ -112,7 +112,6 @@ export class CartModalComponent extends AppComponentBase
       this.l("Order Sent To The Kitchen")
     );
     if(this.orderId === 0){
-        this.order.orderDateCreated = this.sDate;
         this.order.qrCodeSeatingIdFk = 1;
         this.order.orderStatusIdFk = 1;
       this._orderService

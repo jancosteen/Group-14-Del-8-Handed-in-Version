@@ -13,6 +13,7 @@ using MDR_Angular.Authorization;
 using MDR_Angular.Authorization.Accounts;
 using MDR_Angular.Authorization.Roles;
 using MDR_Angular.Authorization.Users;
+using MDR_Angular.Features.Email;
 using MDR_Angular.Roles.Dto;
 using MDR_Angular.Users.Dto;
 using Microsoft.AspNetCore.Identity;
@@ -33,6 +34,7 @@ namespace MDR_Angular.Users
         private readonly IPasswordHasher<User> _passwordHasher;
         private readonly IAbpSession _abpSession;
         private readonly LogInManager _logInManager;
+        private readonly IEmail _email;
 
         public UserAppService(
             IRepository<User, long> repository,
@@ -41,7 +43,8 @@ namespace MDR_Angular.Users
             IRepository<Role> roleRepository,
             IPasswordHasher<User> passwordHasher,
             IAbpSession abpSession,
-            LogInManager logInManager)
+            LogInManager logInManager,
+            IEmail email)
             : base(repository)
         {
             _userManager = userManager;
@@ -50,6 +53,7 @@ namespace MDR_Angular.Users
             _passwordHasher = passwordHasher;
             _abpSession = abpSession;
             _logInManager = logInManager;
+            _email = email;
         }
 
         public override async Task<UserDto> CreateAsync(CreateUserDto input)
@@ -216,6 +220,11 @@ namespace MDR_Angular.Users
             var user = await _userManager.GetUserByIdAsync(input.UserId);
             if (user != null)
             {
+
+                var message = "<h1> Hello " + user.FullName + "</h1><br/><h3> We have reset your password to: <h3><strong> " + input.NewPassword + "</strong>.<h4> Please log on and change your password to one you prefer!</h4>";
+
+                await _email.SendEmailAsync("OrderMate", "ordermate370@gmail.com", user.FullName, user.EmailAddress, "Password Reset", message);
+
                 user.Password = _passwordHasher.HashPassword(user, input.NewPassword);
                 CurrentUnitOfWork.SaveChanges();
             }
