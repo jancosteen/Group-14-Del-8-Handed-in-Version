@@ -11,7 +11,7 @@
   <div class="modal-body">
     <div class="form-group row required">
       <label class="col-md-3 col-form-label" for="name">
-        {{ "Province" | localize }}
+        {{ "Province Name" | localize }}
       </label>
       <div class="col-md-9">
         <input
@@ -31,6 +31,31 @@
         ></abp-validation-summary>
       </div>
     </div>
+
+
+      <div class="form-group row required">
+        <label class="col-md-3 col-form-label" for="country">
+          {{ "Country" | localize }}
+        </label>
+        <div class="col-md-9">
+          <select
+            class="form-control"
+            name="country"
+            id="country"
+            required
+            [(ngModel)]="province.countryIdFk"
+            #countryModel="ngModel"
+            #countryEl>
+              <option *ngFor="let r of countries" value={{r.id}}>{{r.countryName}}</option>
+          </select>
+          <abp-validation-summary
+            [control]="countryModel"
+            [controlEl]="countryEl"
+          ></abp-validation-summary>
+        </div>
+      </div>
+
+
     <abp-modal-footer
     [cancelDisabled]="saving"
     [saveDisabled]="!createProvinceForm.form.valid || saving"

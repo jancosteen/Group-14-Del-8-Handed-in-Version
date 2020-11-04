@@ -77,39 +77,11 @@ export class CitiesComponent extends PagedListingComponentBase<CityDto> {
         this.showPaging(result, pageNumber);
       });
 
-      this._provinceService
-      .getAll(
-        '',
-        0,
-        1000
-      )
-      .pipe(
-        finalize(() => {
-          finishedCallback();
-        })
-      )
-      .subscribe((result: ProvinceDtoPagedResultDto) => {
-        this.provinces = result.items;
-      });
 
-      this.createCityAndProv();
 
   }
 
-  createCityAndProv(){
-    for(let x=0;x<this.citys.length;x++){
-      for(let y=0;y<this.provinces.length;y++){
-        if(this.citys[x].provinceIdFk === this.provinces[y].id){
-          this.cAp.cityId = this.citys[x].id;
-          this.cAp.cityName = this.citys[x].cityName;
-          this.cAp.provinceIdFk = this.citys[x].provinceIdFk;
-          this.cAp.provinceName = this.provinces[y].provinceName;
-          this.cityAndProv.push(this.cAp);
-          console.log(this.cityAndProv);
-        }
-      }
-    }
-  }
+
 
   checkIfRelated(id){
     /*for(let x=0;x<this.menuItemCities.length;x++){

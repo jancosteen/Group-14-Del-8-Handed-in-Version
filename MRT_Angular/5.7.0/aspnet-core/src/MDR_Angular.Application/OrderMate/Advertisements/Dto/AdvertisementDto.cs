@@ -20,7 +20,7 @@ namespace MDR_Angular.OrderMate.Advertisements.Dto
         public DateTime AdvertisementDateActiveTo { get; set; }
         public int RestaurantIdFK { get; set; }
 
-        public virtual RestaurantDto RestaurantIdFKFkNavigation { get; set; }
+        public virtual RestaurantCandUDto RestaurantIdFKFkNavigation { get; set; }
 
         //public virtual AdvertisementDateDto AdvertisementDateIdFkNavigation { get; set; }
         //public virtual AdvertisementPriceDto AdvertisementPriceIdFkNavigation { get; set; }

@@ -73,6 +73,7 @@ export class CreateMenuItemDialogComponent extends AppComponentBase
   ngOnInit(): void {
 
     this.sMenuId = localStorage.getItem('menuId');
+    console.log('menuId storage', this.sMenuId);
     this.menuId = parseInt(this.sMenuId);
     this.currentDate = new Date().toISOString().substring(0, 16);
     this.sCurrentDate = this.currentDate.toString();
@@ -108,6 +109,7 @@ export class CreateMenuItemDialogComponent extends AppComponentBase
     .subscribe((result: MenuDtoPagedResultDto) => {
       this.menus = result.items;
       console.log(this.menus);
+      this.getMenuName();
     });
 
 
@@ -143,13 +145,14 @@ export class CreateMenuItemDialogComponent extends AppComponentBase
       //this.showPaging(result, pageNumber);
     });
 
-    this.getMenuName();
+
   }
 
   getMenuName(){
     for(let x=0;x<this.menus.length;x++){
       if(this.menuId === this.menus[x].id){
         this.menuName = this.menus[x].menuName;
+        console.log('Menu Name', this.menuName);
         break;
       }
     }

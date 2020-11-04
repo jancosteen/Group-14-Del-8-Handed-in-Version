@@ -41,27 +41,27 @@ namespace MDR_Angular.OrderMate.Restaurants
         public int CityIdFk { get; set; }
         public int? RestaurantStatusIdFk { get; set; }
 
-        public virtual RestaurantStatusDto RestaurantStatusIdFkNavigation { get; set; }
+        public virtual RestaurantStatusCandUDto RestaurantStatusIdFkNavigation { get; set; }
 
         public virtual ICollection<EmployeeDto> Employee { get; set; }
         //public virtual ICollection<MenuRestaurantDto> MenuRestaurant { get; set; }
         //public virtual ICollection<MenuDto> Menu { get; set; }
 
         //public virtual ICollection<QrCodeDto> QrCode { get; set; }
-        public virtual ICollection<RestaurantFacilityRefDto> ResaurantFacilityRef { get; set; }
+        public virtual ICollection<RestaurantFacilityRefCandUDto> ResaurantFacilityRef { get; set; }
         //public virtual ICollection<ReservationRestaurantDto> ReservationRestaurant { get; set; }
         //public virtual ICollection<RestaurantAdvertisementDto> RestaurantAdvertisement { get; set; }
-        public virtual ICollection<RestaurantImageDto> RestaurantImage { get; set; }
-        public virtual ICollection<RestaurantTypeRefDto> RestaurantTypeReference { get; set; }
-        public virtual ICollection<SeatingLayoutDto> SeatingLayout { get; set; }
-        public virtual ICollection<UserCommentDto> UserComment { get; set; }
+        public virtual ICollection<RestaurantImageCandUDto> RestaurantImage { get; set; }
+        public virtual ICollection<RestaurantTypeRefCandUDto> RestaurantTypeReference { get; set; }
+        public virtual ICollection<SeatingLayoutCandUDto> SeatingLayout { get; set; }
+        public virtual ICollection<UserCommentCandUDto> UserComment { get; set; }
         //public virtual ICollection<ReservationDto> Reservation { get; set; }
-        public virtual ICollection<AdvertisementDto> Advertisements { get; set; }
+        public virtual ICollection<AdvertisementCandUDto> Advertisements { get; set; }
 
         
-        public virtual CountryDto CountryIdFkNavigation { get; set; }
-        public virtual ProvinceDto ProvinceIdFkNavigation { get; set; }
-        public virtual CityDto CityIdFkNavigation { get; set; }
+        public virtual CountryCandUDto CountryIdFkNavigation { get; set; }
+        public virtual ProvinceCandUDto ProvinceIdFkNavigation { get; set; }
+        public virtual CityCandUDto CityIdFkNavigation { get; set; }
 
 
     }

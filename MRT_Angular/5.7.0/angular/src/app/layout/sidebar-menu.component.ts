@@ -39,6 +39,13 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
           this.activateMenuItems('/' + primaryUrlSegmentGroup.toString());
         }
       });
+
+
+  }
+
+  clearLocalStorage(){
+    localStorage.removeItem('menuId');
+    console.log(localStorage.getItem('menuId'));
   }
 
   getMenuItems(): MenuItem[] {

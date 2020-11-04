@@ -63,7 +63,7 @@
             <tbody>
               <tr
                 *ngFor="
-                  let city of cityAndProv
+                  let city of citys
                     | paginate
                       : {
                           id: 'server',
@@ -74,9 +74,9 @@
                         | grdFilter: {id: searchText, cityName:searchText}
                 "
               >
-                <td>{{ city.cityId }}</td>
+                <td>{{ city.id }}</td>
                 <td>{{ city.cityName }}</td>
-                <td>{{ city.provinceName}}</td>
+                <td>{{ city.provinceIdFkNavigation.provinceName}}</td>
 
                 <td>
                   <button

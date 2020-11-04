@@ -25,6 +25,7 @@
       class="nav-link"
       [routerLink]="item.route"
       [class.active]="item.isActive"
+      (click)='clearLocalStorage()'
     >
       <i class="nav-icon {{ item.icon }}"></i>
       <p>

@@ -19,7 +19,7 @@ namespace MDR_Angular.OrderMate.Countries
         {
             var menuItem = Repository
                 .GetAll()
-                .Include(i => i.Provinces)
+                .Include(i => i.Provinces).ThenInclude(x => x.Cities)
                 .Where(x => x.Id == id)
                 .ToList();
 
@@ -32,7 +32,7 @@ namespace MDR_Angular.OrderMate.Countries
         protected override IQueryable<Country> CreateFilteredQuery(PagedAndSortedResultRequestDto input)
         {
             return base.CreateFilteredQuery(input)
-                .Include(i => i.Provinces);
+                .Include(i => i.Provinces).ThenInclude(x => x.Cities);
                 
         }
     }
