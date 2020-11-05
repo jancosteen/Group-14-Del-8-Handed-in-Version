@@ -115,8 +115,9 @@
 
               </td>
               <td id="total{{x.id}}">
-                {{x.menuItemPriceIdFkNavigation.menuItemPrice1 * x.itemQty | currency:'R '}}
+                {{x.menuItemPrice * x.itemQty | currency:'R '}}
               </td>
+
               <td>
                 <button
                   type="button"
@@ -194,12 +195,12 @@
             <td>{{ y.id }}</td>
             <td>{{ y.menuItemIdFkNavigation.menuItemName }}</td>
             <td>{{y.menuItemIdFkNavigation.menuItemDescription}}</td>
-            <td>{{ y.menuItemIdFkNavigation.menuItemPriceIdFkNavigation.menuItemPrice1 | currency:'R  '}}</td>
+            <td>{{ y.menuItemIdFkNavigation.menuItemPrice | currency:'R  '}}</td>
             <td>
               {{y.itemQty}}
             </td>
             <td>
-              {{y.itemQty * y.menuItemIdFkNavigation.menuItemPriceIdFkNavigation.menuItemPrice1}}
+              {{y.itemQty * y.menuItemIdFkNavigation.menuItemPrice}}
             </td>
             <td>
               <button

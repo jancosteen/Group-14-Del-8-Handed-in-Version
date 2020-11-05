@@ -80,9 +80,9 @@
                 <td>{{ orderLine.orderIdFk }}</td>
                 <td>{{ orderLine.id }}</td>
                 <td>{{ orderLine.menuItemIdFkNavigation.menuItemName }}</td>
-                <td>{{ orderLine.menuItemIdFkNavigation.menuItemPriceIdFkNavigation.menuItemPrice1 | currency:"R " }}</td>
+                <td>{{ orderLine.menuItemIdFkNavigation.menuItemPrice| currency:"R " }}</td>
                 <td>{{orderLine.itemQty}}</td>
-                <td>{{orderLine.menuItemIdFkNavigation.menuItemPriceIdFkNavigation.menuItemPrice1 * orderLine.itemQty | currency:"R "}}</td>
+                <td>{{orderLine.menuItemIdFkNavigation.menuItemPrice * orderLine.itemQty | currency:"R "}}</td>
 
                 <td>
                   <button

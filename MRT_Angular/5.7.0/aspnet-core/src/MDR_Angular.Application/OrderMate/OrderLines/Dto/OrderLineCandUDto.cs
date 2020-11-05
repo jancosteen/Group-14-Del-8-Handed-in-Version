@@ -1,5 +1,6 @@
 ﻿using Abp.Application.Services.Dto;
 using Abp.AutoMapper;
+using MDR_Angular.OrderMate.MenuItems.Dto;
 
 namespace MDR_Angular.OrderMate.OrderLines.Dto
 {
@@ -13,5 +14,8 @@ namespace MDR_Angular.OrderMate.OrderLines.Dto
         public int? MenuItemIdFk { get; set; }
         public int? OrderIdFk { get; set; }
         public long UserIdFk { get; set; }
+
+        public virtual MenuItemCandUDto MenuItemIdFkNavigation { get; set; }
+
     }
 }
