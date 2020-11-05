@@ -18,11 +18,17 @@ import {
   OrderLineServiceProxy
 } from '../../../shared/service-proxies/service-proxies';
 import { Router } from '@angular/router';
+import { PagedRequestDto } from '@shared/paged-listing-component-base';
 
 export class lineAmount{
   menuItem:MenuItemDto;
   itemQty?:number;
   total?:number;
+}
+
+class PagedOrderLinesRequestDto extends PagedRequestDto {
+  keyword: string;
+  isActive: boolean | null;
 }
 
 @Component({
@@ -44,6 +50,8 @@ export class CreateOrderLineDialogComponent extends AppComponentBase
   orderId:number;
   itemQuantity:number;
   clicked = false;
+  request:PagedOrderLinesRequestDto;
+
 
   @Output() onSave = new EventEmitter<any>();
 
@@ -76,14 +84,14 @@ export class CreateOrderLineDialogComponent extends AppComponentBase
       .subscribe((result: MenuItemDtoPagedResultDto) => {
         this.menuItems = result.items;
         this.loading = false;
-        console.log(this.menuItems);
-
+        console.log('All menuItems',this.menuItems);
       });
 
       this._orderLineService
         .getOrderLineByOrderId(this.orderId).subscribe((results:OrderLineDtoListResultDto)=>{
           this.selectedOL = results.items;
-        })
+          this.loading = false;
+        });
   }
 
   addItem(item: MenuItemDto, ItemQty){

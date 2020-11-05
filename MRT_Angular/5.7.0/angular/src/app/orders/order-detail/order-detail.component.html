@@ -179,9 +179,9 @@
             >
               <td>{{ ol.id }}</td>
               <td>{{ ol.menuItemIdFkNavigation.menuItemName }}</td>
-              <td>{{ol.menuItemIdFkNavigation.menuItemPriceIdFkNavigation.menuItemPrice1 | currency:"R "}}</td>
+              <td>{{ol.menuItemIdFkNavigation.menuItemPrice | currency:"R "}}</td>
               <td>{{ol.itemQty}}</td>
-              <td>{{ol.menuItemIdFkNavigation.menuItemPriceIdFkNavigation.menuItemPrice1 * ol.itemQty | currency:"R "}}</td>
+              <td>{{ol.menuItemIdFkNavigation.menuItemPrice * ol.itemQty | currency:"R "}}</td>
               <td>
                 <!--<button
                   type="button"
