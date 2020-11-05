@@ -95,6 +95,7 @@ export class AppSessionService {
       }
 
       getCartItemCount() {
+          console.log('getCartItemCount', this.cartCount);
         return this.cartCount;
       }
 
@@ -128,7 +129,11 @@ export class AppSessionService {
       }
 
       clearCart(){
+          this.cart.length = 0;
+          this.cartCount = 0;
           this.cart = [];
+          console.log('clearCart', this.cart.length);
+          console.log('cart', this.cart);
       }
 
       removeProduct(product) {

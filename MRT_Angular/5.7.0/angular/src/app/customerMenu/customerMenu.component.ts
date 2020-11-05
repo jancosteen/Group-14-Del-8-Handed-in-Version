@@ -14,7 +14,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { AppComponentBase } from '@shared/app-component-base';
 import {
   MenuServiceProxy,
-  MenuDto, RestaurantServiceProxy, RestaurantDtoPagedResultDto, RestaurantDto, MenuItemServiceProxy, MenuItemDto, MenuItemDtoPagedResultDto, MenuItemAllergyServiceProxy, MenuItemAllergyDto, MenuDtoPagedResultDto, MenuItemCategoryDto, RestaurantCandUDto, MenuItemCategoryServiceProxy, MenuItemCategoryDetailsDtoListResultDto, MenuItemCategoryDetailsDto
+  MenuDto, RestaurantServiceProxy, RestaurantDtoPagedResultDto, RestaurantDto, MenuItemServiceProxy, MenuItemDto, MenuItemDtoPagedResultDto, MenuItemAllergyServiceProxy, MenuItemAllergyDto, MenuDtoPagedResultDto, MenuItemCategoryDto, RestaurantCandUDto, MenuItemCategoryServiceProxy, MenuItemCategoryDetailsDtoListResultDto, MenuItemCategoryDetailsDto, MenuItemCandUDto
 } from '@shared/service-proxies/service-proxies';
 import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listing-component-base';
 import { AppSessionService } from '@shared/session/app-session.service';
@@ -102,26 +102,38 @@ export class CustomerMenuComponent extends PagedListingComponentBase<MenuItemDto
       this.restaurantdIdFk = this.menus[0].restaurantIdFk;
       //this.menuId = this.menus[0].id;
       this.restaurant = this.menus[0].restaurantIdFkNavigation.restaurantName;
-      this.populateMenuItems(this.menus[0]);
     });
 
     this.popCategories();
 
     this.cartCount = 0;
-    this.cart3 = this._sessionService.getCart();
+    this.cart = this._sessionService.getCart();
+    //this.cart = [];
     this.cartCount = this._sessionService.getCartItemCount();
-    this.cart = [];
+
   }
 
-  addToOrder(item){
-      this._sessionService.addProduct(item);
+  addToOrder(item: MenuItemCandUDto){
+    console.log('item', item);
+
+    const mItem = {
+      id : item.id,
+      menuItemName : item.menuItemName,
+      menuItemDescription : item.menuItemDescription,
+      menuItemPrice : item.menuItemPrice,
+      menuItemCategoryIdFk : item.menuItemCategoryIdFk
+    };
+
+
+    console.log('mItem', mItem);
+
+      this._sessionService.addProduct(mItem);
+      console.log('cartCountBefore GetCart', this.cartCount);
       this.cartCount = this._sessionService.getCartItemCount();
+      console.log('cartCountAfter GetCartCount', this.cartCount);
   }
 
   popCategories(){
-    /*for(let x=0;x<this.menuItems.length;x++){
-      this.menuItemCategories.push(this.menuItems[x].menuItemCategoryIdFkNavigation);
-    }*/
 
     this._menuItemCategoryService
       .getMicAndMi()
@@ -132,59 +144,12 @@ export class CustomerMenuComponent extends PagedListingComponentBase<MenuItemDto
       )
       .subscribe((result: MenuItemCategoryDetailsDtoListResultDto) => {
         this.menuItemCategories = result.items;
+        console.log(this.menuItemCategories);
       });
   }
 
 
-  //Change
-  populateMenuItems(menu:MenuDto){
-      /*this.finalMenuItems= [];
-      this.miBEER=[];
-  this.miLAGERS=[];
-  this.miPILSNER=[];
-  this.miWEIS=[];
-  this.miGOLDEN=[];
-  this.miAMBER=[];
-  this.miBLONDE=[];
-  this.miSTRONG=[];
-  this.miIPA=[];
-  this.miPALE=[];
-  this.miSTOUT=[];
-  this.miTRAPPIST=[];
-  this.miCIDER=[];
-      this.finalMenuItems = menu.menuItem;
 
-      for(let x=0;x<this.finalMenuItems.length;x++){
-        if(this.finalMenuItems[x].menuItemCategoryIdFk === 14){
-          this.miBEER.push(this.finalMenuItems[x]);
-        }else if(this.finalMenuItems[x].menuItemCategoryIdFk === 15){
-          this.miLAGERS.push(this.finalMenuItems[x]);
-        }else if(this.finalMenuItems[x].menuItemCategoryIdFk === 16){
-          this.miPILSNER.push(this.finalMenuItems[x]);
-        }else if(this.finalMenuItems[x].menuItemCategoryIdFk === 17){
-          this.miWEIS.push(this.finalMenuItems[x]);
-        }else if(this.finalMenuItems[x].menuItemCategoryIdFk === 18){
-          this.miGOLDEN.push(this.finalMenuItems[x]);
-        }else if(this.finalMenuItems[x].menuItemCategoryIdFk === 19){
-          this.miAMBER.push(this.finalMenuItems[x]);
-        }else if(this.finalMenuItems[x].menuItemCategoryIdFk === 20){
-          this.miBLONDE.push(this.finalMenuItems[x]);
-        }else if(this.finalMenuItems[x].menuItemCategoryIdFk === 21){
-          this.miSTRONG.push(this.finalMenuItems[x]);
-        }else if(this.finalMenuItems[x].menuItemCategoryIdFk === 22){
-          this.miIPA.push(this.finalMenuItems[x]);
-        }else if(this.finalMenuItems[x].menuItemCategoryIdFk === 23){
-          this.miPALE.push(this.finalMenuItems[x]);
-        }else if(this.finalMenuItems[x].menuItemCategoryIdFk === 24){
-          this.miSTOUT.push(this.finalMenuItems[x]);
-        }else if(this.finalMenuItems[x].menuItemCategoryIdFk === 25){
-          this.miTRAPPIST.push(this.finalMenuItems[x]);
-        }else if(this.finalMenuItems[x].menuItemCategoryIdFk === 26){
-          this.miCIDER.push(this.finalMenuItems[x]);
-        }
-      }*/
-
-  }
 
   delete(menuItem: MenuItemDto): void {
     this.__menuItemAllergyService.getAllergyByMenuItemId(menuItem.id).subscribe((result) => {
@@ -252,7 +217,9 @@ export class CustomerMenuComponent extends PagedListingComponentBase<MenuItemDto
     }
 
     createOrEditMenuItemCategoryDialog.content.onSave.subscribe(() => {
-      this.cartCount = this._sessionService.getCartItemCount();
+      //this.cartCount = this._sessionService.getCartItemCount();
+      this.cartCount = 0;
+      this._sessionService.clearCart();
     });
   }
 

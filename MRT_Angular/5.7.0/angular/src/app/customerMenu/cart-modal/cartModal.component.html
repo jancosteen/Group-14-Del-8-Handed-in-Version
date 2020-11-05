@@ -38,10 +38,10 @@
         </div>
         <div class="card-body">
           <p class="card-text"> Quantity: {{m.qty}}</p>
-          <p class="card-text"> {{m.item.menuItemPriceIdFkNavigation.menuItemPrice1 | currency:"R "}}</p>
+          <p class="card-text"> {{m.item.menuItemPrice | currency:"R "}}</p>
         </div>
         <div class="card-footer mt-auto">
-          <p class="card-text text-right" style="font-weight: bold;">Item Total: {{m.item.menuItemPriceIdFkNavigation.menuItemPrice1 * m.qty | currency:"R "}}</p><!---->
+          <p class="card-text text-right" style="font-weight: bold;">Item Total: {{m.item.menuItemPrice * m.qty | currency:"R "}}</p><!---->
         </div>
       </div>
 

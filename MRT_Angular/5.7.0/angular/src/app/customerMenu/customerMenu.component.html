@@ -16,7 +16,7 @@
   </section>
 
   <div *ngFor="let mic of menuItemCategories">
-    <div *ngIf="mic.menuItems.length > 0" class="container-fluid"  style="margin-top: 15px;">
+    <div *ngIf="mic.menuItem.length > 0" class="container-fluid"  style="margin-top: 15px;">
       <div class="row">
         <div class="col-12">
           <div class="card">
@@ -26,7 +26,7 @@
       </div>
     </div>
 
-    <div *ngFor="let mi of mic.menuItems" class="container-fluid content-row">
+    <div *ngFor="let mi of mic.menuItem" class="container-fluid content-row">
       <div class="row">
         <div class="col-sm-12 col-md-auto" ><!---->
           <div class="card h-100">

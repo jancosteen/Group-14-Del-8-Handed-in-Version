@@ -77,7 +77,7 @@ export class CartModalComponent extends AppComponentBase
       this.cartTotal = 0;
     }
     for(let x=0;x<this.cart.length;x++){
-      this.cartTotal += this.cart[x].item.menuItemPriceIdFkNavigation.menuItemPrice1 * this.cart[x].qty;
+      this.cartTotal += this.cart[x].item.menuItemPrice * this.cart[x].qty;
     }
     console.log(this.cartTotal);
   }
@@ -99,6 +99,7 @@ export class CartModalComponent extends AppComponentBase
         )
         .subscribe((result)=>{
           console.log('orderLine Id',result.id);
+          this._sessionService.clearCart();
           this.bsModalRef.hide();
           this.onSave.emit()
         });
@@ -112,7 +113,7 @@ export class CartModalComponent extends AppComponentBase
       this.l("Order Sent To The Kitchen")
     );
     if(this.orderId === 0){
-        this.order.qrCodeSeatingIdFk = 1;
+        this.order.qrCodeSeatingIdFk = 3;
         this.order.orderStatusIdFk = 1;
       this._orderService
         .create(this.order)
@@ -127,7 +128,7 @@ export class CartModalComponent extends AppComponentBase
           localStorage.setItem('orderId', this.tempOrderId)
           this.notify.info(this.l('SavedSuccessfully'));
           console.log(this.tempOrderId);
-          this.onSave.emit();
+          //this.onSave.emit();
           this.createOrderLines(result.id);
         });
     }if(this.orderId !=0){
@@ -135,6 +136,7 @@ export class CartModalComponent extends AppComponentBase
     }
 
     this._sessionService.clearCart();
+
   }
 
   save(): void {

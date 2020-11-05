@@ -13,6 +13,6 @@ namespace MDR_Angular.OrderMate.MenuItemCategories.Dto
     {
         public string MenuItemCategory1 { get; set; }
 
-        public virtual ICollection<MenuItemCandUDto> MenuItems { get; set; }
+        public virtual ICollection<MenuItemCandUDto> MenuItem { get; set; }
     }
 }

@@ -23553,6 +23553,7 @@ export class MenuItemCandUDto implements IMenuItemCandUDto {
     menuItemDescription: string | undefined;
     menuItemCategoryIdFk: number | undefined;
     menuItemPrice: number;
+    id: number;
 
     constructor(data?: IMenuItemCandUDto) {
         if (data) {
@@ -23569,6 +23570,7 @@ export class MenuItemCandUDto implements IMenuItemCandUDto {
             this.menuItemDescription = _data["menuItemDescription"];
             this.menuItemCategoryIdFk = _data["menuItemCategoryIdFk"];
             this.menuItemPrice = _data["menuItemPrice"];
+            this.id = _data["id"];
         }
     }
 
@@ -23585,6 +23587,7 @@ export class MenuItemCandUDto implements IMenuItemCandUDto {
         data["menuItemDescription"] = this.menuItemDescription;
         data["menuItemCategoryIdFk"] = this.menuItemCategoryIdFk;
         data["menuItemPrice"] = this.menuItemPrice;
+        data["id"] = this.id;
         return data;
     }
 
@@ -23601,6 +23604,7 @@ export interface IMenuItemCandUDto {
     menuItemDescription: string | undefined;
     menuItemCategoryIdFk: number | undefined;
     menuItemPrice: number;
+    id: number;
 }
 
 export class MenuItemCategoryCandUDto implements IMenuItemCategoryCandUDto {
@@ -24515,7 +24519,7 @@ export interface IMenuItemAllergyDtoPagedResultDto {
 
 export class MenuItemCategoryDetailsDto implements IMenuItemCategoryDetailsDto {
     menuItemCategory1: string | undefined;
-    menuItems: MenuItemCandUDto[] | undefined;
+    menuItem: MenuItemCandUDto[] | undefined;
     id: number;
 
     constructor(data?: IMenuItemCategoryDetailsDto) {
@@ -24530,10 +24534,10 @@ export class MenuItemCategoryDetailsDto implements IMenuItemCategoryDetailsDto {
     init(_data?: any) {
         if (_data) {
             this.menuItemCategory1 = _data["menuItemCategory1"];
-            if (Array.isArray(_data["menuItems"])) {
-                this.menuItems = [] as any;
-                for (let item of _data["menuItems"])
-                    this.menuItems.push(MenuItemCandUDto.fromJS(item));
+            if (Array.isArray(_data["menuItem"])) {
+                this.menuItem = [] as any;
+                for (let item of _data["menuItem"])
+                    this.menuItem.push(MenuItemCandUDto.fromJS(item));
             }
             this.id = _data["id"];
         }
@@ -24549,10 +24553,10 @@ export class MenuItemCategoryDetailsDto implements IMenuItemCategoryDetailsDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["menuItemCategory1"] = this.menuItemCategory1;
-        if (Array.isArray(this.menuItems)) {
-            data["menuItems"] = [];
-            for (let item of this.menuItems)
-                data["menuItems"].push(item.toJSON());
+        if (Array.isArray(this.menuItem)) {
+            data["menuItem"] = [];
+            for (let item of this.menuItem)
+                data["menuItem"].push(item.toJSON());
         }
         data["id"] = this.id;
         return data;
@@ -24568,7 +24572,7 @@ export class MenuItemCategoryDetailsDto implements IMenuItemCategoryDetailsDto {
 
 export interface IMenuItemCategoryDetailsDto {
     menuItemCategory1: string | undefined;
-    menuItems: MenuItemCandUDto[] | undefined;
+    menuItem: MenuItemCandUDto[] | undefined;
     id: number;
 }
 
@@ -25392,7 +25396,7 @@ export interface IQrCodeSeatingCandUDto {
 }
 
 export class OrderDto implements IOrderDto {
-    orderDateCompleted: string| undefined;
+    orderDateCompleted: string | undefined;
     qrCodeSeatingIdFk: number | undefined;
     orderStatusIdFk: number | undefined;
     orderStatusIdFkNavigation: OrderStatusCandUDto;
