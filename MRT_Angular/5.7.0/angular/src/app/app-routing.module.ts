@@ -1,3 +1,4 @@
+import { DashComponent } from './dash/dash.component';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
@@ -50,6 +51,7 @@ import { ProvincesComponent } from './provinces/provinces.component';
                 path: '',
                 component: AppComponent,
                 children: [
+                    { path: 'dash', component:DashComponent, data: {permission: 'Pages.SYSTEM_ADMIN' }, canActivate: [AppRouteGuard] },
                     { path: 'home', component: HomeComponent },
                     { path: 'users', component: UsersComponent, data: { permission: '' }, canActivate: [AppRouteGuard] },
                     { path: 'roles', component: RolesComponent, data: { permission: '' }, canActivate: [AppRouteGuard] },

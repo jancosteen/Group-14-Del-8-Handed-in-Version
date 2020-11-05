@@ -1,6 +1,6 @@
 import {
   Component,
-  Injector,
+  Injector, 
   OnInit,
   Output,
   EventEmitter
@@ -13,6 +13,7 @@ import {
   ReservationDto, RestaurantDtoPagedResultDto, RestaurantServiceProxy, RestaurantDto, ReservationStatusDto, ReservationStatusDtoPagedResultDto, ReservationStatusServiceProxy
 } from '../../../shared/service-proxies/service-proxies';
 import { AppSessionService } from '@shared/session/app-session.service';
+import { reservation } from '../reservation.model';
 
 @Component({
   templateUrl: 'edit-reservation-dialog.component.html'
@@ -85,6 +86,39 @@ export class EditReservationDialogComponent extends AppComponentBase
 
   save(): void {
     this.saving = true;
+
+    let resName = "";
+    let stat = "";
+
+    this.restaurants.forEach(x => {
+      if(x.id == this.reservation.restaurantIdFk){
+        resName =  x.restaurantName
+      }
+    })
+    console.log('name', resName)
+
+    this.reservationStatusses.forEach(x => {
+      if(x.id == this.reservation.reservationStatusIdFk){
+        stat =  x.reservationStatus1
+      }
+    })
+    console.log('stat', stat)
+
+
+    const reserv : reservation = {
+      reservationDateCreated : this.currentDate,
+      reservationDateReserved: this.reservation.reservationDateReserved,
+      restaurantName: resName,
+      userId: this.reservation.userIdFk,
+      reservationStatus: stat
+    }
+
+
+    this._reservationService
+    .sendMessage(reserv)
+    .subscribe(res =>{
+      console.log('ake sure');
+    })
 
     this._reservationService
       .update(this.reservation)

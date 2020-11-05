@@ -7454,6 +7454,32 @@ export class ReservationServiceProxy {
         this.baseUrl = baseUrl ? baseUrl : "";
     }
 
+    private createCompleteRoute = (envAddress: string, route: string) => {
+        // console.log('address',envAddress + '/' + route);
+         return envAddress + '/' + route;
+       }
+
+    sendMessage(smsdetails) {
+        console.log('2nddto', smsdetails)
+        let url = this.baseUrl + "/api/services/app/Reservation/SendMessage";
+        url = url.replace(/[?&]$/, "");
+       // const content = JSON.stringify(smsdetails); 
+        return this.http.post(url,smsdetails);
+        //http://localhost:21021/api/services/app/Reservation/SendMessage
+    }
+
+    getTotalMonthlySales(){
+        let url = this.baseUrl + "/api/services/app/OrderLine/TotalNumberOfSales";
+        url = url.replace(/[?&]$/, "");
+        return this.http.get(url);
+    }
+
+    getTotalTodayOrders(){
+        let url = this.baseUrl + "/api/services/app/OrderLine/TodayOrders";
+        url = url.replace(/[?&]$/, "");
+        return this.http.get(url);
+    }
+
     /**
      * @param id (optional)
      * @return Success
@@ -22338,7 +22364,7 @@ export interface IAdvertisementDateDtoPagedResultDto {
 
 export class AdvertisementPriceDto implements IAdvertisementPriceDto {
     advertismentPrice: number;
-    advertisementPriceDateUpdated: moment.Moment;
+    advertisementPriceDateUpdated: string;
     isDeleted: boolean;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -22360,7 +22386,7 @@ export class AdvertisementPriceDto implements IAdvertisementPriceDto {
     init(_data?: any) {
         if (_data) {
             this.advertismentPrice = _data["advertismentPrice"];
-            this.advertisementPriceDateUpdated = _data["advertisementPriceDateUpdated"] ? moment(_data["advertisementPriceDateUpdated"].toString()) : <any>undefined;
+            this.advertisementPriceDateUpdated = _data["advertisementPriceDateUpdated"];// ? moment(_data["advertisementPriceDateUpdated"].toString()) : <any>undefined;
             this.isDeleted = _data["isDeleted"];
             this.deleterUserId = _data["deleterUserId"];
             this.deletionTime = _data["deletionTime"] ? moment(_data["deletionTime"].toString()) : <any>undefined;
@@ -22382,7 +22408,7 @@ export class AdvertisementPriceDto implements IAdvertisementPriceDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["advertismentPrice"] = this.advertismentPrice;
-        data["advertisementPriceDateUpdated"] = this.advertisementPriceDateUpdated ? this.advertisementPriceDateUpdated.toISOString() : <any>undefined;
+        data["advertisementPriceDateUpdated"] = this.advertisementPriceDateUpdated;// ? this.advertisementPriceDateUpdated.toISOString() : <any>undefined;
         data["isDeleted"] = this.isDeleted;
         data["deleterUserId"] = this.deleterUserId;
         data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
@@ -22404,7 +22430,7 @@ export class AdvertisementPriceDto implements IAdvertisementPriceDto {
 
 export interface IAdvertisementPriceDto {
     advertismentPrice: number;
-    advertisementPriceDateUpdated: moment.Moment;
+    advertisementPriceDateUpdated: string;
     isDeleted: boolean;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
