@@ -38,7 +38,7 @@ export class MenuDetailComponent extends AppComponentBase
   restautrant: RestaurantDto = new RestaurantDto();
   restaurant: RestaurantCandUDto = new RestaurantCandUDto();
   restaurantdIdFk:number;
-  menuItems: MenuItemCandUDto[]=[];
+  menuItems: MenuItemDto[]=[];
   linkedMenuItems:MenuItemDto[]=[];
   menuId:number;
   menuItemAllergies: MenuItemAllergyDto[]=[];
@@ -76,6 +76,7 @@ export class MenuDetailComponent extends AppComponentBase
     this.Iid =+ id;
     this._menuService.getMenuById(this.Iid).subscribe((result: MenuDtoListResultDto) => {
       this.menus = result.items;
+      console.log('menu', this.menus[0]);
       this.restaurant = this.menus[0].restaurantIdFkNavigation;
       this.menuId = this.menus[0].id;
       this.loading = false;

@@ -19,7 +19,7 @@ namespace MDR_Angular.OrderMate.Menus
         public TimeSpan? MenuTimeActiveTo { get; set; }
         public int? RestaurantIdFk { get; set; }
 
-        public virtual ICollection<MenuItemCandUDto> MenuItem { get; set; }
+        public virtual ICollection<MenuItemDto> MenuItem { get; set; }
         [ForeignKey("RestaurantIdFk")]
         public virtual RestaurantCandUDto RestaurantIdFkNavigation { get; set; }
     }

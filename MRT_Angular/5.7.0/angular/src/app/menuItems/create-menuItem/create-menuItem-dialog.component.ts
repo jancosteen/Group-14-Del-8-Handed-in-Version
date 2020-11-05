@@ -185,7 +185,10 @@ export class CreateMenuItemDialogComponent extends AppComponentBase
   save(): void {
     this.saving = true;
 
-    this._menuItemService
+    if(this.sMenuId != null){
+      this.menuItem.menuIdFk = this.menuId;
+
+      this._menuItemService
       .create(this.menuItem)
       .pipe(
         finalize(() => {
@@ -202,6 +205,28 @@ export class CreateMenuItemDialogComponent extends AppComponentBase
         this.createMenuItemAllergy();
       });
       localStorage.removeItem('menuItemId');
+
+    }else{
+      this._menuItemService
+      .create(this.menuItem)
+      .pipe(
+        finalize(() => {
+          this.saving = false;
+        })
+      )
+      .subscribe((res) => {
+        this.menuItemId = res.id;
+        console.log('create MI',this.menuItemId);
+        localStorage.setItem('menuItemId', this.menuItemId.toString());
+        this.notify.info(this.l('SavedSuccessfully'));
+        this.bsModalRef.hide();
+        this.onSave.emit();
+        this.createMenuItemAllergy();
+      });
+      localStorage.removeItem('menuItemId');
+    }
+
+
   }
 
   createMenuItemAllergy(){
