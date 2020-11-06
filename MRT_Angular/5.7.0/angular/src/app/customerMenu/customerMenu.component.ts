@@ -96,6 +96,7 @@ export class CustomerMenuComponent extends PagedListingComponentBase<MenuItemDto
     request.keyword = '';
 
     let id: string = this.activeRoute.snapshot.params['id'];
+    localStorage.setItem('resId', id);
     this.Iid =+ id;
     this._menuService.getMenuByResId(this.Iid).subscribe((result: MenuDtoPagedResultDto) => {
       this.menus = result.items;
@@ -110,6 +111,9 @@ export class CustomerMenuComponent extends PagedListingComponentBase<MenuItemDto
     this.cart = this._sessionService.getCart();
     //this.cart = [];
     this.cartCount = this._sessionService.getCartItemCount();
+    this._modalService.onHide.subscribe(() =>{
+      this.cartCount = this._sessionService.getCartItemCount();
+    });
 
   }
 
@@ -215,12 +219,12 @@ export class CustomerMenuComponent extends PagedListingComponentBase<MenuItemDto
         }
       );
     }
-
     createOrEditMenuItemCategoryDialog.content.onSave.subscribe(() => {
       //this.cartCount = this._sessionService.getCartItemCount();
       this.cartCount = 0;
       this._sessionService.clearCart();
     });
+
   }
 
 

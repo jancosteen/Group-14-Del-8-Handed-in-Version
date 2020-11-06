@@ -43,6 +43,7 @@ import { CheckInComponent } from './checkIn/checkIn.component';
 import { CountriesComponent} from './countries/countries.component';
 import { CitiesComponent } from './cities/cities.component';
 import { ProvincesComponent } from './provinces/provinces.component';
+import { ViewOrdersComponent } from './viewOrders/orders.component';
 
 @NgModule({
     imports: [
@@ -92,7 +93,7 @@ import { ProvincesComponent } from './provinces/provinces.component';
                     { path: 'countries', component: CountriesComponent, data: { permission: '' }, canActivate: [AppRouteGuard] },
                     { path: 'cities', component: CitiesComponent, data: { permission: '' }, canActivate: [AppRouteGuard] },
                     { path: 'provinces', component: ProvincesComponent, data: { permission: '' }, canActivate: [AppRouteGuard] },
-
+                    { path: 'cusOrder/:id', component:ViewOrdersComponent, data:{ permisssion: ''}, canActivate: [AppRouteGuard]}
 
                 ]
             }

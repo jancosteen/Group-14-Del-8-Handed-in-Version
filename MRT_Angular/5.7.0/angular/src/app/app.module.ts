@@ -132,6 +132,9 @@ import { EditCityDialogComponent} from './cities/edit-city/edit-city-dialog.comp
 import { ProvincesComponent} from './provinces/provinces.component';
 import { CreateProvinceDialogComponent} from './provinces/create-province/create-province-dialog.component';
 import { EditProvinceDialogComponent} from './provinces/edit-province/edit-province-dialog.component';
+import { ViewOrdersComponent } from './viewOrders/orders.component';
+import { EditViewOrderDialogComponent } from './viewOrders/edit-order/edit-order-dialog.component';
+import { CreateViewOrderDialogComponent} from './viewOrders/create-order/create-order-dialog.component';
 
 import { ChartsModule } from 'ng2-charts';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -379,7 +382,9 @@ import { StoreSessionsChartComponent } from './charts/store-sessions-chart/store
     EditCityDialogComponent,
     CreateCityDialogComponent,
     CreateProvinceDialogComponent,
-    EditProvinceDialogComponent
+    EditProvinceDialogComponent,
+    EditViewOrderDialogComponent,
+    CreateViewOrderDialogComponent
 
   ],
 })
