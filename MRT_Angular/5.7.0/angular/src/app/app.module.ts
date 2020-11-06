@@ -135,6 +135,9 @@ import { EditProvinceDialogComponent} from './provinces/edit-province/edit-provi
 import { ViewOrdersComponent } from './viewOrders/orders.component';
 import { EditViewOrderDialogComponent } from './viewOrders/edit-order/edit-order-dialog.component';
 import { CreateViewOrderDialogComponent} from './viewOrders/create-order/create-order-dialog.component';
+import { OrderHistoryComponent } from './orderHistory/orderHistory.component';
+import { EditOrderHistoryDialogComponent } from './orderHistory/edit-orderHistory/edit-orderHistory-dialog.component';
+import { CreateOrderHistoryDialogComponent} from './orderHistory/create-orderHistory/create-orderHistory-dialog.component';
 
 import { ChartsModule } from 'ng2-charts';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -275,6 +278,12 @@ import { StoreSessionsChartComponent } from './charts/store-sessions-chart/store
     ProvincesComponent,
     CreateProvinceDialogComponent,
     EditProvinceDialogComponent,
+    ViewOrdersComponent,
+    EditViewOrderDialogComponent,
+    CreateViewOrderDialogComponent,
+    OrderHistoryComponent,
+    EditOrderHistoryDialogComponent,
+    CreateOrderHistoryDialogComponent
     CardComponent,
     DashComponent,
     MonthlySalesChartComponent,
@@ -384,7 +393,9 @@ import { StoreSessionsChartComponent } from './charts/store-sessions-chart/store
     CreateProvinceDialogComponent,
     EditProvinceDialogComponent,
     EditViewOrderDialogComponent,
-    CreateViewOrderDialogComponent
+    CreateViewOrderDialogComponent,
+    EditOrderHistoryDialogComponent,
+    CreateOrderHistoryDialogComponent
 
   ],
 })
