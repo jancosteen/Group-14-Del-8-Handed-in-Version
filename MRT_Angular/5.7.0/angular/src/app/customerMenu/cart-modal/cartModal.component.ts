@@ -141,6 +141,7 @@ export class CartModalComponent extends AppComponentBase
           this.notify.info(this.l('SavedSuccessfully'));
           console.log(this.tempOrderId);
           //this.onSave.emit();
+          this.createOrderLines(result.id);
         });
     }if(this.orderId !=0){
       this.createOrderLines(this.orderId);

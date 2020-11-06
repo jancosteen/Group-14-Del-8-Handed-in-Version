@@ -7,6 +7,7 @@ using Abp.Extensions;
 using Abp.Json;
 using Castle.Facilities.Logging;
 using MDR_Angular.Configuration;
+using MDR_Angular.Features.Email;
 using MDR_Angular.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -36,6 +37,12 @@ namespace MDR_Angular.Web.Host.Startup
 
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
+
+            //Email service
+            services.AddTransient<IEmail, EmailService>();
+
+
+
             //MVC
             services.AddControllersWithViews(
                 options =>

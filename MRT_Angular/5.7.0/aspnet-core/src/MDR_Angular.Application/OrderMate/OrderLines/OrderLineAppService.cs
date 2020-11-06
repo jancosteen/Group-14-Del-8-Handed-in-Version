@@ -4,6 +4,7 @@ using Abp.Authorization;
 using Abp.Domain.Repositories;
 using MDR_Angular.Authorization;
 using MDR_Angular.OrderMate.OrderLines.Dto;
+using MDR_Angular.OrderMate.Orders;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -17,7 +18,13 @@ namespace MDR_Angular.OrderMate.OrderLines
     public class OrderLineAppService : AsyncCrudAppService<
         OrderLine, OrderLineDto, int, PagedAndSortedResultRequestDto, OrderLineDto>, IOrderLineAppService
     {
-        public OrderLineAppService(IRepository<OrderLine> repository) : base(repository) { }
+
+        private readonly IRepository<Order> _repoOrder;
+        public OrderLineAppService(IRepository<OrderLine> repository,
+            IRepository<Order> repoOrder) : base(repository) {
+            _repoOrder = repoOrder;
+
+        }
 
         public ListResultDto<OrderLineDto> GetOrderLineByOrderId(int id)
         {
@@ -147,58 +154,67 @@ namespace MDR_Angular.OrderMate.OrderLines
             //  dynamic outObject = new ExpandoObject();
             List<object> list = new List<object>();
 
-
+            var orderlist = _repoOrder.GetAll();
             foreach (OrderLine obj in orderlines)
             {
-                if (obj.OrderIdFkNavigation.OrderDateCompleted >= January && obj.OrderIdFkNavigation.OrderDateCompleted <= January1)
+                foreach(Order x in orderlist)
                 {
-                    janSales += obj.MenuItemIdFkNavigation.MenuItemPrice * obj.ItemQty;
-                }
-                else if (obj.OrderIdFkNavigation.OrderDateCompleted >= Feb && obj.OrderIdFkNavigation.OrderDateCompleted <= Feb1)
-                {
-                    FebSales += (obj.MenuItemIdFkNavigation.MenuItemPrice * obj.ItemQty);
-                }
-                else if (obj.OrderIdFkNavigation.OrderDateCompleted >= March && obj.OrderIdFkNavigation.OrderDateCompleted <= March1)
-                {
-                    MarchSales += (obj.MenuItemIdFkNavigation.MenuItemPrice * obj.ItemQty);
-                }
-                else if (obj.OrderIdFkNavigation.OrderDateCompleted >= April && obj.OrderIdFkNavigation.OrderDateCompleted <= April1)
-                {
-                    AprilSales += (obj.MenuItemIdFkNavigation.MenuItemPrice * obj.ItemQty);
-                }
-                else if (obj.OrderIdFkNavigation.OrderDateCompleted >= May && obj.OrderIdFkNavigation.OrderDateCompleted <= May1)
-                {
-                    MaySales += (obj.MenuItemIdFkNavigation.MenuItemPrice * obj.ItemQty);
-                }
-                else if (obj.OrderIdFkNavigation.OrderDateCompleted >= June && obj.OrderIdFkNavigation.OrderDateCompleted <= June1)
-                {
-                    JuneSales += (obj.MenuItemIdFkNavigation.MenuItemPrice * obj.ItemQty);
-                }
-                else if (obj.OrderIdFkNavigation.OrderDateCompleted >= July && obj.OrderIdFkNavigation.OrderDateCompleted <= July1)
-                {
-                    JulySales += (obj.MenuItemIdFkNavigation.MenuItemPrice * obj.ItemQty);
+                    if(obj.OrderIdFk == x.Id)
+                    {
+                        if (x.CreationTime >= January && x.CreationTime <= January1)
+                        {
+                            janSales += obj.MenuItemIdFkNavigation.MenuItemPrice * obj.ItemQty;
+                        }
+                        else if (x.CreationTime >= Feb && x.CreationTime <= Feb1)
+                        {
+                            FebSales += (obj.MenuItemIdFkNavigation.MenuItemPrice * obj.ItemQty);
+                        }
+                        else if (x.CreationTime >= March && x.CreationTime <= March1)
+                        {
+                            MarchSales += (obj.MenuItemIdFkNavigation.MenuItemPrice * obj.ItemQty);
+                        }
+                        else if (x.CreationTime >= April && x.CreationTime <= April1)
+                        {
+                            AprilSales += (obj.MenuItemIdFkNavigation.MenuItemPrice * obj.ItemQty);
+                        }
+                        else if (x.CreationTime >= May && x.CreationTime <= May1)
+                        {
+                            MaySales += (obj.MenuItemIdFkNavigation.MenuItemPrice * obj.ItemQty);
+                        }
+                        else if (x.CreationTime >= June && x.CreationTime <= June1)
+                        {
+                            JuneSales += (obj.MenuItemIdFkNavigation.MenuItemPrice * obj.ItemQty);
+                        }
+                        else if (x.CreationTime >= July && x.CreationTime <= July1)
+                        {
+                            JulySales += (obj.MenuItemIdFkNavigation.MenuItemPrice * obj.ItemQty);
 
+                        }
+                        else if (x.CreationTime >= Aug && x.CreationTime <= Aug1)
+                        {
+                            AugSales += (obj.MenuItemIdFkNavigation.MenuItemPrice * obj.ItemQty);
+                        }
+                        else if (x.CreationTime >= Sep && x.CreationTime <= Sep1)
+                        {
+                            SepSales += (obj.MenuItemIdFkNavigation.MenuItemPrice * obj.ItemQty);
+                        }
+                        else if (x.CreationTime >= Oct && x.CreationTime <= Oct1)
+                        {
+                            OctSales += (obj.MenuItemIdFkNavigation.MenuItemPrice * obj.ItemQty);
+                        }
+                        else if (x.CreationTime >= Nov && x.CreationTime <= Nov1)
+                        {
+                            NovSales += (obj.MenuItemIdFkNavigation.MenuItemPrice * obj.ItemQty);
+                        }
+                        else
+                        {
+                            DecSales += (obj.MenuItemIdFkNavigation.MenuItemPrice * obj.ItemQty);
+                        }
+                    }
                 }
-                else if (obj.OrderIdFkNavigation.OrderDateCompleted >= Aug && obj.OrderIdFkNavigation.OrderDateCompleted <= Aug1)
-                {
-                    AugSales += (obj.MenuItemIdFkNavigation.MenuItemPrice * obj.ItemQty);
-                }
-                else if (obj.OrderIdFkNavigation.OrderDateCompleted >= Sep && obj.OrderIdFkNavigation.OrderDateCompleted <= Sep1)
-                {
-                    SepSales += (obj.MenuItemIdFkNavigation.MenuItemPrice * obj.ItemQty);
-                }
-                else if (obj.OrderIdFkNavigation.OrderDateCompleted >= Oct && obj.OrderIdFkNavigation.OrderDateCompleted <= Oct1)
-                {
-                    OctSales += (obj.MenuItemIdFkNavigation.MenuItemPrice * obj.ItemQty);
-                }
-                else if (obj.OrderIdFkNavigation.OrderDateCompleted >= Nov && obj.OrderIdFkNavigation.OrderDateCompleted <= Nov1)
-                {
-                    NovSales += (obj.MenuItemIdFkNavigation.MenuItemPrice * obj.ItemQty);
-                }
-                else
-                {
-                    DecSales += (obj.MenuItemIdFkNavigation.MenuItemPrice * obj.ItemQty);
-                }
+                
+
+                
             }
             dynamic MonthlySales1 = new ExpandoObject();
             MonthlySales1.Month = "January";

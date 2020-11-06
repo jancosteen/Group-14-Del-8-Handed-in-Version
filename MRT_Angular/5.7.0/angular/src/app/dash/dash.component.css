@@ -19,3 +19,7 @@
 .dashboard-card-content {
   text-align: center;
 }
+
+.small-table{
+  overflow-x: scroll !important;
+}

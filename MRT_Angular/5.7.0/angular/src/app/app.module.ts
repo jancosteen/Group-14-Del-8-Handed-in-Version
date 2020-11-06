@@ -1,4 +1,3 @@
-import { DashModule } from './dash/dash.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -151,6 +150,8 @@ import { DashComponent } from './dash/dash.component';
 import { MonthlySalesChartComponent } from './charts/monthly-sales-chart/monthly-sales-chart.component';
 import { StoreSessionsChartComponent } from './charts/store-sessions-chart/store-sessions-chart.component';
 
+import { MatFormFieldModule } from '@angular/material/form-field';
+
 
 @NgModule({
   declarations: [
@@ -283,7 +284,7 @@ import { StoreSessionsChartComponent } from './charts/store-sessions-chart/store
     CreateViewOrderDialogComponent,
     OrderHistoryComponent,
     EditOrderHistoryDialogComponent,
-    CreateOrderHistoryDialogComponent
+    CreateOrderHistoryDialogComponent,
     CardComponent,
     DashComponent,
     MonthlySalesChartComponent,
@@ -313,7 +314,7 @@ import { StoreSessionsChartComponent } from './charts/store-sessions-chart/store
     MatIconModule,
     MatButtonModule,
     LayoutModule,
-   // DashModule
+    MatFormFieldModule
 
 
   ],

@@ -1,3 +1,4 @@
+import { repo } from './../../../shared/service-proxies/repo';
 import {
   Component,
   Injector,
@@ -46,7 +47,8 @@ export class CreateReservationDialogComponent extends AppComponentBase
     public _restaurantService: RestaurantServiceProxy,
     public _reservationStatusService: ReservationStatusServiceProxy,
     public bsModalRef: BsModalRef,
-    public sessionService: AppSessionService
+    public sessionService: AppSessionService,
+   // public repo: repo
   ) {
     super(injector);
   }

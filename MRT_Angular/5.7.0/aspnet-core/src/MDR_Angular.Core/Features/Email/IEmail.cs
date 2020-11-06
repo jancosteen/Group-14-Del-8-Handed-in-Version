@@ -13,7 +13,7 @@ namespace MDR_Angular.Features.Email
             string toName,
             string toEmailAddress,
             string subject,
-            string message,
-            params Attatchment[] attatchments);
+            string message
+            );
     }
 }

@@ -12,16 +12,12 @@ import {
   OrderLineDtoPagedResultDto,
   OrderLineDtoListResultDto,
   MenuItemCandUDto,
-  OrderServiceProxy,
-  OrderDto,
-  OrderDtoListResultDto,
 
 } from '../../shared/service-proxies/service-proxies';
 import { CreateOrderHistoryDialogComponent } from './create-orderHistory/create-orderHistory-dialog.component';
 import { EditOrderHistoryDialogComponent } from './edit-orderHistory/edit-orderHistory-dialog.component';
 import { NumberValueAccessor } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AppSessionService } from '@shared/session/app-session.service';
 
 class PagedOrderLinesRequestDto extends PagedRequestDto {
   keyword: string;
@@ -45,17 +41,12 @@ export class OrderHistoryComponent extends PagedListingComponentBase<OrderLineDt
   total:number;
   sRestaurantId:string;
   iRestaurantId:number;
-  userId:number;
-  orders: OrderDto[]=[];
-  filteredOrders:OrderDto[]=[];
 
   constructor(
     injector: Injector,
     private _orderLineService: OrderLineServiceProxy,
     private _modalService: BsModalService,
-    private _router:Router,
-    private _sessionService: AppSessionService,
-    private _orderService: OrderServiceProxy
+    private _router:Router
   ) {
     super(injector);
   }
@@ -71,41 +62,14 @@ export class OrderHistoryComponent extends PagedListingComponentBase<OrderLineDt
     this.sRestaurantId = localStorage.getItem('resId');
     this.iRestaurantId = parseInt(this.sRestaurantId);
 
-    this.userId = this._sessionService.userId
-    console.log('userId', this.userId);
+
 
     this._orderLineService
-      .getOrderLinesByUserIdId(this.userId)
+      .getOrderLineByOrderId(this.iOrderId)
         .subscribe((result:OrderLineDtoListResultDto) =>{
           this.orderLines = result.items;
-          console.log('orderLines',this.orderLines);
           this.calculateTotal();
-          this.getOrderDetails();
         });
-
-  }
-
-  getOrderDetails(){
-    for(let x=0;x<this.orderLines.length;x++){
-      this._orderService.getOrderById(this.orderLines[x].orderIdFk)
-        .subscribe((result:OrderDtoListResultDto) =>{
-          this.orders.push(result.items[0]);
-          this.filterOrderIds();
-        })
-    }
-    console.log('getOrders',this.orders);
-
-  }
-
-  filterOrderIds(){
-    this.filteredOrders= this.orders.reduce((arr, item) => {
-      let exists = !!arr.find(x => x.id === item.id);
-      if(!exists){
-          arr.push(item);
-      }
-      return arr;
-  }, []);
-  console.log('filteredOrders',this.filteredOrders);
 
   }
 

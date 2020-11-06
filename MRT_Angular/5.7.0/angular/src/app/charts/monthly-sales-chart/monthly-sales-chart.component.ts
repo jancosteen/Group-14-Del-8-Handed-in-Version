@@ -14,13 +14,15 @@ export class MonthlySalesChartComponent implements OnInit {
     { data: [], label: 'Total Monthly Sales' },
   ];
   public lineChartLabels: Label[] = [];
-  public lineChartOptions: ChartOptions = {
-    responsive: true,
-  };
+
   public lineChartColors: Color[] = [
     {
-      borderColor: 'black',
-      backgroundColor: 'rgba(255,0,0,0.3)',
+      backgroundColor: 'rgba(148,159,177,0.2)',
+      borderColor: 'rgba(148,159,177,1)',
+      pointBackgroundColor: 'rgba(148,159,177,1)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
     },
   ];
   public lineChartLegend = true;
@@ -45,8 +47,18 @@ export class MonthlySalesChartComponent implements OnInit {
       });
       })
      
-      //console.log('labels',this.lineChartLabels);
-      //console.log('values',this.lineChartData);
+  }
+  public lineChartOptions: (ChartOptions) = {
+    responsive: true,
+       
+  };
+
+  public chartClicked({ event, active }: { event: MouseEvent, active: {}[] }): void {
+    console.log(event, active);
+  }
+
+  public chartHovered({ event, active }: { event: MouseEvent, active: {}[] }): void {
+    console.log(event, active);
   }
 
 }

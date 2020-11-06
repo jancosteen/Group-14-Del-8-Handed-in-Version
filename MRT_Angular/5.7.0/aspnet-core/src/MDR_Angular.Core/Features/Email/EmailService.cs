@@ -14,38 +14,38 @@ namespace MDR_Angular.Features.Email
             string toName, 
             string toEmailAddress, 
             string subject, 
-            string message, 
-            params Attatchment[] attatchments)
+            string message
+            )
         {
             var email = new MimeMessage();
+            
             email.From.Add(new MailboxAddress(fromDisplayName, fromEmailAddress));
             email.To.Add(new MailboxAddress(toName, toEmailAddress));
             email.Subject = subject;
 
-            var body = new BodyBuilder
-            {
-                HtmlBody = message
-            };
-            foreach( var attachment in attatchments)
-            {
-                using ( var stream = await attachment.ContentToStreamAsync())
-                {
-                    body.Attachments.Add(attachment.FileName, stream);
-                }
+            
 
-               
-            }
+            var tail = "<br/><br/>For more information or if you have any problems please email us here: ordermate370@gmail.com";
+
+            BodyBuilder bodyBuilder = new BodyBuilder();
+            bodyBuilder.HtmlBody = message + tail;
 
 
-            using(var client = new SmtpClient()){
+
+            email.Body = bodyBuilder.ToMessageBody();
+
+
+
+
+            using (var client = new SmtpClient()){
                 client.ServerCertificateValidationCallback = (sender,
                     Certificate,
                     certChainTpe,
                     errors) => true;
                 client.AuthenticationMechanisms.Remove("XOAUTH2");
 
-                await client.ConnectAsync("smpt.host", 587, false).ConfigureAwait(false);
-                await client.AuthenticateAsync("username", "password").ConfigureAwait(false);
+                await client.ConnectAsync("smtp.gmail.com", 587, false).ConfigureAwait(false);
+                await client.AuthenticateAsync("ordermate370@gmail.com", "Inf370mate").ConfigureAwait(false);
 
 
                 await client.SendAsync(email).ConfigureAwait(false);
