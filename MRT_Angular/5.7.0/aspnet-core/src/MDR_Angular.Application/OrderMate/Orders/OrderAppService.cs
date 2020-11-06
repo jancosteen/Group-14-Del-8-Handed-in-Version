@@ -30,6 +30,8 @@ namespace MDR_Angular.OrderMate.Orders
             return new ListResultDto<OrderDto>(ObjectMapper.Map<List<OrderDto>>(order));
         }
 
+
+
         protected override IQueryable<Order> CreateFilteredQuery(PagedAndSortedResultRequestDto input)
         {
             return base.CreateFilteredQuery(input)

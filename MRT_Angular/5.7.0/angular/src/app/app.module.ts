@@ -134,6 +134,9 @@ import { EditProvinceDialogComponent} from './provinces/edit-province/edit-provi
 import { ViewOrdersComponent } from './viewOrders/orders.component';
 import { EditViewOrderDialogComponent } from './viewOrders/edit-order/edit-order-dialog.component';
 import { CreateViewOrderDialogComponent} from './viewOrders/create-order/create-order-dialog.component';
+import { OrderHistoryComponent } from './orderHistory/orderHistory.component';
+import { EditOrderHistoryDialogComponent } from './orderHistory/edit-orderHistory/edit-orderHistory-dialog.component';
+import { CreateOrderHistoryDialogComponent} from './orderHistory/create-orderHistory/create-orderHistory-dialog.component';
 
 @NgModule({
   declarations: [
@@ -263,7 +266,10 @@ import { CreateViewOrderDialogComponent} from './viewOrders/create-order/create-
     EditProvinceDialogComponent,
     ViewOrdersComponent,
     EditViewOrderDialogComponent,
-    CreateViewOrderDialogComponent
+    CreateViewOrderDialogComponent,
+    OrderHistoryComponent,
+    EditOrderHistoryDialogComponent,
+    CreateOrderHistoryDialogComponent
 
   ],
   imports: [
@@ -360,7 +366,9 @@ import { CreateViewOrderDialogComponent} from './viewOrders/create-order/create-
     CreateProvinceDialogComponent,
     EditProvinceDialogComponent,
     EditViewOrderDialogComponent,
-    CreateViewOrderDialogComponent
+    CreateViewOrderDialogComponent,
+    EditOrderHistoryDialogComponent,
+    CreateOrderHistoryDialogComponent
 
   ],
 })

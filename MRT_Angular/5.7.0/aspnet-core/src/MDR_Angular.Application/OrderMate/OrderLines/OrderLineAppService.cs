@@ -28,6 +28,18 @@ namespace MDR_Angular.OrderMate.OrderLines
             return new ListResultDto<OrderLineDto>(ObjectMapper.Map<List<OrderLineDto>>(orderLines));
         }
 
+        public ListResultDto<OrderLineDto> GetOrderLinesByUserIdId(int id)
+        {
+            var orderLines = Repository
+                .GetAll().Where(x => x.UserIdFk == id)
+                .Include(i => i.MenuItemIdFkNavigation)
+               .Include(i => i.UserIdFkNavigation)
+                //.Include(i => i.MenuItemIdFkNavigation).ThenInclude(i => i.MenuItemPriceIdFkNavigation)
+
+                .ToList();
+            return new ListResultDto<OrderLineDto>(ObjectMapper.Map<List<OrderLineDto>>(orderLines));
+        }
+
         protected override IQueryable<OrderLine> CreateFilteredQuery(PagedAndSortedResultRequestDto input)
         {
             return base.CreateFilteredQuery(input)
