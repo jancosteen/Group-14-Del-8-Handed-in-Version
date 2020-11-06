@@ -18,6 +18,7 @@ import {
 } from '../../../shared/service-proxies/service-proxies';
 import { AppSessionService } from '@shared/session/app-session.service';
 import { timeStamp } from 'console';
+import { Router } from '@angular/router';
 
 @Component({
   templateUrl: 'cartModal.component.html'
@@ -48,7 +49,8 @@ export class CartModalComponent extends AppComponentBase
     public bsModalRef: BsModalRef,
     public _sessionService: AppSessionService,
     public _orderService: OrderServiceProxy,
-    public _orderLineService: OrderLineServiceProxy
+    public _orderLineService: OrderLineServiceProxy,
+    public _router: Router
   ) {
     super(injector);
   }
@@ -62,6 +64,11 @@ export class CartModalComponent extends AppComponentBase
     this.calculateTotal();
     this.orderId =+ localStorage.getItem('orderId');
     console.log('local storage orderId',this.orderId);
+  }
+
+  viewOrder(){
+    const detailsUrl: string = `/app/cusOrder/${this.orderId}`;
+    this._router.navigate([detailsUrl]);
   }
 
   decreaseItem(x){
@@ -140,6 +147,7 @@ export class CartModalComponent extends AppComponentBase
       this.createOrderLines(this.orderId);
     }
     this._sessionService.clearCart();
+    this.viewOrder();
   }
 
   save(): void {

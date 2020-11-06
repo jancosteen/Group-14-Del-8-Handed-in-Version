@@ -96,6 +96,7 @@ export class CustomerMenuComponent extends PagedListingComponentBase<MenuItemDto
     request.keyword = '';
 
     let id: string = this.activeRoute.snapshot.params['id'];
+    localStorage.setItem('resId', id);
     this.Iid =+ id;
     this._menuService.getMenuByResId(this.Iid).subscribe((result: MenuDtoPagedResultDto) => {
       this.menus = result.items;

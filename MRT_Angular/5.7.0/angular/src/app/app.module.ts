@@ -131,8 +131,9 @@ import { EditCityDialogComponent} from './cities/edit-city/edit-city-dialog.comp
 import { ProvincesComponent} from './provinces/provinces.component';
 import { CreateProvinceDialogComponent} from './provinces/create-province/create-province-dialog.component';
 import { EditProvinceDialogComponent} from './provinces/edit-province/edit-province-dialog.component';
-
-
+import { ViewOrdersComponent } from './viewOrders/orders.component';
+import { EditViewOrderDialogComponent } from './viewOrders/edit-order/edit-order-dialog.component';
+import { CreateViewOrderDialogComponent} from './viewOrders/create-order/create-order-dialog.component';
 
 @NgModule({
   declarations: [
@@ -259,7 +260,10 @@ import { EditProvinceDialogComponent} from './provinces/edit-province/edit-provi
     CreateCityDialogComponent,
     ProvincesComponent,
     CreateProvinceDialogComponent,
-    EditProvinceDialogComponent
+    EditProvinceDialogComponent,
+    ViewOrdersComponent,
+    EditViewOrderDialogComponent,
+    CreateViewOrderDialogComponent
 
   ],
   imports: [
@@ -354,7 +358,9 @@ import { EditProvinceDialogComponent} from './provinces/edit-province/edit-provi
     EditCityDialogComponent,
     CreateCityDialogComponent,
     CreateProvinceDialogComponent,
-    EditProvinceDialogComponent
+    EditProvinceDialogComponent,
+    EditViewOrderDialogComponent,
+    CreateViewOrderDialogComponent
 
   ],
 })
