@@ -110,6 +110,9 @@ export class CustomerMenuComponent extends PagedListingComponentBase<MenuItemDto
     this.cart = this._sessionService.getCart();
     //this.cart = [];
     this.cartCount = this._sessionService.getCartItemCount();
+    this._modalService.onHide.subscribe(() =>{
+      this.cartCount = this._sessionService.getCartItemCount();
+    });
 
   }
 
@@ -215,12 +218,12 @@ export class CustomerMenuComponent extends PagedListingComponentBase<MenuItemDto
         }
       );
     }
-
     createOrEditMenuItemCategoryDialog.content.onSave.subscribe(() => {
       //this.cartCount = this._sessionService.getCartItemCount();
       this.cartCount = 0;
       this._sessionService.clearCart();
     });
+
   }
 
 

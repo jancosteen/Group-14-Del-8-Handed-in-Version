@@ -61,7 +61,7 @@ export class CartModalComponent extends AppComponentBase
     console.log('date',this.currentDate);
     this.calculateTotal();
     this.orderId =+ localStorage.getItem('orderId');
-    console.log('orderId',this.orderId);
+    console.log('local storage orderId',this.orderId);
   }
 
   decreaseItem(x){
@@ -108,6 +108,11 @@ export class CartModalComponent extends AppComponentBase
     }
   }
 
+  closeModal(){
+    this._sessionService.getCartItemCount();
+    this.bsModalRef.hide();
+  }
+
   sendToKitchen(){
     abp.message.success(
       this.l("Order Sent To The Kitchen")
@@ -134,9 +139,7 @@ export class CartModalComponent extends AppComponentBase
     }if(this.orderId !=0){
       this.createOrderLines(this.orderId);
     }
-
     this._sessionService.clearCart();
-
   }
 
   save(): void {
