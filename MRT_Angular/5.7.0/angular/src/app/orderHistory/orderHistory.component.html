@@ -3,12 +3,12 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-6">
-          <h1>{{ "Current Order" | localize }}</h1>
+          <h1>{{ "Order History" | localize }}</h1>
         </div>
         <div class="col-6 text-right">
           <a href="javascript:;" class="btn bg-blue" (click)="goToMenu()" >
             <i class="fa fa-plus-square"></i>
-            {{ "Add To Order" | localize }}
+            {{ "Check In" | localize }}
           </a>
         </div>
       </div>
@@ -16,40 +16,39 @@
   </section>
 
   <section>
-    <div class="container-fluid content-row" style="margin-top: 15px;">
-      <div class="row">
-        <div class="col-sm-12 col-md-auto" *ngFor="let m of orderLines" ><!---->
-          <div class="card h-100">
-          <div class="card-header d-flex flex-column">
-            <div class="card-title" style="font-weight: bold;">{{m.menuItemIdFkNavigation.menuItemName}}</div><!---->
-
-          </div>
-          <div class="card-body">
-            <p class="card-text"> Quantity: {{m.itemQty}}</p>
-            <p class="card-text"> {{m.menuItemIdFkNavigation.menuItemPrice | currency:"R "}}</p>
-          </div>
-          <div class="card-footer mt-auto">
-            <p class="card-text text-right" style="font-weight: bold;">Item Total: {{m.menuItemIdFkNavigation.menuItemPrice * m.itemQty | currency:"R "}}</p><!---->
-          </div>
-        </div>
-
-        </div>
-        <div class="col-sm-12 col-md-auto" style="margin-top: 15px;">
-          <div class="card h-100">
-            <div class="card-footer mt-auto">
-              <p class="card-text text-right" style="font-weight: bold;">Total:{{total | currency:"R "}} </p><!---->
+    <div *ngFor="let o of filteredOrders">
+      <div *ngIf="o.orderLine.length > 0" class="container-fluid"  style="margin-top: 15px;">
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header text-center" style="font-weight: bold;">{{o.creationTime.calendar()}}</div>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div *ngFor="let ol of o.orderLine" class="container-fluid content-row">
+        <div class="row">
+          <div class="col-sm-12 col-md-auto" ><!---->
+            <div class="card h-100" >
+            <div class="card-header d-flex flex-column">
+              <div class="card-title">{{ol.menuItemIdFkNavigation.menuItemName}}</div><!---->
+            </div>
+            <div class="card-body">
+              <p class="card-text"> Quantity: {{ol.itemQty}}</p>
+              <p class="card-text"> {{ol.menuItemIdFkNavigation.menuItemPrice | currency:"R "}}</p>
+            </div>
+            <div class="card-footer mt-auto">
+              <p class="card-text text-right" style="font-weight: bold;">Item Total: {{ol.menuItemIdFkNavigation.menuItemPrice * ol.itemQty | currency:"R "}}</p><!---->
+            </div>
+          </div>
+
+        </div>
         </div>
 
       </div>
     </div>
   </section>
-  <button *ngIf="orderLines.length>0" type="button" class="btn btn-primary btn-lg btn-block"
-    style="position: fixed;
-      bottom: 1rem;
-      height: 3rem;"
-      >Checkout</button>
 
 
 

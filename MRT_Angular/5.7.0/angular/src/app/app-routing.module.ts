@@ -95,7 +95,7 @@ import { OrderHistoryComponent } from './orderHistory/orderHistory.component';
                     { path: 'cities', component: CitiesComponent, data: { permission: '' }, canActivate: [AppRouteGuard] },
                     { path: 'provinces', component: ProvincesComponent, data: { permission: '' }, canActivate: [AppRouteGuard] },
                     { path: 'cusOrder/:id', component:ViewOrdersComponent, data:{ permisssion: ''}, canActivate: [AppRouteGuard]},
-                    { path: 'orderHist/:id', component:OrderHistoryComponent, data:{ permisssion: ''}, canActivate: [AppRouteGuard]}
+                    { path: 'orderHist', component:OrderHistoryComponent, data:{ permisssion: ''}, canActivate: [AppRouteGuard]}
 
                 ]
             }

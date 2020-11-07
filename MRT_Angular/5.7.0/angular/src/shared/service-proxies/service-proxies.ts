@@ -5862,6 +5862,62 @@ export class OrderLineServiceProxy {
         return _observableOf<OrderLineDtoListResultDto>(<any>null);
     }
 
+     /**
+     * @param id (optional)
+     * @return Success
+     */
+    getOrderLinesByUserIdId(id: number | undefined): Observable<OrderLineDtoListResultDto> {
+        let url_ = this.baseUrl + "/api/services/app/OrderLine/GetOrderLinesByUserIdId?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetOrderLinesByUserIdId(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetOrderLinesByUserIdId(<any>response_);
+                } catch (e) {
+                    return <Observable<OrderLineDtoListResultDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<OrderLineDtoListResultDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetOrderLinesByUserIdId(response: HttpResponseBase): Observable<OrderLineDtoListResultDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = OrderLineDtoListResultDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<OrderLineDtoListResultDto>(<any>null);
+    }
+
     /**
      * @param id (optional)
      * @return Success
@@ -7463,7 +7519,7 @@ export class ReservationServiceProxy {
         console.log('2nddto', smsdetails)
         let url = this.baseUrl + "/api/services/app/Reservation/SendEmail";
         url = url.replace(/[?&]$/, "");
-       // const content = JSON.stringify(smsdetails); 
+       // const content = JSON.stringify(smsdetails);
         return this.http.post(url,smsdetails);
         //http://localhost:21021/api/services/app/Reservation/SendMessage
     }
@@ -22229,8 +22285,8 @@ export interface IAdvertisementDtoPagedResultDto {
 }
 
 export class AdvertisementDateDto implements IAdvertisementDateDto {
-    advertisementDateAcvtiveFrom: moment.Moment;
-    advertisementDateActiveTo: moment.Moment;
+    advertisementDateAcvtiveFrom: string;
+    advertisementDateActiveTo: string;
     isDeleted: boolean;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -22251,8 +22307,8 @@ export class AdvertisementDateDto implements IAdvertisementDateDto {
 
     init(_data?: any) {
         if (_data) {
-            this.advertisementDateAcvtiveFrom = _data["advertisementDateAcvtiveFrom"] ? moment(_data["advertisementDateAcvtiveFrom"].toString()) : <any>undefined;
-            this.advertisementDateActiveTo = _data["advertisementDateActiveTo"] ? moment(_data["advertisementDateActiveTo"].toString()) : <any>undefined;
+            this.advertisementDateAcvtiveFrom = _data["advertisementDateAcvtiveFrom"];// ? moment(_data["advertisementDateAcvtiveFrom"].toString()) : <any>undefined;
+            this.advertisementDateActiveTo = _data["advertisementDateActiveTo"];// ? moment(_data["advertisementDateActiveTo"].toString()) : <any>undefined;
             this.isDeleted = _data["isDeleted"];
             this.deleterUserId = _data["deleterUserId"];
             this.deletionTime = _data["deletionTime"] ? moment(_data["deletionTime"].toString()) : <any>undefined;
@@ -22273,8 +22329,8 @@ export class AdvertisementDateDto implements IAdvertisementDateDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["advertisementDateAcvtiveFrom"] = this.advertisementDateAcvtiveFrom ? this.advertisementDateAcvtiveFrom.toISOString() : <any>undefined;
-        data["advertisementDateActiveTo"] = this.advertisementDateActiveTo ? this.advertisementDateActiveTo.toISOString() : <any>undefined;
+        data["advertisementDateAcvtiveFrom"] = this.advertisementDateAcvtiveFrom;// ? this.advertisementDateAcvtiveFrom.toISOString() : <any>undefined;
+        data["advertisementDateActiveTo"] = this.advertisementDateActiveTo;// ? this.advertisementDateActiveTo.toISOString() : <any>undefined;
         data["isDeleted"] = this.isDeleted;
         data["deleterUserId"] = this.deleterUserId;
         data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
@@ -22295,8 +22351,8 @@ export class AdvertisementDateDto implements IAdvertisementDateDto {
 }
 
 export interface IAdvertisementDateDto {
-    advertisementDateAcvtiveFrom: moment.Moment;
-    advertisementDateActiveTo: moment.Moment;
+    advertisementDateAcvtiveFrom: string;
+    advertisementDateActiveTo: string;
     isDeleted: boolean;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
