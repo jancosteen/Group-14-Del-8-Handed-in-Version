@@ -124,7 +124,7 @@ export class CartModalComponent extends AppComponentBase
     abp.message.success(
       this.l("Order Sent To The Kitchen")
     );
-    if(this.orderId === 0){
+    /*if(this.orderId === 0){
         this.order.qrCodeSeatingIdFk = 3;
         this.order.orderStatusIdFk = 1;
       this._orderService
@@ -143,7 +143,8 @@ export class CartModalComponent extends AppComponentBase
           //this.onSave.emit();
           this.createOrderLines(result.id);
         });
-    }if(this.orderId !=0){
+    }
+    */if(this.orderId !=0){
       this.createOrderLines(this.orderId);
     }
     this._sessionService.clearCart();

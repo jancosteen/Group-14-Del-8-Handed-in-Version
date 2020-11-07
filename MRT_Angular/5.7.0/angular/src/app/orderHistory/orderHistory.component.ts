@@ -106,7 +106,7 @@ export class OrderHistoryComponent extends PagedListingComponentBase<OrderLineDt
       }
       return arr;
   }, []);
-  console.log('filteredOrders',this.filteredOrders);
+  //console.log('filteredOrders',this.filteredOrders);
 
   }
 

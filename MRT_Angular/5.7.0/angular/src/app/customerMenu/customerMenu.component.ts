@@ -14,7 +14,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { AppComponentBase } from '@shared/app-component-base';
 import {
   MenuServiceProxy,
-  MenuDto, RestaurantServiceProxy, RestaurantDtoPagedResultDto, RestaurantDto, MenuItemServiceProxy, MenuItemDto, MenuItemDtoPagedResultDto, MenuItemAllergyServiceProxy, MenuItemAllergyDto, MenuDtoPagedResultDto, MenuItemCategoryDto, RestaurantCandUDto, MenuItemCategoryServiceProxy, MenuItemCategoryDetailsDtoListResultDto, MenuItemCategoryDetailsDto, MenuItemCandUDto
+  MenuDto, RestaurantServiceProxy, RestaurantDtoPagedResultDto, RestaurantDto, MenuItemServiceProxy, MenuItemDto, MenuItemDtoPagedResultDto, MenuItemAllergyServiceProxy, MenuItemAllergyDto, MenuDtoPagedResultDto, MenuItemCategoryDto, RestaurantCandUDto, MenuItemCategoryServiceProxy, MenuItemCategoryDetailsDtoListResultDto, MenuItemCategoryDetailsDto, MenuItemCandUDto, OrderDto, OrderServiceProxy
 } from '@shared/service-proxies/service-proxies';
 import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listing-component-base';
 import { AppSessionService } from '@shared/session/app-session.service';
@@ -64,6 +64,11 @@ export class CustomerMenuComponent extends PagedListingComponentBase<MenuItemDto
   startQty:number = 0;
   menuItemCategories:MenuItemCategoryDetailsDto[]=[];
   menuItems2:MenuItemDto[]=[];
+  tempOrderId:string;
+  order: OrderDto = new OrderDto();
+  iOrderId:number;
+  orderCheck:boolean = false;
+  orderId:number;
 
   cart3 = [];
   cartItemCount: BehaviorSubject<number>;
@@ -82,7 +87,8 @@ export class CustomerMenuComponent extends PagedListingComponentBase<MenuItemDto
     public _menuItemService:MenuItemServiceProxy,
     public __menuItemAllergyService: MenuItemAllergyServiceProxy,
     private _modalService: BsModalService,
-    private _sessionService: AppSessionService
+    private _sessionService: AppSessionService,
+    private _orderService: OrderServiceProxy
 
   ) {
     super(injector);
@@ -95,6 +101,8 @@ export class CustomerMenuComponent extends PagedListingComponentBase<MenuItemDto
   ) {
     request.keyword = '';
 
+    this.orderId =+ localStorage.getItem('orderId');
+    console.log('local storage orderId',this.orderId);
     let id: string = this.activeRoute.snapshot.params['id'];
     localStorage.setItem('resId', id);
     this.Iid =+ id;
@@ -135,7 +143,37 @@ export class CustomerMenuComponent extends PagedListingComponentBase<MenuItemDto
       console.log('cartCountBefore GetCart', this.cartCount);
       this.cartCount = this._sessionService.getCartItemCount();
       console.log('cartCountAfter GetCartCount', this.cartCount);
+
+      if(this.orderCheck == true){
+        console.log(localStorage.getItem('orderId'));
+      }else{
+        this.createOrder();
+      }
+
   }
+
+  createOrder(){
+    if(this.orderId != null){
+      console.log('orderId', localStorage.getItem('orderId'));
+    }else{
+      this.order.qrCodeSeatingIdFk = 3;
+      this.order.orderStatusIdFk = 1;
+        this._orderService
+          .create(this.order)
+          .pipe(
+            finalize(() => {
+              console.log('Orderpipe');
+            })
+          )
+          .subscribe((result) => {
+            this.iOrderId = result.id;
+            this.tempOrderId = this.iOrderId.toString();
+            localStorage.setItem('orderId', this.tempOrderId)
+            this.notify.info(this.l('SavedSuccessfully'));
+            console.log(this.tempOrderId)})
+    }
+
+}
 
   popCategories(){
 

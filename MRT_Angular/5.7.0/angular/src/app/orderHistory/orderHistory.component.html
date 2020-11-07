@@ -30,7 +30,7 @@
       <div *ngFor="let ol of o.orderLine" class="container-fluid content-row">
         <div class="row">
           <div class="col-sm-12 col-md-auto" ><!---->
-            <div class="card h-100" >
+            <div class="card h-100" style="margin-top:10px" >
             <div class="card-header d-flex flex-column">
               <div class="card-title">{{ol.menuItemIdFkNavigation.menuItemName}}</div><!---->
             </div>
@@ -38,14 +38,12 @@
               <p class="card-text"> Quantity: {{ol.itemQty}}</p>
               <p class="card-text"> {{ol.menuItemIdFkNavigation.menuItemPrice | currency:"R "}}</p>
             </div>
-            <div class="card-footer mt-auto">
+            <div class="card-footer mt-auto" style="margin-bottom: 10px;">
               <p class="card-text text-right" style="font-weight: bold;">Item Total: {{ol.menuItemIdFkNavigation.menuItemPrice * ol.itemQty | currency:"R "}}</p><!---->
             </div>
           </div>
-
         </div>
         </div>
-
       </div>
     </div>
   </section>
