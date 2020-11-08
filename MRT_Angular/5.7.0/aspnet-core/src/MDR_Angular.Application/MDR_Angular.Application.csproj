@@ -15,9 +15,11 @@
     <ProjectReference Include="..\MDR_Angular.EntityFrameworkCore\MDR_Angular.EntityFrameworkCore.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Reports\" />
     <Folder Include="OrderMate\AttendanceSheets\Dto\" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="CrystalReports.Engine" Version="13.0.4000" />
     <PackageReference Include="MailKit" Version="2.9.0" />
     <PackageReference Include="Twilio" Version="5.48.0" />
   </ItemGroup>

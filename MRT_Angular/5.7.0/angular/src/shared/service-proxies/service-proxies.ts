@@ -1,3 +1,4 @@
+
 /* tslint:disable */
 /* eslint-disable */
 //----------------------
@@ -3219,6 +3220,12 @@ export class MenuItemServiceProxy {
         this.baseUrl = baseUrl ? baseUrl : "";
     }
 
+    getMenuItems(){
+        let url_ = this.baseUrl + "/api/services/app/MenuItem/getMenuItems";
+        url_ = url_.replace(/[?&]$/, "");
+        return this.http.get(url_);
+    }
+
     /**
      * @param id (optional)
      * @return Success
@@ -5806,6 +5813,19 @@ export class OrderLineServiceProxy {
         this.baseUrl = baseUrl ? baseUrl : "";
     }
 
+    SalesByMenuItem(id){
+        console.log('id',id);
+        let url_ = this.baseUrl + "/api/services/app/OrderLine/SalesByMenuItem?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+
+        url_ = url_.replace(/[?&]$/, "");
+
+        return this.http.post(url_,id);
+    }
+
     /**
      * @param id (optional)
      * @return Success
@@ -7508,6 +7528,19 @@ export class ReservationServiceProxy {
     constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http;
         this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    getOrderByuser(){
+        let url = this.baseUrl + "/api/services/app/Order/GetOrderByUser";
+        url = url.replace(/[?&]$/, "");
+        return this.http.get(url);
+    }
+ 
+
+    getReservationByuser(){
+        let url = this.baseUrl + "/api/services/app/Reservation/GetReservationByUser";
+        url = url.replace(/[?&]$/, "");
+        return this.http.get(url);
     }
 
     private createCompleteRoute = (envAddress: string, route: string) => {

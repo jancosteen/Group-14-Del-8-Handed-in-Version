@@ -6,9 +6,12 @@ using MDR_Angular.Authorization;
 using MDR_Angular.Authorization.Users;
 using MDR_Angular.Features.Email;
 using MDR_Angular.OrderMate.Reservations.Dto;
+using MDR_Angular.OrderMate.ReservationStatusses;
+using MDR_Angular.OrderMate.Restaurants;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
 using Twilio;
@@ -24,12 +27,24 @@ namespace MDR_Angular.OrderMate.Reservations
 
         private readonly IEmail _email;
         private readonly UserManager _userManager;
+        private readonly IRepository<Restaurant> _rest;
+        private readonly IRepository<ReservationStatus> _status;
+       // private readonly IRepository<User> _users;
+
+
         public ReservationAppService(IRepository<Reservation> repository,
              IEmail email,
-            UserManager userManager) : base(repository) {
-
-            _email = email;
+            UserManager userManager,
+            IRepository<Restaurant> rest,
+            IRepository<ReservationStatus> status
+           //  IRepository<int> users
+           ) : base(repository) 
+        {
+            //   _users = users;
+            _status = status;
             _userManager = userManager;
+            _email = email;
+            _rest = rest;
 
         }
 
@@ -116,6 +131,51 @@ namespace MDR_Angular.OrderMate.Reservations
                 .Include(i => i.RestaurantIdFkNavigation);
         }
 
-        
+        public async Task<List<dynamic>> GetReservationByUser()
+        {
+            var reservationlist = Repository
+                .GetAll()
+                .AsEnumerable()
+                .GroupBy( x => x.CreatorUserId)
+                .ToList();
+
+            var users = await _userManager.Users.ToListAsync();
+
+
+
+            List<dynamic> userGroup = new List<dynamic>();
+
+            foreach(var group in reservationlist)
+            {
+                foreach(var x in users)
+                {
+                    if(x.Id == group.Key)
+                    {
+                        dynamic user = new ExpandoObject();
+                        user.Name = x.FullName;
+                        List<dynamic> reslist = new List<dynamic>();
+                        foreach (var item in group)
+                        {
+                            var restu = _rest.Get(item.RestaurantIdFk);
+                            var stat = _status.Get((int)item.ReservationStatusIdFk);
+                            dynamic resobj = new ExpandoObject();
+                            resobj.ResName = restu.RestaurantName;
+                            resobj.ReserDate = item.CreationTime;
+                            resobj.ResQty = item.ReservationPartyQty;
+                            resobj.Status = stat.ReservationStatus1;
+                            reslist.Add(resobj);
+                        }
+                        user.reservationList = reslist;
+                        userGroup.Add(user);
+                    }
+                }
+                
+            }
+                
+            
+            
+            return userGroup;
+
+        }
     }
 }

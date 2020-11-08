@@ -5,11 +5,13 @@ using Abp.Domain.Repositories;
 using MDR_Angular.Authorization;
 using MDR_Angular.Authorization.Users;
 using MDR_Angular.OrderMate.Orders.Dto;
+using MDR_Angular.OrderMate.OrderStatusses;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace MDR_Angular.OrderMate.Orders
 {
@@ -19,9 +21,12 @@ namespace MDR_Angular.OrderMate.Orders
     {
 
         private readonly UserManager _userManager;
+        private readonly IRepository<OrderStatus> _status;
         public OrderAppService(IRepository<Order> repository,
-            UserManager userManager) : base(repository) {
+            UserManager userManager,
+            IRepository<OrderStatus> status) : base(repository) {
             _userManager = userManager;
+            _status = status;
         }
 
         public ListResultDto<OrderDto> GetOrderById(int id)
@@ -65,64 +70,55 @@ namespace MDR_Angular.OrderMate.Orders
         }
 
 
-        public dynamic GetOrdersbyUser()
+        
+
+        
+        public async Task<List<dynamic>> GetOrderByUser()
         {
             dynamic outObject = new ExpandoObject();
             var orders = Repository
                     .GetAll()
-                    .Include(i => i.OrderLine).ThenInclude(i => i.MenuItemIdFkNavigation)
-                    .Include(i => i.OrderLine)
-                    .Include(i => i.OrderStatusIdFkNavigation)
-                    .Include(i => i.QrCodeSeating)
+                    .AsEnumerable()
+                    .GroupBy(x => x.CreatorUserId)
                     .ToList();
 
+            var users = await _userManager.Users.ToListAsync();
+            List<dynamic> userGroup = new List<dynamic>();
 
-            var orderList = orders.GroupBy(x => x.CreatorUserId);
-            List<dynamic> Users = new List<dynamic>();
-            foreach(var group in orders)
+            foreach( var group in orders)
             {
-                if (group.CreatorUserId != null)
+                foreach (var x in users)
                 {
-                    var id = (group.CreatorUserId);
-                    var u = _userManager.GetUserById((long)id);
-                    dynamic user = new ExpandoObject();
-                    user.Name = u.FullName;
-                    Users.Add(user);
+                    if (x.Id == group.Key)
+                    {
+                        dynamic user = new ExpandoObject();
+                        user.Name = x.FullName;
+                        List<dynamic> orderlist = new List<dynamic>();
+                        foreach (var item in group)
+                        {
+                            var stat = _status.Get((int)item.OrderStatusIdFk);
+                            dynamic resobj = new ExpandoObject();
+                            resobj.No = item.Id;
+                            resobj.Date = item.CreationTime;
+                            resobj.Status = stat.OrderStatus1;
+                            orderlist.Add(resobj);
+                        }
+                        user.ordersList = orderlist;
+                        userGroup.Add(user);
+                    }
                 }
             }
 
-            outObject.Users = Users;
 
-            
-            var custList = orders.GroupBy(x => x.CreatorUserId);
-
-            List<dynamic> orderItems = new List<dynamic>();
-            foreach(var group in custList)
-            {
-                dynamic order = new ExpandoObject();
-                order.number = group.Key;
-                order.sum = group.Sum(x => x.OrderLine.Count);
-                List<dynamic> items = new List<dynamic>();
-                foreach(var item in group)
-                {
-                    dynamic Obj = new ExpandoObject();
-                    Obj.Name = item.OrderStatusIdFkNavigation.OrderStatus1;
-                    Obj.Number = item.Id;
-                    items.Add(item);
-                }
-                order.orders = items;
-                orderItems.Add(order);
-            }
-
-            outObject.Orders = orderItems;
-            return outObject;
+            return userGroup;
 
         }
+        
 
 
 
 
     }
 
-    
+
 }

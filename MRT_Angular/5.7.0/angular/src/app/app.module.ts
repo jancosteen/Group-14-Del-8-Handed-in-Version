@@ -151,6 +151,8 @@ import { MonthlySalesChartComponent } from './charts/monthly-sales-chart/monthly
 import { StoreSessionsChartComponent } from './charts/store-sessions-chart/store-sessions-chart.component';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { ReportComponent } from './report/report.component';
+import { MatSelect } from '@angular/material/select';
 
 
 @NgModule({
@@ -288,7 +290,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     CardComponent,
     DashComponent,
     MonthlySalesChartComponent,
-    StoreSessionsChartComponent
+    StoreSessionsChartComponent,
+    ReportComponent
 
 
   ],

@@ -32,6 +32,15 @@ namespace MDR_Angular.OrderMate.MenuItems
 
         }
 
+        public List<MenuItem> getMenuItems()
+        {
+            var menuItems = Repository
+                .GetAll()
+                .ToList();
+
+            return menuItems;
+        }
+
         
 
         protected override IQueryable<MenuItem> CreateFilteredQuery(PagedAndSortedResultRequestDto input)

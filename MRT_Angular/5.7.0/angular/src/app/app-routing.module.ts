@@ -1,3 +1,4 @@
+import { ReportComponent } from './report/report.component';
 import { DashComponent } from './dash/dash.component';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -54,6 +55,7 @@ import { OrderHistoryComponent } from './orderHistory/orderHistory.component';
                 component: AppComponent,
                 children: [
                     { path: 'dash', component:DashComponent, data: {permission: 'Pages.SYSTEM_ADMIN' }, canActivate: [AppRouteGuard] },
+                    { path: 'report', component:ReportComponent, data: {permission: 'Pages.SYSTEM_ADMIN' }, canActivate: [AppRouteGuard] },
                     { path: 'home', component: HomeComponent },
                     { path: 'users', component: UsersComponent, data: { permission: '' }, canActivate: [AppRouteGuard] },
                     { path: 'roles', component: RolesComponent, data: { permission: '' }, canActivate: [AppRouteGuard] },

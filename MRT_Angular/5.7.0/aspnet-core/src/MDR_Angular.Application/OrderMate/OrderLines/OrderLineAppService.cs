@@ -3,6 +3,7 @@ using Abp.Application.Services.Dto;
 using Abp.Authorization;
 using Abp.Domain.Repositories;
 using MDR_Angular.Authorization;
+using MDR_Angular.OrderMate.MenuItems;
 using MDR_Angular.OrderMate.OrderLines.Dto;
 using MDR_Angular.OrderMate.Orders;
 using Microsoft.AspNetCore.Mvc;
@@ -20,9 +21,12 @@ namespace MDR_Angular.OrderMate.OrderLines
     {
 
         private readonly IRepository<Order> _repoOrder;
+        private readonly IRepository<MenuItem> _menuItem;
         public OrderLineAppService(IRepository<OrderLine> repository,
-            IRepository<Order> repoOrder) : base(repository) {
+            IRepository<Order> repoOrder,
+            IRepository<MenuItem> menuItem) : base(repository) {
             _repoOrder = repoOrder;
+            _menuItem = menuItem;
 
         }
 
@@ -97,6 +101,34 @@ namespace MDR_Angular.OrderMate.OrderLines
             list.Add(Count1);
 
             return list;
+        }
+
+        public dynamic SalesByMenuItem(int id)
+        {
+            var orderlines = Repository
+                .GetAll().Where( x => x.MenuItemIdFk == id)
+                .ToList();
+
+            var menuitem = _menuItem.Get(id);
+
+            dynamic outObject = new ExpandoObject();
+            float totalPrice = 0;
+
+            outObject.Name = menuitem.MenuItemName;
+            List<dynamic> Orders = new List<dynamic>();
+            foreach(OrderLine x in orderlines)
+            {
+                dynamic order = new ExpandoObject();
+                order.No = x.OrderIdFk;
+                order.Date = x.CreationTime;
+                order.Price = menuitem.MenuItemPrice;
+                totalPrice += menuitem.MenuItemPrice;
+                Orders.Add(order);
+            }
+            outObject.orderList = Orders;
+            outObject.total = totalPrice;
+
+            return outObject;
         }
 
 

@@ -1,0 +1,96 @@
+<div class="grid-container">
+    <h1>Reporting</h1>
+    <div>
+        <button class="btn btn-secondary btn-inline" (click)="generateReport()">Generate Orders by Customer</button> 
+        <button class="btn btn-secondary btn-inline" (click)="SalesbymenuItem()">Generate Sales by MenuItem</button> 
+    </div>
+    <div *ngIf="cust">
+        <div *ngIf="items">
+            <br><br>
+            <h3>Orders by Customer</h3>
+            <div class="resTable" id="OrderByCust">
+                <div *ngFor="let item of items">
+                    <table class="table table-hover table-striped">
+                        <thead class="thead-light"></thead>
+                            <caption><strong>{{item.Name}}</strong></caption>
+                        <tr>
+                            <th>Order No.</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                        <tr *ngFor="let obj of item.ordersList">
+                            <td>{{obj.No}}</td>
+                            <td>{{obj.Date}}</td>
+                            <td>{{obj.Status}}</td>
+                        </tr>
+                    </table>
+                </div>
+          </div>
+        </div> 
+    </div>
+    <div *ngIf="menuitem">
+        <div>
+            <br><br>
+            <h3>Sales by MenuItem</h3>
+            <small>Select a menu item</small>
+            <form class="form-inline" [formGroup]="menuItemForm" >
+                <div class="form-group">
+                    <select id="item"  class="form-control  btn-inline" formControlName="menuitem">
+                        <option *ngFor="let item of menuitems" [value]="item.id">
+                            {{item.menuItemName}}
+                        </option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-secondary mb-2 btn-inline"[disabled]="!menuItemForm.valid" (click)="generateReport3(menuItemForm)" >
+                    Generate
+                </button>
+            </form>
+            <br>
+            <div *ngIf="items2">
+                <div class="resTable" id="SalesbyMenuItem">
+                    <div>
+                        <small><strong>{{items2.Name}}</strong></small>
+                        <table class="table table-hover table-striped">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Order No.</th>
+                                    <th>Date</th>
+                                    <th>Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let obj of items2.orderList">
+                                    <td>{{obj.No}}</td>
+                                    <td>{{obj.Date}}</td>
+                                    <td>{{obj.Price}}</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                  <th id="total" colspan="3">Total :</th>
+                                  <td>{{items2.total}}</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div> 
+    </div>
+    <div *ngIf="cust">
+        <div *ngIf="x === true">
+            <button class="btn btn-info btn-inline" (click)="downloadPdf()">Download PDF</button> 
+        </div>
+    </div>
+    <div *ngIf="salesdown">
+        <div *ngIf="y === true">
+            <button class="btn btn-info btn-inline" (click)="downloadPdf2()">Download PDF</button> 
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
