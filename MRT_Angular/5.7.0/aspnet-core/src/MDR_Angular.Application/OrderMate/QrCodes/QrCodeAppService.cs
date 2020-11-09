@@ -19,7 +19,8 @@ namespace MDR_Angular.OrderMate.QrCodes
         {
             return base.CreateFilteredQuery(input)
                 //.Include(i => i.ReservationRestaurant).ThenInclude(x => x.RestaurantIdFkNavigation)
-                .Include(i => i.RestaurantIdFkNavigation);
+                .Include(i => i.RestaurantIdFkNavigation)
+                .Include(i => i.QrCodeSeating);
         }
 
         public ListResultDto<QrCodeDto> GetQrCodeByRestId(int id)

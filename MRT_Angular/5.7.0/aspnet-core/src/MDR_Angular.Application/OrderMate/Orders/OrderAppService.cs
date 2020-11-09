@@ -43,6 +43,20 @@ namespace MDR_Angular.OrderMate.Orders
             return new ListResultDto<OrderDto>(ObjectMapper.Map<List<OrderDto>>(order));
         }
 
+        public ListResultDto<OrderDto> GetOrderByQrCodeId(int id)
+        {
+            var order = Repository
+                .GetAll().Where(x => x.QrCodeSeating.QrCodeIdFk == id)
+                .Include(i => i.OrderLine).ThenInclude(i => i.MenuItemIdFkNavigation)
+                .Include(i => i.OrderLine)
+                .Include(i => i.OrderStatusIdFkNavigation)
+                .Include(i => i.QrCodeSeating)
+                //.Include(i => i.OrderLine).ThenInclude(i => i.UserIdFkNavigation)
+
+                .ToList();
+            return new ListResultDto<OrderDto>(ObjectMapper.Map<List<OrderDto>>(order));
+        }
+
 
         public List<Order> GetTodayOrders()
         {

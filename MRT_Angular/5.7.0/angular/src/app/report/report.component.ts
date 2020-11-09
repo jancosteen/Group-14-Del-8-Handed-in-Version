@@ -4,6 +4,7 @@ import { ReservationServiceProxy } from '@shared/service-proxies/service-proxies
 import { Component, OnInit } from '@angular/core';
 import { request } from 'http';
 import { finalize } from 'rxjs/operators';
+import { repo } from '@shared/service-proxies/repo';
 
 @Component({
   selector: 'app-report',
@@ -34,8 +35,12 @@ export class ReportComponent implements OnInit {
 
   constructor(public repo: ReservationServiceProxy,
     public itemrepo: MenuItemServiceProxy,
-    public orderlinerepo: OrderLineServiceProxy) { }
- 
+    public repo2: repo,//I added this because of an error
+    public orderLineService: OrderLineServiceProxy
+    ) { }
+
+    //just check this file, i changed some of the repos i.e itemrepo  or orderLineService and one or two function names that wasnt found
+
 
   ngOnInit(): void {
     this.x=false;
@@ -57,31 +62,31 @@ export class ReportComponent implements OnInit {
     this.menuitem=false;
     this.cust=true;
     this.x=true;
-      this.repo.getOrderByuser()
+      this.repo.getReservationByUser()
       .subscribe( res => {
         this.items = res["result"];
         console.log('items',this.items)
       })
-    
-    
+
+
   }
   SalesbymenuItem(){
     this.cust=false;
     this.menuitem=true;
   }
-  
+
   generateReport3(menuItemForm){
     this.salesdown=true;
     console.log('valueinini1', menuItemForm.value["menuitem"])
-    
-    this.orderlinerepo.SalesByMenuItem(menuItemForm.value["menuitem"])
+
+    this.orderLineService.salesByMenuItem(menuItemForm.value["menuitem"])
     .subscribe( res => {
       this.items2 = res["result"];
       console.log('items',this.items2)
     })
 
     this.menuitem=true;
-    
+
   }
 
   downloadPdf(){

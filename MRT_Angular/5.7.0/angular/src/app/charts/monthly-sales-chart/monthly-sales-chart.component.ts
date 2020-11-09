@@ -2,6 +2,7 @@ import { ReservationServiceProxy } from './../../../shared/service-proxies/servi
 import { Component, Injector, OnInit } from '@angular/core';
 import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 import { Color, Label } from 'ng2-charts';
+import { repo } from '@shared/service-proxies/repo';
 
 @Component({
   selector: 'app-monthly-sales-chart',
@@ -30,27 +31,28 @@ export class MonthlySalesChartComponent implements OnInit {
   public lineChartPlugins = [];
 
   constructor(injector: Injector,
-    public _service: ReservationServiceProxy) { }
+    public _service: ReservationServiceProxy,
+    public _repo: repo) { }
 
   ngOnInit() {
 
     //get number of sales for each month
     //console.log('total sales',res)
-    this._service.getTotalMonthlySales()
+    this._repo.getTotalMonthlySales()
     .subscribe(data => {
       //console.log('object',data);
       //console.log('are bone',data["result"]);
-      
+
       data["result"].forEach(el => {
         this.lineChartLabels.push(el["Month"])
-        this.lineChartData[0].data.push(el["Sales"])       
+        this.lineChartData[0].data.push(el["Sales"])
       });
       })
-     
+
   }
   public lineChartOptions: (ChartOptions) = {
     responsive: true,
-       
+
   };
 
   public chartClicked({ event, active }: { event: MouseEvent, active: {}[] }): void {

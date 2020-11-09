@@ -49,12 +49,13 @@ options={
 
   constructor(private breakpointObserver: BreakpointObserver,
     public repo: ReservationServiceProxy) {
-     
+
 
     }
 
-  ngOnInit(){ 
-    this.repo.getReservationByuser()
+    //I changed this function name because the previous one wasnt found
+  ngOnInit(){
+    this.repo.getReservationByUser()
       .subscribe( res => {
         this.items = res["result"];
         console.log('items',this.items)
@@ -65,7 +66,7 @@ options={
   downloadpdf(){
     var el = document.getElementById('ResbyCus');
     html2canvas(el).then(canvas => {
-      
+
       var imgWidth = 208;
       var pageHeight = 295;
       var imgHeight = canvas.height * imgWidth /canvas.width;
@@ -73,13 +74,13 @@ options={
       const imgData = canvas.toDataURL('image/png');
 
       const doc = new jsPDF('p','mm','a4');
-      
+
       doc.text("Reservations By Customer",80,20)
       doc.addImage(imgData,'PNG',120,40,120,100)
       setTimeout(function(){
         doc.save("ReservationsByCustomer.pdf")
         },2000);
-      
+
     })
 
   }

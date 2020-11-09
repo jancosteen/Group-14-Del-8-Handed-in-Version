@@ -13,6 +13,13 @@ import {
   OrderLineServiceProxy,
   OrderLineDto,
   OrderLineDtoPagedResultDto,
+  RestaurantDto,
+  QrCodeDto,
+  RestaurantServiceProxy,
+  QrCodeServiceProxy,
+  RestaurantDtoPagedResultDto,
+  QrCodeDtoPagedResultDto,
+  OrderDtoListResultDto,
 } from '../../shared/service-proxies/service-proxies';
 import { CreateOrderDialogComponent } from './create-order/create-order-dialog.component';
 import { EditOrderDialogComponent } from './edit-order/edit-order-dialog.component';
@@ -35,6 +42,16 @@ export class OrdersComponent extends PagedListingComponentBase<OrderDto> {
   public searchText: string;
   isRelated=false;
   orderLines:OrderLineDto[]=[];
+  restaurants:RestaurantDto[]=[];
+  qrCodes:QrCodeDto[]=[];
+  resId;
+  resIdSelected:boolean = false;
+  selectedQrCodes:QrCodeDto[]=[];
+  qrCode:QrCodeDto= new QrCodeDto();
+  selectedOrders:OrderDto[]=[];
+  selectedOrder:OrderDto= new OrderDto();
+  filteredQrCodes:QrCodeDto[]=[];
+  finalOrders:OrderDto[]=[];
 
 
   constructor(
@@ -42,7 +59,9 @@ export class OrdersComponent extends PagedListingComponentBase<OrderDto> {
     private _orderService: OrderServiceProxy,
     private _modalService: BsModalService,
     private _router: Router,
-    private _orderLineService: OrderLineServiceProxy
+    private _orderLineService: OrderLineServiceProxy,
+    private _restaurantService: RestaurantServiceProxy,
+    private _qrCodeService: QrCodeServiceProxy
   ) {
     super(injector);
   }
@@ -54,6 +73,8 @@ export class OrdersComponent extends PagedListingComponentBase<OrderDto> {
   ): void {
     request.keyword = this.keyword;
     request.isActive = this.isActive;
+
+    //this.resIdSelected = false;
 
     this._orderService
       .getAll(
@@ -85,9 +106,93 @@ export class OrdersComponent extends PagedListingComponentBase<OrderDto> {
       )
       .subscribe((result: OrderLineDtoPagedResultDto) => {
         this.orderLines = result.items;
-
       });
+
+      this._restaurantService
+      .getAll(
+        '',
+        0,
+        1000
+      )
+      .pipe(
+        finalize(() => {
+          finishedCallback();
+        })
+      )
+      .subscribe((result: RestaurantDtoPagedResultDto) => {
+        this.restaurants = result.items;
+      });
+
+      this._qrCodeService
+      .getAll(
+        '',
+        0,
+        1000
+      )
+      .pipe(
+        finalize(() => {
+          finishedCallback();
+        })
+      )
+      .subscribe((result: QrCodeDtoPagedResultDto) => {
+        this.qrCodes = result.items;
+      });
+
+
   }
+
+  viewOrders(resId){
+    this.selectedQrCodes = [];
+    this.finalOrders = [];
+    this.filteredQrCodes = []
+
+
+      for(let y=0;y<this.qrCodes.length;y++){
+        if(resId == this.qrCodes[y].restaurantIdFk){
+          this.qrCode = this.qrCodes[y];
+          console.log('selected qrCode',this.qrCode);
+          this.selectedQrCodes.push(this.qrCode);
+        }
+      }
+      this.filterQrCodes(this.selectedQrCodes);
+      console.log('selected QrCodes', this.filteredQrCodes);
+
+      this.resIdSelected = true;
+
+
+  }
+
+  getOrdersByQrCodeId(qrCodes){
+    for(let x=0;x<qrCodes.length;x++){
+      this._orderService
+      .getOrderByQrCodeId(this.qrCodes[x].id)
+      .subscribe((result:OrderDtoListResultDto)=>{
+        this.selectedOrders = result.items;
+        for(let y=0;y<this.selectedOrders.length;y++){
+          this.selectedOrder = this.selectedOrders[y];
+          this.finalOrders.push(this.selectedOrder);
+        }
+      })
+
+      console.log('finalOrders', this.finalOrders);
+    }
+
+  }
+
+  filterQrCodes(qrCodes:QrCodeDto[]){
+    this.filteredQrCodes= this.selectedQrCodes.reduce((arr, item) => {
+      let exists = !!arr.find(x => x.id === item.id);
+      if(!exists){
+          arr.push(item);
+      }
+      return arr;
+  }, []);
+  //console.log('filteredOrders',this.filteredOrders);
+  this.getOrdersByQrCodeId(this.filteredQrCodes);
+
+  }
+
+
 
   checkIfRelated(id){
     for(let x=0;x<this.orderLines.length;x++){

@@ -1,7 +1,7 @@
 import { repo } from './../../../shared/service-proxies/repo';
 import {
   Component,
-  Injector, 
+  Injector,
   OnInit,
   Output,
   EventEmitter
@@ -115,12 +115,13 @@ export class EditReservationDialogComponent extends AppComponentBase
       reservationStatus: stat
     }
 
+    //I commented this out because of an error
 
-    this._reservationService
+    /*this._reservationService
     .sendMessage(reserv)
     .subscribe(res =>{
       console.log('ake sure');
-    })
+    })*/
 
     this._reservationService
       .update(this.reservation)

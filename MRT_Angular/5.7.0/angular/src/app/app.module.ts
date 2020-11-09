@@ -155,6 +155,7 @@ import { ReportComponent } from './report/report.component';
 import { MatSelect } from '@angular/material/select';
 
 import { MenuPropertiesDialogComponent } from './menus/menu-properties/edit-menu-property-dialog.component';
+import { repo } from '../shared/service-proxies/repo';
 
 
 @NgModule({
@@ -324,7 +325,8 @@ import { MenuPropertiesDialogComponent } from './menus/menu-properties/edit-menu
 
 
   ],
-  providers: [],
+  //I added this because of an error
+  providers: [repo],
   entryComponents: [
     EditCustomerReservationDialogComponent,
     CreateCustomerReservationDialogComponent,

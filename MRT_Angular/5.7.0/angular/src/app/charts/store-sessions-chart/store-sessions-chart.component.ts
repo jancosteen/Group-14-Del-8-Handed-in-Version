@@ -1,4 +1,5 @@
 import { Component, Injector, OnInit } from '@angular/core';
+import { repo } from '@shared/service-proxies/repo';
 import { ReservationServiceProxy } from '@shared/service-proxies/service-proxies';
 import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 import { Label } from 'ng2-charts';
@@ -24,10 +25,11 @@ export class StoreSessionsChartComponent implements OnInit {
   ];
 
   constructor(injector: Injector,
-    public _service: ReservationServiceProxy) { }
+    public _service: ReservationServiceProxy,
+    public _repo:repo) { }
 
   ngOnInit() {
-    this._service.getTotalTodayOrders()
+    this._repo.getTotalTodayOrders()
       .subscribe(data => {
         console.log('object',data);
         console.log('are bone',data["result"][0].Day);
@@ -35,7 +37,7 @@ export class StoreSessionsChartComponent implements OnInit {
         this.barChartData[0].label = data["result"][0].Day;
         this.barChartData[1].label = data["result"][1].Day;
         this.barChartData[0].data = data["result"][0].Num;
-        this.barChartData[1].data = data["result"][1].Num;   
+        this.barChartData[1].data = data["result"][1].Num;
 
 
       })
