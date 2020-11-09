@@ -7535,7 +7535,7 @@ export class ReservationServiceProxy {
         url = url.replace(/[?&]$/, "");
         return this.http.get(url);
     }
- 
+
 
     getReservationByuser(){
         let url = this.baseUrl + "/api/services/app/Reservation/GetReservationByUser";
@@ -20645,8 +20645,8 @@ export interface IMenuItem {
 export class Menu implements IMenu {
     menuName: string | undefined;
     menuDescription: string | undefined;
-    menuTimeActiveFrom: TimeSpan;
-    menuTimeActiveTo: TimeSpan;
+    menuTimeActiveFrom: string;
+    menuTimeActiveTo: string;
     restaurantIdFk: number | undefined;
     menuItem: MenuItem[] | undefined;
     restaurantIdFkNavigation: Restaurant;
@@ -20672,8 +20672,8 @@ export class Menu implements IMenu {
         if (_data) {
             this.menuName = _data["menuName"];
             this.menuDescription = _data["menuDescription"];
-            this.menuTimeActiveFrom = _data["menuTimeActiveFrom"] ? TimeSpan.fromJS(_data["menuTimeActiveFrom"]) : <any>undefined;
-            this.menuTimeActiveTo = _data["menuTimeActiveTo"] ? TimeSpan.fromJS(_data["menuTimeActiveTo"]) : <any>undefined;
+            this.menuTimeActiveFrom = _data["menuTimeActiveFrom"];// ? TimeSpan.fromJS(_data["menuTimeActiveFrom"]) : <any>undefined;
+            this.menuTimeActiveTo = _data["menuTimeActiveTo"];// ? TimeSpan.fromJS(_data["menuTimeActiveTo"]) : <any>undefined;
             this.restaurantIdFk = _data["restaurantIdFk"];
             if (Array.isArray(_data["menuItem"])) {
                 this.menuItem = [] as any;
@@ -20703,8 +20703,8 @@ export class Menu implements IMenu {
         data = typeof data === 'object' ? data : {};
         data["menuName"] = this.menuName;
         data["menuDescription"] = this.menuDescription;
-        data["menuTimeActiveFrom"] = this.menuTimeActiveFrom ? this.menuTimeActiveFrom.toJSON() : <any>undefined;
-        data["menuTimeActiveTo"] = this.menuTimeActiveTo ? this.menuTimeActiveTo.toJSON() : <any>undefined;
+        data["menuTimeActiveFrom"] = this.menuTimeActiveFrom;// ? this.menuTimeActiveFrom.toJSON() : <any>undefined;
+        data["menuTimeActiveTo"] = this.menuTimeActiveTo;// ? this.menuTimeActiveTo.toJSON() : <any>undefined;
         data["restaurantIdFk"] = this.restaurantIdFk;
         if (Array.isArray(this.menuItem)) {
             data["menuItem"] = [];
@@ -20734,8 +20734,8 @@ export class Menu implements IMenu {
 export interface IMenu {
     menuName: string | undefined;
     menuDescription: string | undefined;
-    menuTimeActiveFrom: TimeSpan;
-    menuTimeActiveTo: TimeSpan;
+    menuTimeActiveFrom: string;
+    menuTimeActiveTo: string;
     restaurantIdFk: number | undefined;
     menuItem: MenuItem[] | undefined;
     restaurantIdFkNavigation: Restaurant;
@@ -23937,8 +23937,8 @@ export interface IMenuItemSpecialCandUDto {
 export class MenuCandUDto implements IMenuCandUDto {
     menuName: string | undefined;
     menuDescription: string | undefined;
-    menuTimeActiveFrom: TimeSpan;
-    menuTimeActiveTo: TimeSpan;
+    menuTimeActiveFrom: string;
+    menuTimeActiveTo: string;
     restaurantIdFk: number | undefined;
     id: number;
 
@@ -23955,8 +23955,8 @@ export class MenuCandUDto implements IMenuCandUDto {
         if (_data) {
             this.menuName = _data["menuName"];
             this.menuDescription = _data["menuDescription"];
-            this.menuTimeActiveFrom = _data["menuTimeActiveFrom"] ? TimeSpan.fromJS(_data["menuTimeActiveFrom"]) : <any>undefined;
-            this.menuTimeActiveTo = _data["menuTimeActiveTo"] ? TimeSpan.fromJS(_data["menuTimeActiveTo"]) : <any>undefined;
+            this.menuTimeActiveFrom = _data["menuTimeActiveFrom"];// ? TimeSpan.fromJS(_data["menuTimeActiveFrom"]) : <any>undefined;
+            this.menuTimeActiveTo = _data["menuTimeActiveTo"];// ? TimeSpan.fromJS(_data["menuTimeActiveTo"]) : <any>undefined;
             this.restaurantIdFk = _data["restaurantIdFk"];
             this.id = _data["id"];
         }
@@ -23973,8 +23973,8 @@ export class MenuCandUDto implements IMenuCandUDto {
         data = typeof data === 'object' ? data : {};
         data["menuName"] = this.menuName;
         data["menuDescription"] = this.menuDescription;
-        data["menuTimeActiveFrom"] = this.menuTimeActiveFrom ? this.menuTimeActiveFrom.toJSON() : <any>undefined;
-        data["menuTimeActiveTo"] = this.menuTimeActiveTo ? this.menuTimeActiveTo.toJSON() : <any>undefined;
+        data["menuTimeActiveFrom"] = this.menuTimeActiveFrom;// ? this.menuTimeActiveFrom.toJSON() : <any>undefined;
+        data["menuTimeActiveTo"] = this.menuTimeActiveTo;// ? this.menuTimeActiveTo.toJSON() : <any>undefined;
         data["restaurantIdFk"] = this.restaurantIdFk;
         data["id"] = this.id;
         return data;
@@ -23991,8 +23991,8 @@ export class MenuCandUDto implements IMenuCandUDto {
 export interface IMenuCandUDto {
     menuName: string | undefined;
     menuDescription: string | undefined;
-    menuTimeActiveFrom: TimeSpan;
-    menuTimeActiveTo: TimeSpan;
+    menuTimeActiveFrom: string;
+    menuTimeActiveTo: string;
     restaurantIdFk: number | undefined;
     id: number;
 }
@@ -24123,8 +24123,8 @@ export interface IMenuItemDto {
 export class MenuDto implements IMenuDto {
     menuName: string | undefined;
     menuDescription: string | undefined;
-    menuTimeActiveFrom: TimeSpan;
-    menuTimeActiveTo: TimeSpan;
+    menuTimeActiveFrom: string;
+    menuTimeActiveTo: string;
     restaurantIdFk: number | undefined;
     menuItem: MenuItemDto[] | undefined;
     restaurantIdFkNavigation: RestaurantCandUDto;
@@ -24150,8 +24150,8 @@ export class MenuDto implements IMenuDto {
         if (_data) {
             this.menuName = _data["menuName"];
             this.menuDescription = _data["menuDescription"];
-            this.menuTimeActiveFrom = _data["menuTimeActiveFrom"] ? TimeSpan.fromJS(_data["menuTimeActiveFrom"]) : <any>undefined;
-            this.menuTimeActiveTo = _data["menuTimeActiveTo"] ? TimeSpan.fromJS(_data["menuTimeActiveTo"]) : <any>undefined;
+            this.menuTimeActiveFrom = _data["menuTimeActiveFrom"];// ? TimeSpan.fromJS(_data["menuTimeActiveFrom"]) : <any>undefined;
+            this.menuTimeActiveTo = _data["menuTimeActiveTo"];// ? TimeSpan.fromJS(_data["menuTimeActiveTo"]) : <any>undefined;
             this.restaurantIdFk = _data["restaurantIdFk"];
             if (Array.isArray(_data["menuItem"])) {
                 this.menuItem = [] as any;
@@ -24181,8 +24181,8 @@ export class MenuDto implements IMenuDto {
         data = typeof data === 'object' ? data : {};
         data["menuName"] = this.menuName;
         data["menuDescription"] = this.menuDescription;
-        data["menuTimeActiveFrom"] = this.menuTimeActiveFrom ? this.menuTimeActiveFrom.toJSON() : <any>undefined;
-        data["menuTimeActiveTo"] = this.menuTimeActiveTo ? this.menuTimeActiveTo.toJSON() : <any>undefined;
+        data["menuTimeActiveFrom"] = this.menuTimeActiveFrom;// ? this.menuTimeActiveFrom.toJSON() : <any>undefined;
+        data["menuTimeActiveTo"] = this.menuTimeActiveTo;// ? this.menuTimeActiveTo.toJSON() : <any>undefined;
         data["restaurantIdFk"] = this.restaurantIdFk;
         if (Array.isArray(this.menuItem)) {
             data["menuItem"] = [];
@@ -24212,8 +24212,8 @@ export class MenuDto implements IMenuDto {
 export interface IMenuDto {
     menuName: string | undefined;
     menuDescription: string | undefined;
-    menuTimeActiveFrom: TimeSpan;
-    menuTimeActiveTo: TimeSpan;
+    menuTimeActiveFrom: string;
+    menuTimeActiveTo: string;
     restaurantIdFk: number | undefined;
     menuItem: MenuItemDto[] | undefined;
     restaurantIdFkNavigation: RestaurantCandUDto;

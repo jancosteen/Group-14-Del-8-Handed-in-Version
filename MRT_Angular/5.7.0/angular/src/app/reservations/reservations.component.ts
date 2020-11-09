@@ -34,6 +34,7 @@ export class ReservationsComponent extends PagedListingComponentBase<Reservation
   public searchText: string;
   isRelated=false;
   seatings: SeatingDto[]=[];
+  dateTest;
 
   constructor(
     injector: Injector,
@@ -66,6 +67,7 @@ export class ReservationsComponent extends PagedListingComponentBase<Reservation
       .subscribe((result: ReservationDtoPagedResultDto) => {
         this.reservations = result.items;
         this.showPaging(result, pageNumber);
+        //this.dateTest = this.reservations[0].creationTime.
       });
       console.log(this.appSession.userId);
 

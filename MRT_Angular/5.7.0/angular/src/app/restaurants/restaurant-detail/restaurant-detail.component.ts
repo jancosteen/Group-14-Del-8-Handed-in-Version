@@ -10,7 +10,7 @@ import { finalize } from 'rxjs/operators';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { AppComponentBase } from '../../../shared/app-component-base';
 import {
-  RestaurantDto, RestaurantServiceProxy, RestaurantDtoPagedResultDto, MenuItemServiceProxy, MenuServiceProxy, MenuDto, MenuDtoPagedResultDto, RestaurantStatusDtoPagedResultDto, RestaurantStatusServiceProxy, RestaurantStatusDto
+  RestaurantDto, RestaurantServiceProxy, RestaurantDtoPagedResultDto, MenuItemServiceProxy, MenuServiceProxy, MenuDto, MenuDtoPagedResultDto, RestaurantStatusDtoPagedResultDto, RestaurantStatusServiceProxy, RestaurantStatusDto, ProvinceServiceProxy, CityServiceProxy, CountryServiceProxy, ProvinceDto, CityDto, CountryDto, ProvinceDtoListResultDto, CityDtoListResultDto
 } from '../../../shared/service-proxies/service-proxies';
 import { EditRestaurantDialogComponent } from '../edit-restaurant/edit-restaurant-dialog.component';
 import { CreateRestaurantDialogComponent } from '../create-restaurant/create-restaurant-dialog.component';
@@ -40,6 +40,11 @@ export class RestaurantDetailComponent extends AppComponentBase
   resStatus:RestaurantStatusDto = new RestaurantStatusDto();
   restaurantStatusIdFk:number;
   sRestaurantId:string;
+  province: ProvinceDto[] = [];
+  city: CityDto[]=[];
+  country: CountryDto[]=[];
+  provinceName:string;
+  cityName:string;
 
 
 
@@ -52,7 +57,10 @@ export class RestaurantDetailComponent extends AppComponentBase
     private activeRoute: ActivatedRoute,
     private _router: Router,
     private _modalService: BsModalService,
-    private _statusService: RestaurantStatusServiceProxy
+    private _statusService: RestaurantStatusServiceProxy,
+    private _provinceService: ProvinceServiceProxy,
+    private _cityService: CityServiceProxy,
+    private _countryService: CountryServiceProxy
   ) {
     super(injector);
   }
@@ -64,8 +72,10 @@ export class RestaurantDetailComponent extends AppComponentBase
       this.restaurant = result;
       this.restaurantStatusIdFk = this.restaurant.restaurantStatusIdFk;
       this.restaurantId = this.restaurant.id;
-      this.sRestaurantId += this.restaurantId
+      this.sRestaurantId = this.restaurantId.toString();
       localStorage.setItem('restaurantId', this.sRestaurantId);
+      this.getCities();
+      this.getProvinces();
     });
 
     this._statusService
@@ -102,6 +112,29 @@ export class RestaurantDetailComponent extends AppComponentBase
         this.notify.info(this.l('SavedSuccessfully'));
       });
   }
+
+  getProvinces(){
+    this._provinceService
+      .getProvinceById(this.restaurant.provinceIdFk)
+        .subscribe((res:ProvinceDtoListResultDto) => {
+          this.province = res.items;
+          this.provinceName = this.province[0].provinceName;
+          console.log('province',this.provinceName);
+        });
+  }
+
+  getCities(){
+    this._cityService
+      .getCityById(this.restaurant.cityIdFk)
+        .subscribe((res:CityDtoListResultDto) =>{
+          this.city = res.items;
+
+          this.cityName = this.city[0].cityName;
+          console.log('city', this.cityName);
+        })
+  }
+
+
 
 
 

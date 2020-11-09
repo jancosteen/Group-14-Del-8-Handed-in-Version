@@ -54,6 +54,7 @@ export class CreateMenuDialogComponent extends AppComponentBase
   ngOnInit(): void {
     this.sRestuarantIdCheck = localStorage.getItem('restaurantId');
     this.restaurantIdCheck = parseInt(this.sRestuarantIdCheck);
+    console.log('resId', this.restaurantIdCheck);
 
     this._restaurantService
     .getAll(
@@ -68,6 +69,7 @@ export class CreateMenuDialogComponent extends AppComponentBase
     )
     .subscribe((result: RestaurantDtoPagedResultDto) => {
       this.restaurants = result.items;
+      this.getRestaurant();
       //this.showPaging(result, pageNumber);
     });
 
@@ -87,7 +89,7 @@ export class CreateMenuDialogComponent extends AppComponentBase
       //this.showPaging(result, pageNumber);
     });
 
-    this.getRestaurant();
+
 
   }
 
@@ -95,6 +97,7 @@ export class CreateMenuDialogComponent extends AppComponentBase
     for(let x=0;x<this.restaurants.length;x++){
       if(this.restaurantIdCheck === this.restaurants[x].id){
         this.restaurantName = this.restaurants[x].restaurantName;
+        console.log('restaurant Name', this.restaurantName);
         break;
       }
     }
@@ -102,6 +105,10 @@ export class CreateMenuDialogComponent extends AppComponentBase
 
   save(): void {
     this.saving = true;
+
+    if(this.sRestuarantIdCheck != null){
+      this.menu.restaurantIdFk = this.restaurantIdCheck;
+
 
     this._menuService
       .create(this.menu)
@@ -118,6 +125,23 @@ export class CreateMenuDialogComponent extends AppComponentBase
         this.onSave.emit();
 
       });
+    }else{
+      this._menuService
+      .create(this.menu)
+      .pipe(
+        finalize(() => {
+          this.saving = false;
+        })
+      )
+      .subscribe((res) => {
+        this.createdMenuId = res.id;
+        console.log('createdMID subscribe', this.createdMenuId);
+        this.notify.info(this.l('SavedSuccessfully'));
+        this.bsModalRef.hide();
+        this.onSave.emit();
+
+      });
+    }
   }
 
 
