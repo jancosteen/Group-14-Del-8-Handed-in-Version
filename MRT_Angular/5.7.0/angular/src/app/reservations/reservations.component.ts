@@ -13,6 +13,9 @@ import {
   SeatingServiceProxy,
   SeatingDto,
   SeatingDtoPagedResultDto,
+  RestaurantServiceProxy,
+  RestaurantDto,
+  RestaurantDtoPagedResultDto,
 } from '../../shared/service-proxies/service-proxies';
 import { CreateReservationDialogComponent } from './create-reservation/create-reservation-dialog.component';
 import { EditReservationDialogComponent } from './edit-reservation/edit-reservation-dialog.component';
@@ -35,12 +38,18 @@ export class ReservationsComponent extends PagedListingComponentBase<Reservation
   isRelated=false;
   seatings: SeatingDto[]=[];
   dateTest;
+  resIdSelected:boolean;
+  restaurants:RestaurantDto[]=[];
+  resId:number;
+  selectedReservations:ReservationDto[]=[];
+  reservation:ReservationDto = new ReservationDto();
 
   constructor(
     injector: Injector,
     private _reservationService: ReservationServiceProxy,
     private _modalService: BsModalService,
-    private _seatingService: SeatingServiceProxy
+    private _seatingService: SeatingServiceProxy,
+    private _restaurantService: RestaurantServiceProxy
   ) {
     super(injector);
   }
@@ -52,6 +61,8 @@ export class ReservationsComponent extends PagedListingComponentBase<Reservation
   ): void {
     request.keyword = this.keyword;
     request.isActive = this.isActive;
+
+    this.resIdSelected = false;
 
     this._reservationService
       .getAll(
@@ -86,6 +97,21 @@ export class ReservationsComponent extends PagedListingComponentBase<Reservation
         this.seatings = result.items;
       });
 
+      this._restaurantService
+        .getAll(
+          '',
+        0,
+        1000
+        )
+        .pipe(
+          finalize(() => {
+            finishedCallback();
+          })
+        )
+        .subscribe((result: RestaurantDtoPagedResultDto) => {
+          this.restaurants = result.items;
+        });
+
   }
 
   checkIfRelated(id){
@@ -95,6 +121,18 @@ export class ReservationsComponent extends PagedListingComponentBase<Reservation
         console.log(this.isRelated);
       }
     }
+  }
+
+  viewReservations(resId){
+    this.selectedReservations = [];
+    for(let x=0;x<this.reservations.length;x++){
+      if(this.reservations[x].restaurantIdFk == resId){
+        this.reservation = this.reservations[x];
+        this.selectedReservations.push(this.reservation);
+      }
+    }
+    console.log('selected Reservations', this.selectedReservations);
+    this.resIdSelected = true;
   }
 
   delete(reservation: ReservationDto): void {

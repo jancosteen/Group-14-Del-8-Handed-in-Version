@@ -14,7 +14,43 @@
       </div>
     </div>
   </section>
-  <section class="content px-2">
+  <section class="contect px-2">
+    <div class="container-fluid">
+      <div class="card">
+        <div class="card-header">
+          <h3>Select A Restaurant To View Its Reservations</h3>
+        </div>
+        <div class="card-body">
+          <div class="form-group row required">
+            <label class="col-md-3 col-form-label" for="rest">
+              {{ "Restaurant" | localize }}
+            </label>
+            <div class="col-md-9">
+              <select
+                class="form-control"
+                name="rest"
+                id="rest"
+                required
+                [(ngModel)]="resId"
+                #restModel="ngModel"
+                #restEl>
+                  <option *ngFor="let r of restaurants" value={{r.id}}>{{r.restaurantName}}</option>
+              </select>
+              <abp-validation-summary
+                [control]="restModel"
+                [controlEl]="restEl"
+              ></abp-validation-summary>
+            </div>
+          </div>
+          <a href="javascript:;" class="btn bg-blue" (click)="viewReservations(resId)">
+            <i class="fa fa-plus-square"></i>
+            {{ "Select" | localize }}
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="content px-2" *ngIf="resIdSelected == true">
     <div class="container-fluid">
       <div class="card">
         <div class="card-header">
@@ -56,7 +92,7 @@
             <tbody>
               <tr
                 *ngFor="
-                  let reservation of reservations
+                  let reservation of selectedReservations
                     | paginate
                       : {
                           id: 'server',
