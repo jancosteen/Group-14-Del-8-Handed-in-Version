@@ -67,7 +67,7 @@ export class CustomerMenuComponent extends PagedListingComponentBase<MenuItemDto
   tempOrderId:string;
   order: OrderDto = new OrderDto();
   iOrderId:number;
-  orderCheck:boolean = false;
+  orderCheck:boolean;
   orderId:number;
 
   cart3 = [];
@@ -101,7 +101,8 @@ export class CustomerMenuComponent extends PagedListingComponentBase<MenuItemDto
   ) {
     request.keyword = '';
 
-    this.orderId =+ localStorage.getItem('orderId');
+    this.orderCheck = false;
+    this.orderId = +localStorage.getItem('orderId');
     console.log('local storage orderId',this.orderId);
     let id: string = this.activeRoute.snapshot.params['id'];
     localStorage.setItem('resId', id);
@@ -144,7 +145,8 @@ export class CustomerMenuComponent extends PagedListingComponentBase<MenuItemDto
       this.cartCount = this._sessionService.getCartItemCount();
       console.log('cartCountAfter GetCartCount', this.cartCount);
 
-      if(this.orderCheck == true){
+      if(this.orderId > 0){
+        this.orderCheck = true;
         console.log(localStorage.getItem('orderId'));
       }else{
         this.createOrder();
@@ -153,8 +155,8 @@ export class CustomerMenuComponent extends PagedListingComponentBase<MenuItemDto
   }
 
   createOrder(){
-    if(this.orderId != null){
-      console.log('orderId', localStorage.getItem('orderId'));
+    if(this.orderCheck == true){
+      console.log('local storage orderId', localStorage.getItem('orderId'));
     }else{
       this.order.qrCodeSeatingIdFk = 3;
       this.order.orderStatusIdFk = 1;
@@ -170,7 +172,8 @@ export class CustomerMenuComponent extends PagedListingComponentBase<MenuItemDto
             this.tempOrderId = this.iOrderId.toString();
             localStorage.setItem('orderId', this.tempOrderId)
             this.notify.info(this.l('SavedSuccessfully'));
-            console.log(this.tempOrderId)})
+            console.log('new orderId',this.tempOrderId)})
+            this.orderCheck = true;
     }
 
 }

@@ -49,6 +49,8 @@ export class OrderHistoryComponent extends PagedListingComponentBase<OrderLineDt
   userId:number;
   orders: OrderDto[]=[];
   filteredOrders:OrderDto[]=[];
+  orderRes: OrderDto[]=[];
+  filteredOLs: OrderLineDto[]=[];
 
   constructor(
     injector: Injector,
@@ -80,21 +82,32 @@ export class OrderHistoryComponent extends PagedListingComponentBase<OrderLineDt
     .subscribe((result:OrderLineDtoListResultDto) =>{
       this.orderLines = result.items;
       console.log('orderLines',this.orderLines);
+      this.filteredOrderLines();
       this.calculateTotal();
-      this.getOrderDetails();
+
     });
 
   }
 
   getOrderDetails(){
-    for(let x=0;x<this.orderLines.length;x++){
-      this._orderService.getOrderById(this.orderLines[x].orderIdFk)
+    for(let x=0;x<this.filteredOLs.length;x++){
+      this._orderService.getOrderById(this.filteredOLs[x].orderIdFk)
         .subscribe((result:OrderDtoListResultDto) =>{
-          this.orders.push(result.items[0]);
-          this.filterOrderIds();
+          this.orderRes = result.items;
+          console.log('orderRes',this.orderRes);
+          this.orders.push(this.orderRes[0]);
+
+
+          this.orders =this.orders.sort((a, b) => {
+            return a.id - b.id;
+          });
+          console.log('getOrderDetails',this.orders);
+          //this.filterOrderIds();
         })
     }
-    console.log('getOrders',this.orders);
+
+    //console.log('filtered Orders', this.filteredOrders);
+
 
   }
 
@@ -108,6 +121,19 @@ export class OrderHistoryComponent extends PagedListingComponentBase<OrderLineDt
   }, []);
   //console.log('filteredOrders',this.filteredOrders);
 
+  }
+
+  filteredOrderLines(){
+    this.filteredOLs= this.orderLines.reduce((arr, item) => {
+      let exists = !!arr.find(x => x.orderIdFk === item.orderIdFk);
+      if(!exists){
+          arr.push(item);
+      }
+      return arr;
+  }, []);
+
+    console.log('filtered OLs', this.filteredOLs);
+    this.getOrderDetails();
   }
 
   checkIfRelated(id){
