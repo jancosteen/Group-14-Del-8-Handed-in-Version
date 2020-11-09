@@ -59,6 +59,10 @@
                 <th>{{ "Social Media Type" | localize }}</th>
                 <th>{{ "Social Media Address" | localize }}</th>
                 <th>{{ "Restaurant" | localize }}</th>
+                <th>{{"Creator User Id" | localize}}</th>
+                <th>{{"Creation Date" | localize}}</th>
+                <th>{{"Modification User Id" | localize}}</th>
+                <th>{{"Modification Date" | localize}}</th>
 
                 <th style="width: 200px;">{{ "Actions" | localize }}</th>
               </tr>
@@ -85,6 +89,12 @@
                 <td>{{ socialMedia.socialMediaTypeIdFkNavigation.socialMediaType1}}</td>
                 <td>{{ socialMedia.socialMediaAddress }}</td>
                 <td>{{ socialMedia.restaurantIdFkNavigation.restaurantName }}</td>
+                <td>{{ socialMedia.creatorUserId }}</td>
+                <td>{{ socialMedia.creationTime.calendar() }}</td>
+                <td *ngIf="socialMedia.lastModifierUserId != null">{{ socialMedia.lastModifierUserId }}</td>
+                <td *ngIf="socialMedia.lastModifierUserId != null">{{ socialMedia.lastModificationTime.calendar() }}</td>
+                <td *ngIf="socialMedia.lastModifierUserId == null">No Modification</td>
+                <td *ngIf="socialMedia.lastModifierUserId == null">No Modification</td>
 
 
                 <td>

@@ -11,7 +11,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { AppComponentBase } from '../../../shared/app-component-base';
 import {
   MenuItemServiceProxy,
-  MenuItemDto, RestaurantServiceProxy, RestaurantDtoPagedResultDto, RestaurantDto, MenuItemCategoryServiceProxy, MenuItemCategoryDtoPagedResultDto, MenuItemCategoryDto, MenuDtoPagedResultDto, MenuDto, MenuServiceProxy, MenuItemPriceServiceProxy, MenuItemPriceDtoPagedResultDto, MenuItemPriceDto, MenuItemAllergyServiceProxy, MenuItemAllergyDto, AllergyServiceProxy, AllergyDto, AllergyDtoPagedResultDto, MenuItemCandUDto
+  MenuItemDto, RestaurantServiceProxy, RestaurantDtoPagedResultDto, RestaurantDto, MenuItemCategoryServiceProxy, MenuItemCategoryDtoPagedResultDto, MenuItemCategoryDto, MenuDtoPagedResultDto, MenuDto, MenuServiceProxy, MenuItemPriceServiceProxy, MenuItemPriceDtoPagedResultDto, MenuItemPriceDto, MenuItemAllergyServiceProxy, MenuItemAllergyDto, AllergyServiceProxy, AllergyDto, AllergyDtoPagedResultDto, MenuItemCandUDto, MenuItemDtoListResultDto
 } from '../../../shared/service-proxies/service-proxies';
 import { EditMenuItemDialogComponent } from '../edit-menuItem/edit-menuItem-dialog.component';
 import { CreateMenuItemDialogComponent } from '../create-menuItem/create-menuItem-dialog.component';
@@ -25,7 +25,7 @@ import { CreateMenuItemDialogComponent } from '../create-menuItem/create-menuIte
 export class MenuItemDetailComponent extends AppComponentBase
   implements OnInit {
   saving = false;
-  menuItem: MenuItemDto = new MenuItemDto();
+  menuItem: MenuItemDto[]=[];
   Iid: number;
   miCategories: MenuItemCategoryDto[]=[];
   miCategory: MenuItemCategoryDto = new MenuItemCategoryDto();
@@ -47,6 +47,7 @@ export class MenuItemDetailComponent extends AppComponentBase
   allergyIds=[];
   allergyIds2=[];
   miAllergyIds=[];
+  propertiesCheck:boolean;
 
 
 
@@ -70,12 +71,12 @@ export class MenuItemDetailComponent extends AppComponentBase
   ngOnInit(): void {
     let id: string = this.activeRoute.snapshot.params['id'];
     this.Iid =+ id;
-    this._menuItemService.get(this.Iid).subscribe((result: MenuItemDto) => {
-      this.menuItem = result;
-      this.menuItemCategoryIdFk = this.menuItem.menuItemCategoryIdFk;
+    this._menuItemService.getyMenuItemById(this.Iid).subscribe((result: MenuItemDtoListResultDto) => {
+      this.menuItem = result.items;
+      this.menuItemCategoryIdFk = this.menuItem[0].menuItemCategoryIdFk;
 
-      this.menuIdFk = this.menuItem.menuIdFk;
-      this.menuItemId = this.menuItem.id;
+      this.menuIdFk = this.menuItem[0].menuIdFk;
+      this.menuItemId = this.menuItem[0].id;
     });
 
     this._miCategoryService
@@ -147,7 +148,7 @@ export class MenuItemDetailComponent extends AppComponentBase
     this.saving = true;
 
     this._menuItemService
-      .update(this.menuItem)
+      .update(this.menuItem[0])
       .pipe(
         finalize(() => {
           this.saving = false;
@@ -162,8 +163,16 @@ export class MenuItemDetailComponent extends AppComponentBase
     for(let x=0;x<this.miCategories.length;x++){
       if(catId==this.miCategories[x].id){
         this.miCategory=this.miCategories[x];
-        console.log(catId,this.miCategories[x]);
+        console.log('catId',this.miCategories[x]);
       }
+    }
+  }
+
+  viewProperties(){
+    if(this.propertiesCheck != true){
+      this.propertiesCheck = true;
+    }else{
+      this.propertiesCheck = false;
     }
   }
 
@@ -238,12 +247,12 @@ export class MenuItemDetailComponent extends AppComponentBase
     createOrEditMenuItemDialog.content.onSave.subscribe(() => {
       let id: string = this.activeRoute.snapshot.params['id'];
     this.Iid =+ id;
-    this._menuItemService.get(this.Iid).subscribe((result: MenuItemDto) => {
-      this.menuItem = result;
-      this.menuItemCategoryIdFk = this.menuItem.menuItemCategoryIdFk;
+    this._menuItemService.getyMenuItemById(this.Iid).subscribe((result: MenuItemDtoListResultDto) => {
+      this.menuItem = result.items;
+      this.menuItemCategoryIdFk = this.menuItem[0].menuItemCategoryIdFk;
 
-      this.menuIdFk = this.menuItem.menuIdFk;
-      this.menuItemId = this.menuItem.id;
+      this.menuIdFk = this.menuItem[0].menuIdFk;
+      this.menuItemId = this.menuItem[0].id;
     });
   });
 

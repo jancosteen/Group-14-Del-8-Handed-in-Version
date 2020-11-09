@@ -58,6 +58,10 @@
                 <th>{{ "Date" | localize }}</th>
                 <th>{{ "Time" | localize }}</th>
                 <th>{{ "Reservation Id" | localize }}</th>
+                <th>{{"Creator User Id" | localize}}</th>
+                <th>{{"Creation Date" | localize}}</th>
+                <th>{{"Modification User Id" | localize}}</th>
+                <th>{{"Modification Date" | localize}}</th>
                 <th style="width: 200px;">{{ "Actions" | localize }}</th>
               </tr>
             </thead>
@@ -81,6 +85,12 @@
                 <td>{{ seating.seatingDate }}</td>
                 <td>{{ seating.seatingTime }}</td>
                 <td>{{ seating.reservationIdFk }}</td>
+                <td>{{ seating.creatorUserId }}</td>
+                <td>{{ seating.creationTime.calendar() }}</td>
+                <td *ngIf="seating.lastModifierUserId != null">{{ seating.lastModifierUserId }}</td>
+                <td *ngIf="seating.lastModifierUserId != null">{{ seating.lastModificationTime.calendar() }}</td>
+                <td *ngIf="seating.lastModifierUserId == null">No Modification</td>
+                <td *ngIf="seating.lastModifierUserId == null">No Modification</td>
 
                 <td>
                   <button

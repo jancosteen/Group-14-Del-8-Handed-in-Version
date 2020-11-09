@@ -57,6 +57,10 @@
               <tr>
                 <th>{{ "Id" | localize }}</th>
                 <th>{{ "SocialMediaType" | localize }}</th>
+                <th>{{"Creator User Id" | localize}}</th>
+                <th>{{"Creation Date" | localize}}</th>
+                <th>{{"Modification User Id" | localize}}</th>
+                <th>{{"Modification Date" | localize}}</th>
                 <th style="width: 200px;">{{ "Actions" | localize }}</th>
               </tr>
             </thead>
@@ -76,6 +80,12 @@
               >
                 <td>{{ socialMediaType.id }}</td>
                 <td>{{ socialMediaType.socialMediaType1 }}</td>
+                <td>{{ socialMediaType.creatorUserId }}</td>
+                <td>{{ socialMediaType.creationTime.calendar() }}</td>
+                <td *ngIf="socialMediaType.lastModifierUserId != null">{{ socialMediaType.lastModifierUserId }}</td>
+                <td *ngIf="socialMediaType.lastModifierUserId != null">{{ socialMediaType.lastModificationTime.calendar() }}</td>
+                <td *ngIf="socialMediaType.lastModifierUserId == null">No Modification</td>
+                <td *ngIf="socialMediaType.lastModifierUserId == null">No Modification</td>
 
                 <td>
                   <button

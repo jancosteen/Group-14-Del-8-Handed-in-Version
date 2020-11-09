@@ -57,6 +57,10 @@
               <tr>
                 <th>{{ "Id" | localize }}</th>
                 <th>{{ "RestaurantType" | localize }}</th>
+                <th>{{"Creator User Id" | localize}}</th>
+                <th>{{"Creation Date" | localize}}</th>
+                <th>{{"Modification User Id" | localize}}</th>
+                <th>{{"Modification Date" | localize}}</th>
                 <th style="width: 200px;">{{ "Actions" | localize }}</th>
               </tr>
             </thead>
@@ -76,6 +80,12 @@
               >
                 <td>{{ restaurantType.id }}</td>
                 <td>{{ restaurantType.restaurantType1 }}</td>
+                <td>{{ restaurantType.creatorUserId }}</td>
+                <td>{{ restaurantType.creationTime.calendar() }}</td>
+                <td *ngIf="restaurantType.lastModifierUserId != null">{{ restaurantType.lastModifierUserId }}</td>
+                <td *ngIf="restaurantType.lastModifierUserId != null">{{ restaurantType.lastModificationTime.calendar() }}</td>
+                <td *ngIf="restaurantType.lastModifierUserId != null">No Modification</td>
+                <td *ngIf="restaurantType.lastModifierUserId != null">No Modification</td>
 
                 <td>
                   <button

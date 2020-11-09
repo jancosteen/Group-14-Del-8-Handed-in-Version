@@ -56,6 +56,10 @@
               <tr>
                 <th>{{ "Id" | localize }}</th>
                 <th>{{ "Allergy" | localize }}</th>
+                <th>{{"Creator User Id" | localize}}</th>
+                <th>{{"Creation Date" | localize}}</th>
+                <th>{{"Modification User Id" | localize}}</th>
+                <th>{{"Modification Date" | localize}}</th>
                 <th style="width: 200px;">{{ "Actions" | localize }}</th>
               </tr>
             </thead>
@@ -75,6 +79,12 @@
               >
                 <td>{{ allergy.id }}</td>
                 <td>{{ allergy.allergy1 }}</td>
+                <td>{{ allergy.creatorUserId }}</td>
+                <td>{{ allergy.creationTime.calendar() }}</td>
+                <td *ngIf="allergy.lastModifierUserId != null">{{ allergy.lastModifierUserId }}</td>
+                <td *ngIf="allergy.lastModifierUserId != null">{{ allergy.lastModificationTime.calendar() }}</td>
+                <td *ngIf="allergy.lastModifierUserId == null">No Modification</td>
+                <td *ngIf="allergy.lastModifierUserId == null">No Modification</td>
 
                 <td>
                   <button

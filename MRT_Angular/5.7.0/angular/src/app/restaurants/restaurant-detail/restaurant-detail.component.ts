@@ -45,6 +45,7 @@ export class RestaurantDetailComponent extends AppComponentBase
   country: CountryDto[]=[];
   provinceName:string;
   cityName:string;
+  propertiesCheck:boolean;
 
 
 
@@ -66,6 +67,7 @@ export class RestaurantDetailComponent extends AppComponentBase
   }
 
   ngOnInit(): void {
+    this.propertiesCheck = false;
     let id: string = this.activeRoute.snapshot.params['id'];
     this.Iid =+ id;
     this._restaurantService.get(this.Iid).subscribe((result: RestaurantDto) => {
@@ -95,6 +97,15 @@ export class RestaurantDetailComponent extends AppComponentBase
       //this.showPaging(result, pageNumber);
     });
     this.getAllMenus();
+
+  }
+
+  viewProperties(){
+    if(this.propertiesCheck != true){
+      this.propertiesCheck = true;
+    }else{
+      this.propertiesCheck = false;
+    }
 
   }
 

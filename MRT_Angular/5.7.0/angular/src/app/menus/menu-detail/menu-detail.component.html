@@ -17,9 +17,13 @@
         <h1>{{menus[0].menuName}}</h1>
       </div>
       <div class="col-6 text-right">
-        <a href="javascript:;" class="btn bg-blue" (click)="editMenu(menu)">
+        <a href="javascript:;" class="btn bg-blue" (click)="editMenu()">
           <i class="fa fa-pencil-alt"></i>
           {{ "Edit" | localize }}
+        </a>
+        <a href="javascript:;" class="btn bg-secondary" style="margin-left:10px" (click)="viewProperties()">
+          <i class="fas fa-list"></i>
+          {{ "Properties" | localize }}
         </a>
       </div>
     </div>
@@ -77,6 +81,111 @@
           name="restaurant"
           disabled
           [(ngModel)]="menus[0].restaurantIdFkNavigation.restaurantName">
+      </div>
+    </div>
+
+    <div *ngIf="propertiesCheck == true" class="form-group row ">
+      <label class="col-sm-2 col-form-label" for="cUser">
+        {{ "Creation User" | localize }}
+      </label>
+      <div class="col-sm-10">
+        <input
+          type="text"
+          class="form-control"
+          name="cUser"
+          id="cUser"
+          maxlength="128"
+          disabled
+          [(ngModel)]="menus[0].creatorUserId"
+        />
+      </div>
+    </div>
+
+    <div *ngIf="propertiesCheck == true" class="form-group row ">
+      <label class="col-sm-2 col-form-label" for="cDate">
+        {{ "Creation Date" | localize }}
+      </label>
+      <div class="col-sm-10">
+        <input
+          type="text"
+          class="form-control"
+          name="cDate"
+          id="cDate"
+          maxlength="128"
+          disabled
+          [value]="menus[0].creationTime.calendar()"
+          [(ngModel)]="menus[0].creationTime"
+        />
+      </div>
+    </div>
+
+    <div *ngIf="propertiesCheck == true && menus[0].lastModifierUserId != null" class="form-group row ">
+      <label class="col-sm-2 col-form-label" for="mUser">
+        {{ "Modification User" | localize }}
+      </label>
+      <div class="col-sm-10">
+        <input
+          type="text"
+          class="form-control"
+          name="mUser"
+          id="mUser"
+          maxlength="128"
+          disabled
+          [(ngModel)]="menus[0].lastModifierUserId"
+        />
+      </div>
+    </div>
+
+    <div *ngIf="propertiesCheck == true && menus[0].lastModifierUserId != null" class="form-group row ">
+      <label class="col-sm-2 col-form-label" for="mDate">
+        {{ "Modification Date" | localize }}
+      </label>
+      <div class="col-sm-10">
+        <input
+          type="text"
+          class="form-control"
+          name="mDate"
+          id="mDate"
+          maxlength="128"
+          disabled
+          [value]="menus[0].lastModificationTime.calendar()"
+          [(ngModel)]="menus[0].lastModificationTime"
+        />
+      </div>
+    </div>
+
+    <div *ngIf="propertiesCheck == true && menus[0].lastModifierUserId == null" class="form-group row ">
+      <label class="col-sm-2 col-form-label" for="mUser">
+        {{ "Modification User" | localize }}
+      </label>
+      <div class="col-sm-10">
+        <input
+          type="text"
+          class="form-control"
+          name="mUser"
+          id="mUser"
+          maxlength="128"
+          disabled
+          value="No Modification"
+        />
+      </div>
+    </div>
+
+    <div *ngIf="propertiesCheck == true && menus[0].lastModifierUserId == null" class="form-group row ">
+      <label class="col-sm-2 col-form-label" for="mDate">
+        {{ "Modification Date" | localize }}
+      </label>
+      <div class="col-sm-10">
+        <input
+          type="text"
+          class="form-control"
+          name="mDate"
+          id="mDate"
+          maxlength="128"
+          disabled
+          value="No Modification"
+
+        />
       </div>
     </div>
   </div>

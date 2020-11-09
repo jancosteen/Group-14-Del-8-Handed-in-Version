@@ -154,6 +154,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { ReportComponent } from './report/report.component';
 import { MatSelect } from '@angular/material/select';
 
+import { MenuPropertiesDialogComponent } from './menus/menu-properties/edit-menu-property-dialog.component';
+
 
 @NgModule({
   declarations: [
@@ -291,7 +293,8 @@ import { MatSelect } from '@angular/material/select';
     DashComponent,
     MonthlySalesChartComponent,
     StoreSessionsChartComponent,
-    ReportComponent
+    ReportComponent,
+    MenuPropertiesDialogComponent
 
 
   ],
@@ -399,7 +402,8 @@ import { MatSelect } from '@angular/material/select';
     EditViewOrderDialogComponent,
     CreateViewOrderDialogComponent,
     EditOrderHistoryDialogComponent,
-    CreateOrderHistoryDialogComponent
+    CreateOrderHistoryDialogComponent,
+    MenuPropertiesDialogComponent
 
   ],
 })

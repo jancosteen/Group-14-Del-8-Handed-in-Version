@@ -56,6 +56,10 @@
               <tr>
                 <th>{{ "Id" | localize }}</th>
                 <th>{{ "Restaurant" | localize }}</th>
+                <th>{{"Creator User Id" | localize}}</th>
+                <th>{{"Creation Date" | localize}}</th>
+                <th>{{"Modification User Id" | localize}}</th>
+                <th>{{"Modification Date" | localize}}</th>
                 <th style="width: 200px;">{{ "Actions" | localize }}</th>
               </tr>
             </thead>
@@ -75,6 +79,12 @@
               >
                 <td>{{ qrCode.id }}</td>
                 <td>{{ qrCode.restaurantIdFkNavigation.restaurantName }}</td>
+                <td>{{ qrCode.creatorUserId }}</td>
+                <td>{{ qrCode.creationTime.calendar() }}</td>
+                <td *ngIf="qrCode.lastModifierUserId != null">{{ qrCode.lastModifierUserId }}</td>
+                <td *ngIf="qrCode.lastModifierUserId != null">{{ qrCode.lastModificationTime.calendar() }}</td>
+                <td *ngIf="qrCode.lastModifierUserId == null">No Modification</td>
+                <td *ngIf="qrCode.lastModifierUserId == null">No Modification</td>
 
                 <td>
                   <button

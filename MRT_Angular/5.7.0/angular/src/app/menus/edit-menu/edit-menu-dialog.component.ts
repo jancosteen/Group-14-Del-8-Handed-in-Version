@@ -22,6 +22,7 @@ export class EditMenuDialogComponent extends AppComponentBase
   menu: MenuDto = new MenuDto();
   id: number;
   restaurants: RestaurantDto[]=[];
+  sMenuId:string;
 
   @Output() onSave = new EventEmitter<any>();
 
@@ -35,6 +36,9 @@ export class EditMenuDialogComponent extends AppComponentBase
   }
 
   ngOnInit(): void {
+
+    this.sMenuId = localStorage.getItem('menuId');
+    this.id = parseInt(this.sMenuId);
     this._menuService.get(this.id).subscribe((result: MenuDto) => {
       this.menu = result;
     });

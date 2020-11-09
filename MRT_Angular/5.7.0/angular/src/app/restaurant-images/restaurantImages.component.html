@@ -57,7 +57,11 @@
               <tr>
                 <th>{{ "Id" | localize }}</th>
                 <th>{{ "Description" | localize }}</th>
-                <th>{{ "Image" | localize }}</th>
+                <th style="width:400px">{{ "Image" | localize }}</th>
+                <th>{{"Creator User Id" | localize}}</th>
+                <th>{{"Creation Date" | localize}}</th>
+                <th>{{"Modification User Id" | localize}}</th>
+                <th>{{"Modification Date" | localize}}</th>
                 <th style="width: 200px;">{{ "Actions" | localize }}</th>
               </tr>
             </thead>
@@ -78,8 +82,16 @@
                 <td>{{ restaurantImage.id }}</td>
                 <td>{{ restaurantImage.imageDescription }}</td>
                 <td>
-                  <img style="width:50%; height:50%;" [src]="restaurantImage.imageFile"><!---->
+                  <img style="width:100%; height:50%;" [src]="restaurantImage.imageFile"><!---->
                   </td>
+                <td>{{ restaurantImage.creatorUserId }}</td>
+                <td>{{ restaurantImage.creationTime.calendar() }}</td>
+                <td *ngIf="restaurantImage.lastModifierUserId != null">{{ restaurantImage.lastModifierUserId }}</td>
+                <td *ngIf="restaurantImage.lastModifierUserId != null">{{ restaurantImage.lastModificationTime.calendar() }}</td>
+                <td *ngIf="restaurantImage.lastModifierUserId == null">No Modification</td>
+                <td *ngIf="restaurantImage.lastModifierUserId == null">No Modification</td>
+
+
 
                 <td>
                   <button

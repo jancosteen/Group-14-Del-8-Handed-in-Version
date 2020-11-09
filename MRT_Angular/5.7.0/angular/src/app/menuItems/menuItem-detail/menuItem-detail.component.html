@@ -7,19 +7,23 @@
 <div class="jumbotron jumbotron-fluid">
   <div class="container">
     <h1 class="display-4">View MenuItem Details</h1>
-    <p class="lead">{{menuItem.menuItemName}}</p>
+    <p class="lead">{{menuItem[0].menuItemName}}</p>
   </div>
 </div>
 <div class="card" style="margin: 0 auto; float:none; margin-bottom: 10px; width: 95%;">
   <div class="card-body">
     <div class="row">
       <div class="col-6">
-        <h1>{{menuItem.menuItemName}}</h1>
+        <h1>{{menuItem[0].menuItemName}}</h1>
       </div>
       <div class="col-6 text-right">
-        <a href="javascript:;" class="btn bg-blue" (click)="editMenuItem(menuItem)">
+        <a href="javascript:;" class="btn bg-blue" (click)="editMenuItem(menuItem[0])">
           <i class="fa fa-pencil-alt"></i>
           {{ "Edit" | localize }}
+        </a>
+        <a href="javascript:;" class="btn bg-secondary" style="margin-left:10px" (click)="viewProperties()">
+          <i class="fas fa-list"></i>
+          {{ "Properties" | localize }}
         </a>
       </div>
     </div>
@@ -42,7 +46,7 @@
           id="menuItemDes"
           name="menuItemDes"
           disabled
-          [(ngModel)]="menuItem.menuItemDescription">
+          [(ngModel)]="menuItem[0].menuItemDescription">
       </div>
     </div>
 
@@ -53,7 +57,7 @@
         class="form-control"
         id="menuItemCat"
         disabled
-        [(ngModel)]="miCategory.menuItemCategory1"
+        [(ngModel)]="menuItem[0].menuItemCategoryIdFkNavigation.menuItemCategory1"
         name="menuItemCat">
       </div>
     </div>
@@ -65,7 +69,7 @@
           id="menuItemPrice"
           name="menuItemPrice"
           disabled
-          [(ngModel)]="menuItem.menuItemPrice">
+          [(ngModel)]="menuItem[0].menuItemPrice">
       </div>
     </div>
     <div class="form-group row">
@@ -79,6 +83,112 @@
           [(ngModel)]="menu.menuName">
       </div>
     </div>
+
+    <div *ngIf="propertiesCheck == true" class="form-group row ">
+      <label class="col-sm-2 col-form-label" for="cUser">
+        {{ "Creation User" | localize }}
+      </label>
+      <div class="col-sm-10">
+        <input
+          type="text"
+          class="form-control"
+          name="cUser"
+          id="cUser"
+          maxlength="128"
+          disabled
+          [(ngModel)]="menuItem[0].creatorUserId"
+        />
+      </div>
+    </div>
+
+    <div *ngIf="propertiesCheck == true" class="form-group row ">
+      <label class="col-sm-2 col-form-label" for="cDate">
+        {{ "Creation Date" | localize }}
+      </label>
+      <div class="col-sm-10">
+        <input
+          type="text"
+          class="form-control"
+          name="cDate"
+          id="cDate"
+          maxlength="128"
+          disabled
+          [value]="menuItem[0].creationTime.calendar()"
+          [(ngModel)]="menuItem[0].creationTime"
+        />
+      </div>
+    </div>
+
+    <div *ngIf="propertiesCheck == true && menuItem[0].lastModifierUserId != null" class="form-group row ">
+      <label class="col-sm-2 col-form-label" for="mUser">
+        {{ "Modification User" | localize }}
+      </label>
+      <div class="col-sm-10">
+        <input
+          type="text"
+          class="form-control"
+          name="mUser"
+          id="mUser"
+          maxlength="128"
+          disabled
+          [(ngModel)]="menuItem[0].lastModifierUserId"
+        />
+      </div>
+    </div>
+
+    <div *ngIf="propertiesCheck == true && menuItem[0].lastModifierUserId != null" class="form-group row ">
+      <label class="col-sm-2 col-form-label" for="mDate">
+        {{ "Modification Date" | localize }}
+      </label>
+      <div class="col-sm-10">
+        <input
+          type="text"
+          class="form-control"
+          name="mDate"
+          id="mDate"
+          maxlength="128"
+          disabled
+          [value]="menuItem[0].lastModificationTime.calendar()"
+          [(ngModel)]="menuItem[0].lastModificationTime"
+        />
+      </div>
+    </div>
+
+    <div *ngIf="propertiesCheck == true && menuItem[0].lastModifierUserId == null" class="form-group row ">
+      <label class="col-sm-2 col-form-label" for="mUser">
+        {{ "Modification User" | localize }}
+      </label>
+      <div class="col-sm-10">
+        <input
+          type="text"
+          class="form-control"
+          name="mUser"
+          id="mUser"
+          maxlength="128"
+          disabled
+          value="No Modification"
+        />
+      </div>
+    </div>
+
+    <div *ngIf="propertiesCheck == true && menuItem[0].lastModifierUserId == null" class="form-group row ">
+      <label class="col-sm-2 col-form-label" for="mDate">
+        {{ "Modification Date" | localize }}
+      </label>
+      <div class="col-sm-10">
+        <input
+          type="text"
+          class="form-control"
+          name="mDate"
+          id="mDate"
+          maxlength="128"
+          disabled
+          value="No Modification"
+
+        />
+      </div>
+    </div>
+
   </div>
 </div>
 </form>

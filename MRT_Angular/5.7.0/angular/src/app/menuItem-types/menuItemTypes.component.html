@@ -123,6 +123,10 @@
               <tr>
                 <th>{{ "Id" | localize }}</th>
                 <th>{{ "Type" | localize }}</th>
+                <th>{{"Creator User Id" | localize}}</th>
+                <th>{{"Creation Date" | localize}}</th>
+                <th>{{"Modification User Id" | localize}}</th>
+                <th>{{"Modification Date" | localize}}</th>
                 <th style="width: 200px;">{{ "Actions" | localize }}</th>
               </tr>
             </thead>
@@ -143,6 +147,12 @@
               >
                 <td>{{ menuItemType.id }}</td>
                 <td>{{ menuItemType.menuItemType1 }}</td>
+                <td>{{ menuItemType.creatorUserId }}</td>
+                <td>{{ menuItemType.creationTime.calendar() }}</td>
+                <td *ngIf="menuItemType.lastModifierUserId != null">{{ menuItemType.lastModifierUserId }}</td>
+                <td *ngIf="menuItemType.lastModifierUserId != null">{{ menuItemType.lastModificationTime.calendar() }}</td>
+                <td *ngIf="menuItemType.lastModifierUserId == null">No Modification</td>
+                <td *ngIf="menuItemType.lastModifierUserId == null">No Modification</td>
                 <td>
                   <button
                     type="button"

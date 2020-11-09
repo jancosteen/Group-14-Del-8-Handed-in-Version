@@ -18,6 +18,7 @@ import { CreateMenuItemDialogComponent } from '../../menuItems/create-menuItem/c
 import { EditMenuDialogComponent } from '../edit-menu/edit-menu-dialog.component';
 import { CreateMenuDialogComponent } from '../create-menu/create-menu-dialog.component';
 import { PagedRequestDto } from '@shared/paged-listing-component-base';
+import { MenuPropertiesDialogComponent } from '../menu-properties/edit-menu-property-dialog.component';
 
 class PagedMenuItemsRequestDto extends PagedRequestDto {
   keyword: string;
@@ -51,6 +52,8 @@ export class MenuDetailComponent extends AppComponentBase
   isActive: boolean | null;
   menus:MenuDto[]=[];
   sMenuId:string;
+  propertiesCheck:boolean;
+  iMenuId:number;
 
 
 
@@ -72,6 +75,7 @@ export class MenuDetailComponent extends AppComponentBase
   }
 
   ngOnInit(): void {
+    this.propertiesCheck = false;
     let id: string = this.activeRoute.snapshot.params['id'];
     this.Iid =+ id;
     this._menuService.getMenuById(this.Iid).subscribe((result: MenuDtoListResultDto) => {
@@ -195,8 +199,17 @@ export class MenuDetailComponent extends AppComponentBase
     });
   }
 
-  editMenu(menu: MenuDto): void {
-    this.showCreateOrEditMenuDialog(menu.id);
+  editMenu(): void {
+    this.iMenuId = parseInt(this.sMenuId);
+    this.showCreateOrEditMenuDialog(this.iMenuId);
+  }
+
+  viewProperties(){
+    if(this.propertiesCheck != true){
+      this.propertiesCheck = true;
+    }else{
+      this.propertiesCheck = false;
+    }
   }
 
   showCreateOrEditMenuDialog(id?: number): void {

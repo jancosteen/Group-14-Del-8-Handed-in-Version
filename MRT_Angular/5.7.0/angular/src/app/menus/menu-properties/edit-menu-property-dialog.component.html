@@ -1,0 +1,183 @@
+<form
+  class="form-horizontal"
+  autocomplete="off"
+  #editMenuForm="ngForm"
+  (ngSubmit)="save()"
+>
+  <abp-modal-header
+    [title]="'Properties' | localize"
+    (onCloseClick)="save()"
+  ></abp-modal-header>
+  <div class="modal-body">
+    <div class="form-group row required">
+      <label class="col-md-3 col-form-label" for="name">
+        {{ "Menu" | localize }}
+      </label>
+      <div class="col-md-9">
+        <input
+          type="text"
+          class="form-control"
+          name="name"
+          id="name"
+          maxlength="128"
+          disabled
+
+          [(ngModel)]="menu.menuName"
+          #nameModel="ngModel"
+          #nameEl
+        />
+        <abp-validation-summary
+          [control]="nameModel"
+          [controlEl]="nameEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+
+    <div class="form-group row required">
+      <label class="col-md-3 col-form-label" for="cUser">
+        {{ "Creation User" | localize }}
+      </label>
+      <div class="col-md-9">
+        <input
+          type="text"
+          class="form-control"
+          name="cUser"
+          id="cUser"
+          maxlength="128"
+          disabled
+
+          [(ngModel)]="menu.creatorUserId"
+          #cUserModel="ngModel"
+          #cUserEl
+        />
+        <abp-validation-summary
+          [control]="cUserModel"
+          [controlEl]="cUserEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+
+    <div class="form-group row required">
+      <label class="col-md-3 col-form-label" for="cDate">
+        {{ "Creation Date" | localize }}
+      </label>
+      <div class="col-md-9">
+        <input
+          type="text"
+          class="form-control"
+          name="cDate"
+          id="cDate"
+          maxlength="128"
+          disabled
+
+          [value]="menu.creationTime.calendar()"
+          [(ngModel)]="menu.creationTime"
+          #cDateModel="ngModel"
+          #cDateEl
+        />
+        <abp-validation-summary
+          [control]="cDateModel"
+          [controlEl]="cDateEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+
+    <!--<div class="form-group row required">
+      <label class="col-md-3 col-form-label" for="mUser">
+        {{ "Modification User" | localize }}
+      </label>
+      <div class="col-md-9">
+        <input
+          type="text"
+          class="form-control"
+          name="mUser"
+          id="mUser"
+          maxlength="128"
+          disabled
+          required
+          [(ngModel)]="menu.lastModifierUserId"
+          #mUserModel="ngModel"
+          #mUserEl
+        />
+        <abp-validation-summary
+          [control]="mUserModel"
+          [controlEl]="mUserEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+
+    <div class="form-group row required">
+      <label class="col-md-3 col-form-label" for="mDate">
+        {{ "Modification Date" | localize }}
+      </label>
+      <div class="col-md-9">
+        <input
+          type="text"
+          class="form-control"
+          name="mDate"
+          id="mDate"
+          maxlength="128"
+          disabled
+          required
+          [value]="menu.lastModificationTime.calendar()"
+          [(ngModel)]="menu.lastModificationTime"
+          #mDateModel="ngModel"
+          #mDateEl
+        />
+        <abp-validation-summary
+          [control]="mDateModel"
+          [controlEl]="mDateEl"
+        ></abp-validation-summary>
+      </div>
+    </div>-->
+
+  </div>
+  <abp-modal-footer
+    [cancelDisabled]="saving"
+    [saveDisabled]="!editMenuForm.form.valid || saving"
+    (onCancelClick)="save()"
+  ></abp-modal-footer>
+</form>
+
+<!--
+  <div class="form-group row required">
+      <label class="col-md-3 col-form-label" for="tenancyName">
+        {{ "Menu Id" | localize }}
+      </label>
+      <div class="col-md-9">
+        <input
+          type="text"
+          class="form-control"
+          name="tenancyName"
+          id="tenancyName"
+          minlength="2"
+          maxlength="64"
+          required
+          [(ngModel)]="menu.id"
+          #tenancyNameModel="ngModel"
+          #tenancyNameEl
+        />
+        <abp-validation-summary
+          [control]="tenancyNameModel"
+          [controlEl]="tenancyNameEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+  <div class="form-group row mb-0">
+      <label class="col-md-3 col-form-label">
+        {{ "IsActive" | localize }}
+      </label>
+      <div class="col-md-9">
+        <div class="custom-control custom-checkbox">
+          <input
+            type="checkbox"
+            class="custom-control-input"
+            name="isActive"
+            id="isActive"
+            [(ngModel)]="menu.isActive"
+          />
+          <label class="custom-control-label mt-2" for="isActive"></label>
+        </div>
+      </div>
+    </div>
+-->

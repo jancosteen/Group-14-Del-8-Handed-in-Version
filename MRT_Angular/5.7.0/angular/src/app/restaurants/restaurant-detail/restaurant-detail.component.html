@@ -21,6 +21,10 @@
           <i class="fa fa-pencil-alt"></i>
           {{ "Edit" | localize }}
         </a>
+        <a href="javascript:;" class="btn bg-secondary" style="margin-left:10px" (click)="viewProperties()">
+          <i class="fas fa-list"></i>
+          {{ "Properties" | localize }}
+        </a>
       </div>
     </div>
     <div class="form-group row">
@@ -127,6 +131,111 @@
           name="restaurantStat"
           disabled
           [(ngModel)]="resStatus.restaurantStatus1">
+      </div>
+    </div>
+
+    <div *ngIf="propertiesCheck == true" class="form-group row ">
+      <label class="col-sm-2 col-form-label" for="cUser">
+        {{ "Creation User" | localize }}
+      </label>
+      <div class="col-sm-10">
+        <input
+          type="text"
+          class="form-control"
+          name="cUser"
+          id="cUser"
+          maxlength="128"
+          disabled
+          [(ngModel)]="restaurant.creatorUserId"
+        />
+      </div>
+    </div>
+
+    <div *ngIf="propertiesCheck == true" class="form-group row ">
+      <label class="col-sm-2 col-form-label" for="cDate">
+        {{ "Creation Date" | localize }}
+      </label>
+      <div class="col-sm-10">
+        <input
+          type="text"
+          class="form-control"
+          name="cDate"
+          id="cDate"
+          maxlength="128"
+          disabled
+          [value]="restaurant.creationTime.calendar()"
+          [(ngModel)]="restaurant.creationTime"
+        />
+      </div>
+    </div>
+
+    <div *ngIf="propertiesCheck == true && restaurant.lastModifierUserId != null" class="form-group row ">
+      <label class="col-sm-2 col-form-label" for="mUser">
+        {{ "Modification User" | localize }}
+      </label>
+      <div class="col-sm-10">
+        <input
+          type="text"
+          class="form-control"
+          name="mUser"
+          id="mUser"
+          maxlength="128"
+          disabled
+          [(ngModel)]="restaurant.lastModifierUserId"
+        />
+      </div>
+    </div>
+
+    <div *ngIf="propertiesCheck == true && restaurant.lastModifierUserId != null" class="form-group row ">
+      <label class="col-sm-2 col-form-label" for="mDate">
+        {{ "Modification Date" | localize }}
+      </label>
+      <div class="col-sm-10">
+        <input
+          type="text"
+          class="form-control"
+          name="mDate"
+          id="mDate"
+          maxlength="128"
+          disabled
+          [value]="restaurant.lastModificationTime.calendar()"
+          [(ngModel)]="restaurant.lastModificationTime"
+        />
+      </div>
+    </div>
+
+    <div *ngIf="propertiesCheck == true && restaurant.lastModifierUserId == null" class="form-group row ">
+      <label class="col-sm-2 col-form-label" for="mUser">
+        {{ "Modification User" | localize }}
+      </label>
+      <div class="col-sm-10">
+        <input
+          type="text"
+          class="form-control"
+          name="mUser"
+          id="mUser"
+          maxlength="128"
+          disabled
+          value="No Modification"
+        />
+      </div>
+    </div>
+
+    <div *ngIf="propertiesCheck == true && restaurant.lastModifierUserId == null" class="form-group row ">
+      <label class="col-sm-2 col-form-label" for="mDate">
+        {{ "Modification Date" | localize }}
+      </label>
+      <div class="col-sm-10">
+        <input
+          type="text"
+          class="form-control"
+          name="mDate"
+          id="mDate"
+          maxlength="128"
+          disabled
+          value="No Modification"
+
+        />
       </div>
     </div>
 
