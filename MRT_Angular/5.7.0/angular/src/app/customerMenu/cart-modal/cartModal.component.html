@@ -54,6 +54,8 @@
       <div class="col-sm-12 col-md-auto" style="margin-top: 15px;">
         <div class="card h-100">
           <div class="card-footer mt-auto">
+            <p class="card-text text-right">Sub Total: {{cartTotal - totalVat | currency:"R "}}</p>
+            <p class="card-text text-right">VAT: {{totalVat | currency:"R "}}</p>
             <p class="card-text text-right" style="font-weight: bold;">Total: {{cartTotal | currency:"R "}}</p><!---->
           </div>
         </div>

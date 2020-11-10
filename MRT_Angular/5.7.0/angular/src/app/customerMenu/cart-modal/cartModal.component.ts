@@ -40,6 +40,7 @@ export class CartModalComponent extends AppComponentBase
   cartTotal:number=0;
   cartCount:number=0;
   orderId = 0;
+  totalVat:number=0;
 
   @Output() onSave = new EventEmitter<any>();
 
@@ -87,6 +88,7 @@ export class CartModalComponent extends AppComponentBase
       this.cartTotal += this.cart[x].item.menuItemPrice * this.cart[x].qty;
     }
     console.log(this.cartTotal);
+    this.totalVat = this.cartTotal * (15/115)
   }
 
   createOrderLines(orderId){

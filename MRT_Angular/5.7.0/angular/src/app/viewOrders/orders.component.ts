@@ -12,6 +12,8 @@ import {
   OrderLineDtoPagedResultDto,
   OrderLineDtoListResultDto,
   MenuItemCandUDto,
+  OrderServiceProxy,
+  OrderDto,
 
 } from '../../shared/service-proxies/service-proxies';
 import { CreateViewOrderDialogComponent } from './create-order/create-order-dialog.component';
@@ -41,12 +43,16 @@ export class ViewOrdersComponent extends PagedListingComponentBase<OrderLineDto>
   total:number;
   sRestaurantId:string;
   iRestaurantId:number;
+  totalVat:number=0;
+  order: OrderDto= new OrderDto();
+  currentDate;
 
   constructor(
     injector: Injector,
     private _orderLineService: OrderLineServiceProxy,
     private _modalService: BsModalService,
-    private _router:Router
+    private _router:Router,
+    private _orderService: OrderServiceProxy
   ) {
     super(injector);
   }
@@ -58,9 +64,16 @@ export class ViewOrdersComponent extends PagedListingComponentBase<OrderLineDto>
   ): void {
     this.sOrderId = localStorage.getItem('orderId');
     this.iOrderId = parseInt(this.sOrderId);
+    this.currentDate = new Date().toISOString().substring(0, 16);
 
     this.sRestaurantId = localStorage.getItem('resId');
     this.iRestaurantId = parseInt(this.sRestaurantId);
+
+    this._orderService
+      .get(this.iOrderId)
+      .subscribe((result:OrderDto) =>{
+        this.order = result;
+      })
 
 
 
@@ -93,6 +106,7 @@ export class ViewOrdersComponent extends PagedListingComponentBase<OrderLineDto>
       this.total += this.orderLines[x].itemQty * this.orderLines[x].menuItemIdFkNavigation.menuItemPrice;
     }
     console.log('total', this.total);
+    this.totalVat = this.total * 15/115;
   }
 
   delete(orderLine: OrderLineDto): void {
@@ -163,5 +177,30 @@ export class ViewOrdersComponent extends PagedListingComponentBase<OrderLineDto>
     this.keyword = '';
     this.isActive = undefined;
     this.getDataPage(1);
+  }
+
+  checkout(){
+    this.order.orderStatusIdFk = 3;
+    this.order.orderDateCompleted = this.currentDate;
+
+    this._orderService
+      .update(this.order)
+      .pipe(
+        finalize(() => {
+          console.log('update pipe')
+        })
+      )
+      .subscribe(() => {
+        this.notify.info(this.l('Thank You, Payment Received'));
+      });
+
+      this.backToHome();
+
+      localStorage.removeItem('orderId');
+  }
+
+  backToHome(): void {
+    const detailsUrl: string = `/app/home`;
+    this._router.navigate([detailsUrl]);
   }
 }
