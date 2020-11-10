@@ -200,8 +200,21 @@
           maxlength="128"
           disabled
           value="No Modification"
-
         />
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-3" style="text-align: center;">
+        <button (click)="preparing()" class="btn btn-primary">Preparing</button>
+      </div>
+      <div class="col-3" style="text-align: center;">
+        <button (click)="completed()" class="btn btn-primary">Completed</button>
+      </div>
+      <div class="col-3" style="text-align: center;">
+        <button (click)="onItsWay()" class="btn btn-primary">On Its Way</button>
+      </div>
+      <div class="col-3" style="text-align: center;">
+        <button (click)="rejected()" class="btn btn-danger">Rejected</button>
       </div>
     </div>
 

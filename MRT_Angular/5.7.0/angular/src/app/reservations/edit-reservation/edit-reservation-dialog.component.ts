@@ -118,7 +118,7 @@ export class EditReservationDialogComponent extends AppComponentBase
     //I commented this out because of an error
 
     this._reservationService
-    .sendMessage(reserv)
+    .sendEmail(reserv)
     .subscribe(res =>{
       console.log('ake sure');
     })

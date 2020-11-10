@@ -40,6 +40,8 @@ export class OrderDetailComponent extends AppComponentBase
   orders:OrderDto[]=[];
   linkedOrderLines: OrderLineCandUDto[]=[];
   propertiesCheck:boolean;
+  order2 : OrderDto = new OrderDto();
+  currentDate;
 
 
 
@@ -60,6 +62,7 @@ export class OrderDetailComponent extends AppComponentBase
 
   ngOnInit(): void {
     this.propertiesCheck = false;
+    this.currentDate = new Date().toISOString().substring(0, 16);
     let id: string = this.activeRoute.snapshot.params['id'];
     this.Iid =+ id;
     localStorage.setItem('orderId',id);
@@ -82,6 +85,86 @@ export class OrderDetailComponent extends AppComponentBase
     }else{
       this.propertiesCheck = false;
     }
+  }
+
+  preparing(){
+    this._orderService.get(this.Iid).subscribe((result:OrderDto)=>{
+      this.order2 = result;
+
+      this.order2.orderStatusIdFk = 2;
+      this._orderService.update(this.order2)
+        .pipe(finalize(() => {
+          console.log('updatePipe');
+        })
+      )
+      .subscribe(() => {
+        this.notify.info(this.l('Order Updated To Preparing'));
+        this.ngOnInit();
+      });
+    })
+
+
+  }
+
+
+  onItsWay(){
+    this._orderService.get(this.Iid).subscribe((result:OrderDto)=>{
+      this.order2 = result;
+      this.update1();
+    })
+
+
+  }
+
+  update1(){
+    this.order2.orderStatusIdFk = 3;
+    this._orderService.update(this.order2)
+      .pipe(finalize(() => {
+        console.log('updatePipe');
+      })
+    )
+    .subscribe(() => {
+      this.notify.info(this.l('Order Updated To On Its Way'));
+      this.ngOnInit();
+    });
+  }
+
+  completed(){
+    this._orderService.get(this.Iid).subscribe((result:OrderDto)=>{
+      this.order2 = result;
+
+      this.order2.orderStatusIdFk = 4;
+      this.order2.orderDateCompleted = this.currentDate;
+      this._orderService.update(this.order2)
+        .pipe(finalize(() => {
+          console.log('updatePipe');
+        })
+      )
+      .subscribe(() => {
+        this.notify.info(this.l('Order Updated To Completed'));
+        this.ngOnInit();
+      });
+    })
+
+  }
+
+  rejected(){
+    this._orderService.get(this.Iid).subscribe((result:OrderDto)=>{
+      this.order2 = result;
+
+      this.order2.orderStatusIdFk = 5;
+      this._orderService.update(this.order2)
+        .pipe(finalize(() => {
+          console.log('updatePipe');
+        })
+      )
+      .subscribe(() => {
+        this.notify.info(this.l('Order Updated To Rejected'));
+        this.ngOnInit();
+      });
+    })
+
+
   }
 
   save(): void {
