@@ -157,6 +157,9 @@ import { MatSelect } from '@angular/material/select';
 import { MenuPropertiesDialogComponent } from './menus/menu-properties/edit-menu-property-dialog.component';
 import { repo } from '../shared/service-proxies/repo';
 
+import { ZXingScannerModule } from '@zxing/ngx-scanner';
+import { QrCodeScannerComponent } from './qr-code-scanner/qr-code-scanner.component';
+
 
 @NgModule({
   declarations: [
@@ -295,7 +298,8 @@ import { repo } from '../shared/service-proxies/repo';
     MonthlySalesChartComponent,
     StoreSessionsChartComponent,
     ReportComponent,
-    MenuPropertiesDialogComponent
+    MenuPropertiesDialogComponent,
+    QrCodeScannerComponent
 
 
   ],
@@ -321,7 +325,8 @@ import { repo } from '../shared/service-proxies/repo';
     MatIconModule,
     MatButtonModule,
     LayoutModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    ZXingScannerModule
 
 
   ],

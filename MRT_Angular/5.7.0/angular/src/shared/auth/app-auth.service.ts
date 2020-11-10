@@ -101,6 +101,7 @@ export class AppAuthService {
         if (initialUrl.indexOf('/login') > 0) {
             initialUrl = AppConsts.appBaseUrl;
         }
+        localStorage.clear();
         this.iUserId=this.authenticateResult.userId;
         this.sUserId +=this.iUserId;
         console.log(this.sUserId);

@@ -69,6 +69,12 @@ export class CustomerMenuComponent extends PagedListingComponentBase<MenuItemDto
   iOrderId:number;
   orderCheck:boolean;
   orderId:number;
+  checkedIn:string;
+  checkedInCheck:boolean;
+  selectedMenuItem:MenuItemDto = new MenuItemDto();
+  selectedMenuItems: MenuItemDto[]=[];
+  selectedMenuItemCategories: MenuItemCategoryDetailsDto[]=[];
+  selectedMenuItemCategory: MenuItemCategoryDetailsDto = new MenuItemCategoryDetailsDto();
 
   cart3 = [];
   cartItemCount: BehaviorSubject<number>;
@@ -100,21 +106,30 @@ export class CustomerMenuComponent extends PagedListingComponentBase<MenuItemDto
     finishedCallback: Function
   ) {
     request.keyword = '';
+    this.checkedInCheck = false;
+    this.checkedIn=localStorage.getItem('checkedIn');
+    if(this.checkedIn != null){
+      this.checkedInCheck = true;
+    }
+    this.menus = [];
 
     this.orderCheck = false;
     this.orderId = +localStorage.getItem('orderId');
     console.log('local storage orderId',this.orderId);
     let id: string = this.activeRoute.snapshot.params['id'];
     localStorage.setItem('resId', id);
+    console.log('resId',id);
     this.Iid =+ id;
     this._menuService.getMenuByResId(this.Iid).subscribe((result: MenuDtoPagedResultDto) => {
       this.menus = result.items;
+      console.log(this.menus);
       this.restaurantdIdFk = this.menus[0].restaurantIdFk;
       //this.menuId = this.menus[0].id;
       this.restaurant = this.menus[0].restaurantIdFkNavigation.restaurantName;
+      this.popCategories(this.menus[0]);
     });
 
-    this.popCategories();
+
 
     this.cartCount = 0;
     this.cart = this._sessionService.getCart();
@@ -127,37 +142,51 @@ export class CustomerMenuComponent extends PagedListingComponentBase<MenuItemDto
   }
 
   addToOrder(item: MenuItemCandUDto){
-    console.log('item', item);
 
-    const mItem = {
-      id : item.id,
-      menuItemName : item.menuItemName,
-      menuItemDescription : item.menuItemDescription,
-      menuItemPrice : item.menuItemPrice,
-      menuItemCategoryIdFk : item.menuItemCategoryIdFk
-    };
+    if(this.checkedInCheck == false){
+      console.log('not', this.checkedIn);
+
+        abp.message.confirm(
+          ('Please check in before starting your order'),
+          undefined,
+          (result: boolean) => {
+            if (result) {
+              this.goToCheckIn();
+            }
+          }
+        );
+
+    }else{
+      console.log('item', item);
+
+      const mItem = {
+        id : item.id,
+        menuItemName : item.menuItemName,
+        menuItemDescription : item.menuItemDescription,
+        menuItemPrice : item.menuItemPrice,
+        menuItemCategoryIdFk : item.menuItemCategoryIdFk
+      };
 
 
-    console.log('mItem', mItem);
+      console.log('mItem', mItem);
 
-      this._sessionService.addProduct(mItem);
-      console.log('cartCountBefore GetCart', this.cartCount);
-      this.cartCount = this._sessionService.getCartItemCount();
-      console.log('cartCountAfter GetCartCount', this.cartCount);
+        this._sessionService.addProduct(mItem);
+        console.log('cartCountBefore GetCart', this.cartCount);
+        this.cartCount = this._sessionService.getCartItemCount();
+        console.log('cartCountAfter GetCartCount', this.cartCount);
 
-      if(this.orderId > 0){
-        this.orderCheck = true;
-        console.log(localStorage.getItem('orderId'));
-      }else{
-        this.createOrder();
-      }
+        if(this.orderId > 0){
+          this.orderCheck = true;
+          console.log(localStorage.getItem('orderId'));
+        }else{
+          this.createOrder();
+        }
+    }
+
 
   }
 
   createOrder(){
-    if(this.orderCheck == true){
-      console.log('local storage orderId', localStorage.getItem('orderId'));
-    }else{
       this.order.qrCodeSeatingIdFk = 3;
       this.order.orderStatusIdFk = 1;
         this._orderService
@@ -176,9 +205,11 @@ export class CustomerMenuComponent extends PagedListingComponentBase<MenuItemDto
             this.orderCheck = true;
     }
 
-}
 
-  popCategories(){
+
+  popCategories(menu){
+
+    console.log('menu in PopCat', menu);
 
     this._menuItemCategoryService
       .getMicAndMi()
@@ -190,7 +221,36 @@ export class CustomerMenuComponent extends PagedListingComponentBase<MenuItemDto
       .subscribe((result: MenuItemCategoryDetailsDtoListResultDto) => {
         this.menuItemCategories = result.items;
         console.log(this.menuItemCategories);
+
+        for(let x=0;x<this.menuItemCategories.length;x++){
+          for(let y=0;y<menu.menuItem.length;y++){
+            if(this.menuItemCategories[x].id == menu.menuItem[y].menuItemCategoryIdFk){
+              this.selectedMenuItem = menu.menuItem[y];
+              this.selectedMenuItems.push(this.selectedMenuItem)
+
+              this.selectedMenuItemCategory = this.menuItemCategories[x];
+              this.selectedMenuItemCategories.push(this.selectedMenuItemCategory);
+
+            }
+          }
+        }
+
+        console.log('selected menuItems', this.selectedMenuItems);
+        console.log('selected menuItemCategories', this.selectedMenuItemCategories);
       });
+  }
+
+  popMenuItems(){
+    for(let x=0;x<this.menuItemCategories.length;x++){
+      for(let y=0;y<this.menus[0].menuItem.length;y++){
+        if(this.menuItemCategories[x].id == this.menus[0].menuItem[y].menuItemCategoryIdFk){
+          this.selectedMenuItem = this.menu[0].menuItem[y];
+          this.selectedMenuItems.push(this.selectedMenuItem)
+        }
+      }
+    }
+
+    console.log('selected menuItems', this.selectedMenuItems);
   }
 
 
@@ -265,9 +325,11 @@ export class CustomerMenuComponent extends PagedListingComponentBase<MenuItemDto
       this.cartCount = 0;
       this._sessionService.clearCart();
     });
-
   }
 
-
+goToCheckIn(){
+    const detailsUrl: string = `/app/qrScan`;
+    this._router.navigate([detailsUrl]);
+  }
 
 }

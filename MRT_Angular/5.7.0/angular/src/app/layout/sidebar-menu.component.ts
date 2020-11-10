@@ -53,6 +53,7 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
       new MenuItem(this.l('HomePage'), '/app/home', 'fas fa-circle'),
       new MenuItem(this.l('Order History'), '/app/orderHist', 'fas fa-circle'),
       new MenuItem(this.l('My Reservations'), '/app/cusReser', 'fas fa-circle'),
+      new MenuItem(this.l('Check In'), 'qrScan','fas fa-circle'),
       new MenuItem(this.l('Administration'), '','fas fa-circle','Pages.SYSTEM_ADMIN',[
         new MenuItem(
           this.l('Tenants'),

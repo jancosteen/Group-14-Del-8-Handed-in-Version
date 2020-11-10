@@ -24,6 +24,7 @@ implements OnInit {
   invalidSelection = false;
 
   generated=false;
+
   constructor( private _qrCodeService:QrCodeServiceProxy
       ,private _seatingService: SeatingServiceProxy
       ,private _restaurantService: RestaurantServiceProxy

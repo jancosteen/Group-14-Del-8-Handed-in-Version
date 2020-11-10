@@ -15,8 +15,8 @@
     </div>
   </section>
 
-  <div *ngFor="let mic of menuItemCategories">
-    <div *ngIf="mic.menuItem.length > 0" class="container-fluid"  style="margin-top: 15px;">
+  <div *ngFor="let mic of selectedMenuItemCategories"><!--"let mic of menuItemCategories"-->
+    <div class="container-fluid"  style="margin-top: 15px;"><!--*ngIf="mic.menuItem.length > 0"-->
       <div class="row">
         <div class="col-12">
           <div class="card">
@@ -26,13 +26,13 @@
       </div>
     </div>
 
-    <div *ngFor="let mi of mic.menuItem" class="container-fluid content-row">
+    <div *ngFor="let mi of mic.menuItem" class="container-fluid content-row"><!---->
       <div class="row">
         <div class="col-sm-12 col-md-auto" ><!---->
           <div class="card h-100" (click)="addToOrder(mi)">
           <div class="card-header d-flex flex-column">
             <div class="card-title">{{mi.menuItemName}}</div><!---->
-            <div class="text-right">
+            <div *ngIf="checkedInCheck == true" class="text-right">
               <a href="javascript:;" class="btn bg-blue" ><!--(click)="addToOrder(mi)"-->
                 <i class="fa fa-plus-square"></i>
                 {{ "" | localize }}
@@ -50,7 +50,7 @@
       </div>
     </div>
   </div>
-  <button *ngIf="cartCount>0" type="button" class="btn btn-primary btn-lg btn-block"
+  <button *ngIf="cartCount>0 && checkedInCheck == true" type="button" class="btn btn-primary btn-lg btn-block"
           (click)="createMenuItemCategory()"
           style="position: fixed;
             bottom: 1rem;
