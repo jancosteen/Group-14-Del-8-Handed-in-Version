@@ -5,8 +5,10 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { jsPDF } from "jspdf";
 import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+import { random } from 'lodash';
+import autoTable from 'jspdf-autotable'
 
 
 
@@ -53,35 +55,8 @@ options={
 
     }
 
-    //I changed this function name because the previous one wasnt found
-  ngOnInit(){
-    this.repo.getReservationByUser()
-      .subscribe( res => {
-        this.items = res["result"];
-        console.log('items',this.items)
-      })
-
-  }
-
-  downloadpdf(){
-    var el = document.getElementById('ResbyCus');
-    html2canvas(el).then(canvas => {
-
-      var imgWidth = 208;
-      var pageHeight = 295;
-      var imgHeight = canvas.height * imgWidth /canvas.width;
-      var heightLeft = imgHeight;
-      const imgData = canvas.toDataURL('image/png');
-
-      const doc = new jsPDF('p','mm','a4');
-
-      doc.text("Reservations By Customer",80,20)
-      doc.addImage(imgData,'PNG',120,40,120,100)
-      setTimeout(function(){
-        doc.save("ReservationsByCustomer.pdf")
-        },2000);
-
-    })
+  ngOnInit(){ 
+    
 
   }
 

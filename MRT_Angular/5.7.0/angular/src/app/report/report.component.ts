@@ -4,7 +4,10 @@ import { ReservationServiceProxy } from '@shared/service-proxies/service-proxies
 import { Component, OnInit } from '@angular/core';
 import { request } from 'http';
 import { finalize } from 'rxjs/operators';
-import { repo } from '@shared/service-proxies/repo';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+import { random } from 'lodash';
+import autoTable from 'jspdf-autotable'
 
 @Component({
   selector: 'app-report',
@@ -17,16 +20,16 @@ export class ReportComponent implements OnInit {
   items;
   items2;
   menuitems;
+  reservations;
   item;
   cust=false;
   menuitem=false;
   salesdown=false;
+  reser=false;
   x=false;
   y=false;
-  options = [
-    {id:1,text:"Orders By Customer"},
-    {id:1,text:""}
-  ]
+  z=false;
+
   menuItemForm = new FormGroup({
     menuitem: new FormControl()
   });
@@ -45,15 +48,25 @@ export class ReportComponent implements OnInit {
   ngOnInit(): void {
     this.x=false;
     this.y=false;
+    this.z=false;
     this.cust=false;
     this.menuitem=false;
     this.salesdown=false;
+    this.reser=false;
 
     this.itemrepo
       .getMenuItems()
       .subscribe( x =>  {
         this.menuitems = x["result"]
+        
         console.log('ites',this.menuitems)
+        console.log('check',this.menuitems[0].id)
+      })
+
+      this.repo.getReservationByuser()
+      .subscribe( res => {
+        this.reservations = res["result"];
+        console.log('items',this.reservations)
       })
 
   }
@@ -61,8 +74,11 @@ export class ReportComponent implements OnInit {
   generateReport(){
     this.menuitem=false;
     this.cust=true;
+    this.reser=false;
     this.x=true;
-      this.repo.getReservationByUser()
+    this.y =false;
+    this.z = false;
+      this.repo.getOrderByuser()
       .subscribe( res => {
         this.items = res["result"];
         console.log('items',this.items)
@@ -73,27 +89,162 @@ export class ReportComponent implements OnInit {
   SalesbymenuItem(){
     this.cust=false;
     this.menuitem=true;
+    this.reser=false;
   }
 
+  ReservationsbyCust(){
+    this.cust=false;
+    this.menuitem=false;
+    this.reser=true;
+    this.z=true;
+    this.y=false;
+    this.x=false;
+  }
+  
   generateReport3(menuItemForm){
+    this.y = true;
+    this.z = false;
+    this.x = false;
     this.salesdown=true;
     console.log('valueinini1', menuItemForm.value["menuitem"])
 
     this.orderLineService.salesByMenuItem(menuItemForm.value["menuitem"])
     .subscribe( res => {
+      this.menuitem=true;
+      console.log('sales button',this.menuitem)
       this.items2 = res["result"];
       console.log('items',this.items2)
+     
     })
 
-    this.menuitem=true;
-
+    
+    
   }
 
   downloadPdf(){
     console.log('custorders')
+    let today = new Date().toLocaleDateString()
+    var num = random(0,1000,false);
+    var data = document.getElementById('Content');
+    html2canvas(data, 
+      {
+      useCORS: true,
+      allowTaint:true,
+      scrollY: -window.screenY
+      }).then(canvas => {
+        const contentDataUrl = canvas.toDataURL('image/PNG')
+        var doc = new jsPDF("p");
+        var imgData = new Image();
+
+        imgData.src = './assets/PIC2.png';
+        var pageWidth = doc.internal.pageSize.width;
+        doc.setFontSize(25);
+        doc.addImage(imgData,'PNG',(pageWidth/2) -100,9,85,85);
+        doc.text('Orders per Customer',(pageWidth/2)-50,15);
+        doc.setFontSize(15);
+        
+        doc.text('Report Generated on: ' + today, pageWidth*0.33,30);
+        doc.text('Report Id: '+num.toString(), pageWidth*0.33,35);
+        doc.setFontSize(10);
+        doc.text('This report represents all orders made by each customer', pageWidth*0.33,40);
+        doc.setFontSize(20);
+       // doc.text('Customer Name : '+CustomerName, pageWidth*0.33,70);
+        autoTable(doc,{html: '#Content', startY: 75});
+        doc.save("ordersbycustomers.pdf");
+
+    });
+      
+  
+    
   }
-  downloadPdf2(){
+  downloadPdf2(menuItemForm){
+
+    let id = menuItemForm.value["menuitem"];
+    console.log('ke ye id',id)
+    let itemName : string = ""
+    console.log('leng',this.menuitems["length"])
+    for(let x = 0; x < this.menuitems["length"]; x++){
+      console.log('this.menuitems[x].id',this.menuitems[x].id)
+      if(this.menuitems[x].id == id){
+        itemName = this.menuitems[x].menuItemName
+        console.log('itemName',itemName)
+      }
+      
+    }
+    console.log('itemname',itemName)
+
+
     console.log('salesby menuitem')
+    let today = new Date().toLocaleDateString()
+    var num = random(0,1000,false);
+   
+
+    var data = document.getElementById('Content2');
+      html2canvas(data, 
+        {
+        useCORS: true,
+        allowTaint:true,
+        scrollY: -window.screenY
+        }).then(canvas => {
+          const contentDataUrl = canvas.toDataURL('image/PNG')
+          var doc = new jsPDF("p");
+          var imgData = new Image();
+
+          imgData.src = './assets/PIC2.png';
+          var pageWidth = doc.internal.pageSize.width;
+          doc.setFontSize(25);
+          doc.addImage(imgData,'PNG',(pageWidth/2) -100,9,85,85);
+          doc.text('Sales by Menu Item Report',(pageWidth/2)-50,15);
+          doc.setFontSize(15);
+          
+          doc.text('Report Generated on: ' + today, pageWidth*0.33,30);
+          doc.text('Report Id: '+num.toString(), pageWidth*0.33,35);
+          doc.setFontSize(10);
+          doc.text('This report represents the sales by the selected menu item', pageWidth*0.33,40);
+          doc.setFontSize(20);
+          doc.text('Menu Item : '+itemName, pageWidth*0.33,70);
+          autoTable(doc,{html: '#Content2', startY: 75});
+          doc.save("SalesbymenuItem.pdf");
+
+      });
   }
 
+
+  downloadPdf3(){
+    this.x=false;
+    this.y=false;
+    this.z = true;
+    this.reser = true;
+    let today = new Date().toLocaleDateString()
+    var num = random(0,1000,false);
+    var data = document.getElementById('Content3');
+    html2canvas(data, 
+      {
+      useCORS: true,
+      allowTaint:true,
+      scrollY: -window.screenY
+      }).then(canvas => {
+        const contentDataUrl = canvas.toDataURL('image/PNG')
+        var doc = new jsPDF("p");
+        var imgData = new Image();
+
+        imgData.src = './assets/PIC2.png';
+        var pageWidth = doc.internal.pageSize.width;
+        doc.setFontSize(25);
+        doc.addImage(imgData,'PNG',(pageWidth/2) -100,9,85,85);
+        doc.text('Reservations per Customer',(pageWidth/2)-50,15);
+        doc.setFontSize(15);
+        
+        doc.text('Report Generated on: ' + today, pageWidth*0.33,30);
+        doc.text('Report Id: '+num.toString(), pageWidth*0.33,35);
+        doc.setFontSize(10);
+        doc.text('This report represents all reservations made by each customer', pageWidth*0.33,40);
+        doc.setFontSize(20);
+       // doc.text('Customer Name : '+CustomerName, pageWidth*0.33,70);
+        autoTable(doc,{html: '#Content3', startY: 75});
+        doc.save('ReservationsByCustomer.pdf');
+
+  
+      });
+    }
 }

@@ -2,27 +2,33 @@
     <h1>Reporting</h1>
     <div>
         <button class="btn btn-secondary btn-inline" (click)="generateReport()">Generate Orders by Customer</button> 
-        <button class="btn btn-secondary btn-inline" (click)="SalesbymenuItem()">Generate Sales by MenuItem</button> 
+        <button class="btn btn-secondary btn-inline" (click)="SalesbymenuItem()">Generate Sales by MenuItem</button>
+        <button class="btn btn-secondary btn-inline" (click)="ReservationsbyCust()">Generate Reservations by Customer</button>  
     </div>
     <div *ngIf="cust">
         <div *ngIf="items">
             <br><br>
             <h3>Orders by Customer</h3>
-            <div class="resTable" id="OrderByCust">
+            <div class="resTable" >
                 <div *ngFor="let item of items">
-                    <table class="table table-hover table-striped">
-                        <thead class="thead-light"></thead>
-                            <caption><strong>{{item.Name}}</strong></caption>
-                        <tr>
-                            <th>Order No.</th>
-                            <th>Date</th>
-                            <th>Status</th>
-                        </tr>
-                        <tr *ngFor="let obj of item.ordersList">
-                            <td>{{obj.No}}</td>
-                            <td>{{obj.Date}}</td>
-                            <td>{{obj.Status}}</td>
-                        </tr>
+                    <table class="table table-hover table-striped" id="Content">
+                        <caption></caption>
+                        <thead class="thead-light">
+                            <tr>
+                                <th><strong>{{item.Name}}</strong></th>
+                                <th>Order No.</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let obj of item.ordersList">
+                                <td></td>
+                                <td>{{obj.No}}</td>
+                                <td>{{obj.Date}}</td>
+                                <td>{{obj.Status}}</td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
           </div>
@@ -48,9 +54,9 @@
             <br>
             <div *ngIf="items2">
                 <div class="resTable" id="SalesbyMenuItem">
-                    <div>
-                        <small><strong>{{items2.Name}}</strong></small>
-                        <table class="table table-hover table-striped">
+                    <div >
+                        <h4><strong>{{items2.Name}}</strong></h4>
+                        <table class="table table-hover table-striped" id="Content2">
                             <thead class="thead-light">
                                 <tr>
                                     <th>Order No.</th>
@@ -67,7 +73,7 @@
                             </tbody>
                             <tfoot>
                                 <tr>
-                                  <th id="total" colspan="3">Total :</th>
+                                  <th id="total" colspan="2">Total :</th>
                                   <td>{{items2.total}}</td>
                                 </tr>
                             </tfoot>
@@ -77,6 +83,39 @@
             </div>
         </div> 
     </div>
+    <div *ngIf="reser">
+        <br><br>
+        <h3>Reservations by Customer</h3>
+        <div class="resTable" id="ResbyCus">
+          <div *ngFor="let item of reservations">
+            <table class="table table-hover table-striped" id="Content3">
+              <thead class="thead-light">
+                <tr>
+                  <th><strong>{{item.Name}}</strong></th>
+                  <th>Reservation Date</th>
+                  <th>Restaurant</th>
+                  <th>Number of People</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let obj of item.reservationList">
+                  <td></td>
+                  <td>{{obj.ReserDate}}</td>
+                  <td>{{obj.ResName}}</td>
+                  <td>{{obj.ResQty}}</td>
+                  <td>{{obj.Status}}</td>
+                </tr>
+              </tbody> 
+            </table>
+          </div>
+        </div>
+    </div>
+    <div *ngIf="reser">
+        <div *ngIf="z == true">
+            <button class="btn btn-info btn-inline" (click)="downloadPdf3()">Download PDF</button> 
+        </div>
+    </div>
     <div *ngIf="cust">
         <div *ngIf="x === true">
             <button class="btn btn-info btn-inline" (click)="downloadPdf()">Download PDF</button> 
@@ -84,9 +123,12 @@
     </div>
     <div *ngIf="salesdown">
         <div *ngIf="y === true">
-            <button class="btn btn-info btn-inline" (click)="downloadPdf2()">Download PDF</button> 
+            <button class="btn btn-info btn-inline" (click)="downloadPdf2(menuItemForm)">Download PDF</button> 
         </div>
     </div>
+    
+        
+
 </div>
 
 
