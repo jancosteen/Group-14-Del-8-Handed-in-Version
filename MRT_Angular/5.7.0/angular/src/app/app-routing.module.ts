@@ -47,6 +47,7 @@ import { ProvincesComponent } from './provinces/provinces.component';
 import { ViewOrdersComponent } from './viewOrders/orders.component';
 import { OrderHistoryComponent } from './orderHistory/orderHistory.component';
 import { QrCodeScannerComponent } from './qr-code-scanner/qr-code-scanner.component';
+import { ViewUserComponent } from './view-user/view-user.component';
 
 @NgModule({
     imports: [
@@ -100,7 +101,8 @@ import { QrCodeScannerComponent } from './qr-code-scanner/qr-code-scanner.compon
                     { path: 'provinces', component: ProvincesComponent, data: { permission: '' }, canActivate: [AppRouteGuard] },
                     { path: 'cusOrder/:id', component:ViewOrdersComponent, data:{ permisssion: ''}, canActivate: [AppRouteGuard]},
                     { path: 'orderHist', component:OrderHistoryComponent, data:{ permisssion: ''}, canActivate: [AppRouteGuard]},
-                    { path: 'qrScan', component:QrCodeScannerComponent, data:{ permisssion: ''}, canActivate: [AppRouteGuard]}
+                    { path: 'qrScan', component:QrCodeScannerComponent, data:{ permisssion: ''}, canActivate: [AppRouteGuard]},
+                    { path: 'viewUser', component:ViewUserComponent, data:{ permisssion: ''}, canActivate: [AppRouteGuard]}
 
                 ]
             }

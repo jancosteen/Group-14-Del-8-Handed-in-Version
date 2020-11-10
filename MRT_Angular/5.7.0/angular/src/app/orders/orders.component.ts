@@ -52,6 +52,8 @@ export class OrdersComponent extends PagedListingComponentBase<OrderDto> {
   selectedOrder:OrderDto= new OrderDto();
   filteredQrCodes:QrCodeDto[]=[];
   finalOrders:OrderDto[]=[];
+  finalOrders2:OrderDto[]=[];
+
 
 
   constructor(
@@ -144,7 +146,7 @@ export class OrdersComponent extends PagedListingComponentBase<OrderDto> {
   viewOrders(resId){
     this.selectedQrCodes = [];
     this.finalOrders = [];
-    this.filteredQrCodes = []
+    this.filteredQrCodes = [];
 
 
       for(let y=0;y<this.qrCodes.length;y++){
@@ -175,6 +177,8 @@ export class OrdersComponent extends PagedListingComponentBase<OrderDto> {
       })
 
       console.log('finalOrders', this.finalOrders);
+      this.finalOrders2=this.finalOrders;
+      console.log('2',this.finalOrders2);
     }
 
   }
