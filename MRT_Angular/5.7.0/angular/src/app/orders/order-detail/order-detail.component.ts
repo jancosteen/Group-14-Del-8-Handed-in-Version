@@ -39,6 +39,7 @@ export class OrderDetailComponent extends AppComponentBase
   orderStatusIdFk:number;
   orders:OrderDto[]=[];
   linkedOrderLines: OrderLineCandUDto[]=[];
+  propertiesCheck:boolean;
 
 
 
@@ -58,6 +59,7 @@ export class OrderDetailComponent extends AppComponentBase
   }
 
   ngOnInit(): void {
+    this.propertiesCheck = false;
     let id: string = this.activeRoute.snapshot.params['id'];
     this.Iid =+ id;
     localStorage.setItem('orderId',id);
@@ -72,6 +74,14 @@ export class OrderDetailComponent extends AppComponentBase
       console.log(this.linkedOrderLines);
     });
 
+  }
+
+  viewProperties(){
+    if(this.propertiesCheck != true){
+      this.propertiesCheck = true;
+    }else{
+      this.propertiesCheck = false;
+    }
   }
 
   save(): void {

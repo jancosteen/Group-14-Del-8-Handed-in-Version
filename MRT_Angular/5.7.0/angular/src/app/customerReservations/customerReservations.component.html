@@ -16,7 +16,7 @@
       </div>
     </section>
 
-    <div *ngIf="this.upcomingReservations.length>0">
+    <div *ngIf="upcomingReservations.length>0">
       <div class="container-fluid"  style="margin-top: 15px;">
         <div class="row">
           <div class="col-12">
@@ -29,7 +29,7 @@
 
       <div class="container-fluid content-row">
         <div class="row">
-          <div class="col-sm-12 col-md-auto" *ngFor="let m of reservations" ><!---->
+          <div class="col-sm-12 col-md-auto" *ngFor="let m of upcomingReservations" ><!---->
             <div class="card h-100">
             <div class="card-header d-flex flex-column">
               <div class="card-title" style="font-weight: bold;">{{m.restaurantIdFkNavigation.restaurantName}}</div><!---->
@@ -61,7 +61,7 @@
       </div>
     </div>
 
-    <div *ngIf="this.pastReservations.length>0">
+    <div *ngIf="pastReservations.length>0">
       <div class="container-fluid"  style="margin-top: 15px;">
         <div class="row">
           <div class="col-12">
@@ -74,7 +74,7 @@
 
       <div class="container-fluid content-row">
         <div class="row">
-          <div class="col-sm-12 col-md-auto" *ngFor="let m of reservations" ><!---->
+          <div class="col-sm-12 col-md-auto" *ngFor="let m of pastReservations" ><!---->
             <div class="card h-100">
             <div class="card-header d-flex flex-column">
               <div class="card-title" style="font-weight: bold;">{{m.restaurantIdFkNavigation.restaurantName}}</div><!---->

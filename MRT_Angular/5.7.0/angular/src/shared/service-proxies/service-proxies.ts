@@ -7953,7 +7953,7 @@ export class ReservationServiceProxy {
      * @param body (optional)
      * @return Success
      */
-    sendMessage(body: SmsDto | undefined): Observable<void> {
+    sendMessage(body): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Reservation/SendMessage";
         url_ = url_.replace(/[?&]$/, "");
 

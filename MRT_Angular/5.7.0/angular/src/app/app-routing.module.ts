@@ -92,6 +92,7 @@ import { QrCodeScannerComponent } from './qr-code-scanner/qr-code-scanner.compon
                     { path: 'order/:id', component: OrderDetailComponent, data: { permission: 'Pages.EMPLOYEE' }, canActivate: [AppRouteGuard] },
                     { path: 'orderLine', component: CreateOrderLineDialogComponent, data: { permission: 'Pages.EMPLOYEE' }, canActivate: [AppRouteGuard] },
                     { path: 'cusMenu/:id', component: CustomerMenuComponent, data: { permission: '' }, canActivate: [AppRouteGuard] },
+                    { path: 'cusMenu2/:id', component: CustomerMenuComponent, data: { permission: '' }, canActivate: [AppRouteGuard] },
                     { path: 'cusReser', component: CustomerReservationsComponent, data: { permission: '' }, canActivate: [AppRouteGuard] },
                     { path: 'checkIn', component: CheckInComponent, data: { permission: '' }, canActivate: [AppRouteGuard] },
                     { path: 'countries', component: CountriesComponent, data: { permission: '' }, canActivate: [AppRouteGuard] },

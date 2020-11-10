@@ -148,14 +148,13 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { CardComponent } from './card/card.component';
 import { DashComponent } from './dash/dash.component';
 import { MonthlySalesChartComponent } from './charts/monthly-sales-chart/monthly-sales-chart.component';
-import { StoreSessionsChartComponent } from './charts/store-sessions-chart/store-sessions-chart.component';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ReportComponent } from './report/report.component';
 import { MatSelect } from '@angular/material/select';
 
 import { MenuPropertiesDialogComponent } from './menus/menu-properties/edit-menu-property-dialog.component';
-import { repo } from '../shared/service-proxies/repo';
+
 
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { QrCodeScannerComponent } from './qr-code-scanner/qr-code-scanner.component';
@@ -296,7 +295,6 @@ import { QrCodeScannerComponent } from './qr-code-scanner/qr-code-scanner.compon
     CardComponent,
     DashComponent,
     MonthlySalesChartComponent,
-    StoreSessionsChartComponent,
     ReportComponent,
     MenuPropertiesDialogComponent,
     QrCodeScannerComponent
@@ -330,8 +328,8 @@ import { QrCodeScannerComponent } from './qr-code-scanner/qr-code-scanner.compon
 
 
   ],
-  //I added this because of an error
-  providers: [repo],
+
+  providers: [],
   entryComponents: [
     EditCustomerReservationDialogComponent,
     CreateCustomerReservationDialogComponent,

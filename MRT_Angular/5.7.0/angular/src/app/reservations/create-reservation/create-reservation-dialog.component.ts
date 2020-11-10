@@ -1,4 +1,3 @@
-import { repo } from './../../../shared/service-proxies/repo';
 import {
   Component,
   Injector,
@@ -121,13 +120,13 @@ export class CreateReservationDialogComponent extends AppComponentBase
       reservationStatus: stat
     }
 
-    //I commented this out because of an error
 
-    /*this._reservationService
+
+    this._reservationService
     .sendMessage(reserv)
     .subscribe(res =>{
       console.log('ake sure');
-    })*/
+    })
 
 
 

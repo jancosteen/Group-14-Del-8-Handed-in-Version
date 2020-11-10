@@ -1,5 +1,5 @@
 import { FormGroup, FormControl } from '@angular/forms';
-import { MenuItemDtoPagedResultDto, MenuItemServiceProxy, OrderLineServiceProxy } from './../../shared/service-proxies/service-proxies';
+import { MenuItemDtoPagedResultDto, MenuItemServiceProxy, OrderLineServiceProxy, OrderServiceProxy } from './../../shared/service-proxies/service-proxies';
 import { ReservationServiceProxy } from '@shared/service-proxies/service-proxies';
 import { Component, OnInit } from '@angular/core';
 import { request } from 'http';
@@ -38,7 +38,7 @@ export class ReportComponent implements OnInit {
 
   constructor(public repo: ReservationServiceProxy,
     public itemrepo: MenuItemServiceProxy,
-    public repo2: repo,//I added this because of an error
+    public repoOrder: OrderServiceProxy,
     public orderLineService: OrderLineServiceProxy
     ) { }
 
@@ -57,15 +57,17 @@ export class ReportComponent implements OnInit {
     this.itemrepo
       .getMenuItems()
       .subscribe( x =>  {
-        this.menuitems = x["result"]
-        
+        this.menuitems = x;
+        //this.menuitems = x["result"]
+        console.log('x',x)
         console.log('ites',this.menuitems)
         console.log('check',this.menuitems[0].id)
       })
 
-      this.repo.getReservationByuser()
+      this.repo.getReservationByUser()
       .subscribe( res => {
-        this.reservations = res["result"];
+        this.reservations = res;
+        //this.reservations = res["result"];
         console.log('items',this.reservations)
       })
 
@@ -78,9 +80,10 @@ export class ReportComponent implements OnInit {
     this.x=true;
     this.y =false;
     this.z = false;
-      this.repo.getOrderByuser()
+      this.repoOrder.getOrderByUser()
       .subscribe( res => {
-        this.items = res["result"];
+        this.items = res;
+        //this.items = res["result"];
         console.log('items',this.items)
       })
 
@@ -100,7 +103,7 @@ export class ReportComponent implements OnInit {
     this.y=false;
     this.x=false;
   }
-  
+
   generateReport3(menuItemForm){
     this.y = true;
     this.z = false;
@@ -110,15 +113,18 @@ export class ReportComponent implements OnInit {
 
     this.orderLineService.salesByMenuItem(menuItemForm.value["menuitem"])
     .subscribe( res => {
-      this.menuitem=true;
-      console.log('sales button',this.menuitem)
-      this.items2 = res["result"];
+      console.log('result',res)
+      console.log('result2',res["result"])
+
+      this.items2 = res;
       console.log('items',this.items2)
-     
+      //this.items2 = res["result"];
+
+      this.menuitem=true;
     })
 
-    
-    
+
+
   }
 
   downloadPdf(){
@@ -126,7 +132,7 @@ export class ReportComponent implements OnInit {
     let today = new Date().toLocaleDateString()
     var num = random(0,1000,false);
     var data = document.getElementById('Content');
-    html2canvas(data, 
+    html2canvas(data,
       {
       useCORS: true,
       allowTaint:true,
@@ -142,7 +148,7 @@ export class ReportComponent implements OnInit {
         doc.addImage(imgData,'PNG',(pageWidth/2) -100,9,85,85);
         doc.text('Orders per Customer',(pageWidth/2)-50,15);
         doc.setFontSize(15);
-        
+
         doc.text('Report Generated on: ' + today, pageWidth*0.33,30);
         doc.text('Report Id: '+num.toString(), pageWidth*0.33,35);
         doc.setFontSize(10);
@@ -153,9 +159,9 @@ export class ReportComponent implements OnInit {
         doc.save("ordersbycustomers.pdf");
 
     });
-      
-  
-    
+
+
+
   }
   downloadPdf2(menuItemForm){
 
@@ -169,7 +175,7 @@ export class ReportComponent implements OnInit {
         itemName = this.menuitems[x].menuItemName
         console.log('itemName',itemName)
       }
-      
+
     }
     console.log('itemname',itemName)
 
@@ -177,10 +183,10 @@ export class ReportComponent implements OnInit {
     console.log('salesby menuitem')
     let today = new Date().toLocaleDateString()
     var num = random(0,1000,false);
-   
+
 
     var data = document.getElementById('Content2');
-      html2canvas(data, 
+      html2canvas(data,
         {
         useCORS: true,
         allowTaint:true,
@@ -196,7 +202,7 @@ export class ReportComponent implements OnInit {
           doc.addImage(imgData,'PNG',(pageWidth/2) -100,9,85,85);
           doc.text('Sales by Menu Item Report',(pageWidth/2)-50,15);
           doc.setFontSize(15);
-          
+
           doc.text('Report Generated on: ' + today, pageWidth*0.33,30);
           doc.text('Report Id: '+num.toString(), pageWidth*0.33,35);
           doc.setFontSize(10);
@@ -218,7 +224,7 @@ export class ReportComponent implements OnInit {
     let today = new Date().toLocaleDateString()
     var num = random(0,1000,false);
     var data = document.getElementById('Content3');
-    html2canvas(data, 
+    html2canvas(data,
       {
       useCORS: true,
       allowTaint:true,
@@ -234,7 +240,7 @@ export class ReportComponent implements OnInit {
         doc.addImage(imgData,'PNG',(pageWidth/2) -100,9,85,85);
         doc.text('Reservations per Customer',(pageWidth/2)-50,15);
         doc.setFontSize(15);
-        
+
         doc.text('Report Generated on: ' + today, pageWidth*0.33,30);
         doc.text('Report Id: '+num.toString(), pageWidth*0.33,35);
         doc.setFontSize(10);
@@ -244,7 +250,7 @@ export class ReportComponent implements OnInit {
         autoTable(doc,{html: '#Content3', startY: 75});
         doc.save('ReservationsByCustomer.pdf');
 
-  
+
       });
     }
 }

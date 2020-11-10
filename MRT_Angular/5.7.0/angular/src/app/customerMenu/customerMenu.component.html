@@ -15,7 +15,7 @@
     </div>
   </section>
 
-  <div *ngFor="let mic of selectedMenuItemCategories"><!--"let mic of menuItemCategories"-->
+  <div *ngFor="let mic of filteredMIC"><!--"let mic of menuItemCategories"-->
     <div class="container-fluid"  style="margin-top: 15px;"><!--*ngIf="mic.menuItem.length > 0"-->
       <div class="row">
         <div class="col-12">
@@ -26,8 +26,11 @@
       </div>
     </div>
 
-    <div *ngFor="let mi of mic.menuItem" class="container-fluid content-row"><!---->
-      <div class="row">
+
+
+
+    <div *ngFor="let mi of selectedMenuItems" class="container-fluid content-row"><!---->
+      <div *ngIf="mic.id == mi.menuItemCategoryIdFk" class="row">
         <div class="col-sm-12 col-md-auto" ><!---->
           <div class="card h-100" (click)="addToOrder(mi)">
           <div class="card-header d-flex flex-column">

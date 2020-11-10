@@ -1,8 +1,8 @@
-import { ReservationServiceProxy } from './../../../shared/service-proxies/service-proxies';
+import { OrderLineServiceProxy, ReservationServiceProxy } from './../../../shared/service-proxies/service-proxies';
 import { Component, Injector, OnInit } from '@angular/core';
 import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 import { Color, Label } from 'ng2-charts';
-import { repo } from '@shared/service-proxies/repo';
+
 
 @Component({
   selector: 'app-monthly-sales-chart',
@@ -32,18 +32,19 @@ export class MonthlySalesChartComponent implements OnInit {
 
   constructor(injector: Injector,
     public _service: ReservationServiceProxy,
-    public _repo: repo) { }
+    public _repo: OrderLineServiceProxy) { }
 
   ngOnInit() {
 
     //get number of sales for each month
     //console.log('total sales',res)
-    this._repo.getTotalMonthlySales()
+    this._repo.totalNumberOfSales()
     .subscribe(data => {
-      //console.log('object',data);
-      //console.log('are bone',data["result"]);
+      console.log('object',data);
+      //not sure but the one below worked before....
+      console.log('are bone',data["result"]);
 
-      data["result"].forEach(el => {
+      data.forEach(el => {
         this.lineChartLabels.push(el["Month"])
         this.lineChartData[0].data.push(el["Sales"])
       });

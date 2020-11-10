@@ -91,6 +91,7 @@
             <thead class="bg-light">
               <tr>
                 <th>{{ "Id" | localize }}</th>
+                <th>{{"Date Created" | localize }}</th>
                 <th>{{ "Date Completed" | localize }}</th>
                 <th>{{ "Table No" | localize }}</th>
                 <th>{{ "Status" | localize }}</th>
@@ -108,10 +109,13 @@
                           currentPage: pageNumber,
                           totalItems: totalItems
                         }
-                        | grdFilter: {id: searchText,  orderDateCompleted:searchText}
+                        | grdFilter: {id: searchText,  orderDateCompleted:searchText,
+                          creationTime:searchText
+                          }
                 "
               >
                 <td>{{ order.id }}</td>
+                <td>{{ order.creationTime.calendar()}}</td>
                 <td *ngIf="order.orderDateCompleted != null">{{ order.orderDateCompleted }}</td>
                 <td *ngIf="order.orderDateCompleted === null">Not Completed</td>
                 <td>{{ order.qrCodeSeating.id }}</td>

@@ -195,8 +195,8 @@ export class ViewOrdersComponent extends PagedListingComponentBase<OrderLineDto>
       });
 
       this.backToHome();
-
       localStorage.removeItem('orderId');
+      localStorage.removeItem('checkedIn')
   }
 
   backToHome(): void {
