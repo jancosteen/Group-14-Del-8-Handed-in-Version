@@ -180,7 +180,7 @@ export class ViewOrdersComponent extends PagedListingComponentBase<OrderLineDto>
   }
 
   checkout(){
-    this.order.orderStatusIdFk = 3;
+    this.order.orderStatusIdFk = 1;
     this.order.orderDateCompleted = this.currentDate;
 
     this._orderService

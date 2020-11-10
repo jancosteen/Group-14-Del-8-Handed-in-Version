@@ -13,6 +13,9 @@ import {
   OrderDto,
   OrderServiceProxy,
   OrderDtoPagedResultDto,
+  MenuServiceProxy,
+  MenuDtoListResultDto,
+  MenuDto,
 } from '../../shared/service-proxies/service-proxies';
 import { CreateOrderLineDialogComponent } from './create-orderLine/create-orderLine-dialog.component';
 import { EditOrderLineDialogComponent } from './edit-orderLine/edit-orderLine-dialog.component';
@@ -34,12 +37,16 @@ export class OrderLinesComponent extends PagedListingComponentBase<OrderLineDto>
   public searchText: string;
   orders:OrderDto[]=[];
   isRelated=false;
+  sResId:string;
+  iResId:number;
+  menu: MenuDto[]=[];
 
   constructor(
     injector: Injector,
     private _orderLineService: OrderLineServiceProxy,
     private _modalService: BsModalService,
-    private _orderService: OrderServiceProxy
+    private _orderService: OrderServiceProxy,
+    private _menuService: MenuServiceProxy
   ) {
     super(injector);
   }
@@ -51,6 +58,8 @@ export class OrderLinesComponent extends PagedListingComponentBase<OrderLineDto>
   ): void {
     request.keyword = this.keyword;
     request.isActive = this.isActive;
+
+
 
     this._orderLineService
       .getAll(
@@ -67,6 +76,8 @@ export class OrderLinesComponent extends PagedListingComponentBase<OrderLineDto>
         this.orderLines = result.items;
         this.showPaging(result, pageNumber);
       });
+
+
 
       this._orderService
       .getAll(

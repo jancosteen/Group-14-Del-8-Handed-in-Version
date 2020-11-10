@@ -10,9 +10,12 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import { AppComponentBase } from '../../../shared/app-component-base';
 import {
   ConfigurationServiceProxy,
+  MenuDto,
+  MenuDtoListResultDto,
   MenuItemDto,
   MenuItemDtoPagedResultDto,
   MenuItemServiceProxy,
+  MenuServiceProxy,
   OrderLineDto,
   OrderLineDtoListResultDto,
   OrderLineServiceProxy
@@ -51,6 +54,9 @@ export class CreateOrderLineDialogComponent extends AppComponentBase
   itemQuantity:number;
   clicked = false;
   request:PagedOrderLinesRequestDto;
+  sResId:string;
+  iResId:number;
+  menu: MenuDto[]=[];
 
 
   @Output() onSave = new EventEmitter<any>();
@@ -60,7 +66,8 @@ export class CreateOrderLineDialogComponent extends AppComponentBase
     public _orderLineService: OrderLineServiceProxy,
     //public bsModalRef: BsModalRef,
     public _menuItemService: MenuItemServiceProxy,
-    public _router:Router
+    public _router:Router,
+    public _menuService:MenuServiceProxy
   ) {
     super(injector);
   }
@@ -68,6 +75,14 @@ export class CreateOrderLineDialogComponent extends AppComponentBase
   ngOnInit(): void {
     this.orderId =+ localStorage.getItem('orderId')
     console.log(this.orderId);
+
+    this.sResId = localStorage.getItem('restForOrderAddId');
+    this.iResId = parseInt(this.sResId);
+
+    this._menuService.getMenuByResId(this.iResId)
+    .subscribe((result: MenuDtoListResultDto)=>{
+      this.menu=result.items;
+    })
 
 
     this._menuItemService

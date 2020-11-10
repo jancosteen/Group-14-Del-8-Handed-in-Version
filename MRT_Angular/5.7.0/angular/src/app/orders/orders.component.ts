@@ -20,6 +20,9 @@ import {
   RestaurantDtoPagedResultDto,
   QrCodeDtoPagedResultDto,
   OrderDtoListResultDto,
+  OrderStatusDto,
+  OrderStatusServiceProxy,
+  OrderStatusDtoPagedResultDto,
 } from '../../shared/service-proxies/service-proxies';
 import { CreateOrderDialogComponent } from './create-order/create-order-dialog.component';
 import { EditOrderDialogComponent } from './edit-order/edit-order-dialog.component';
@@ -53,6 +56,7 @@ export class OrdersComponent extends PagedListingComponentBase<OrderDto> {
   filteredQrCodes:QrCodeDto[]=[];
   finalOrders:OrderDto[]=[];
   finalOrders2:OrderDto[]=[];
+  selectedStatusses: OrderStatusDto[]=[];
 
 
 
@@ -63,7 +67,8 @@ export class OrdersComponent extends PagedListingComponentBase<OrderDto> {
     private _router: Router,
     private _orderLineService: OrderLineServiceProxy,
     private _restaurantService: RestaurantServiceProxy,
-    private _qrCodeService: QrCodeServiceProxy
+    private _qrCodeService: QrCodeServiceProxy,
+    private _orderStatusService: OrderStatusServiceProxy
   ) {
     super(injector);
   }
@@ -140,10 +145,13 @@ export class OrdersComponent extends PagedListingComponentBase<OrderDto> {
         this.qrCodes = result.items;
       });
 
+      this.populateStatus();
+
 
   }
 
   viewOrders(resId){
+    localStorage.setItem('restForOrderAddId', resId.toString());
     this.selectedQrCodes = [];
     this.finalOrders = [];
     this.filteredQrCodes = [];
@@ -178,9 +186,25 @@ export class OrdersComponent extends PagedListingComponentBase<OrderDto> {
 
       console.log('finalOrders', this.finalOrders);
       this.finalOrders2=this.finalOrders;
-      console.log('2',this.finalOrders2);
+
     }
 
+  }
+
+  populateStatus(){
+    this._orderStatusService
+      .getAll(
+        '',
+        0,
+        100
+      ).pipe(
+        finalize(() => {
+          console.log('statusPipe');
+        })
+      )
+      .subscribe((result: OrderStatusDtoPagedResultDto) => {
+        this.selectedStatusses = result.items;
+      });
   }
 
   filterQrCodes(qrCodes:QrCodeDto[]){
