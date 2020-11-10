@@ -2,7 +2,7 @@ import { Component, Injector, ChangeDetectionStrategy, OnInit } from '@angular/c
 import { AppComponentBase } from '@shared/app-component-base';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listing-component-base';
-import { RestaurantDto, RestaurantDtoPagedResultDto, RestaurantServiceProxy } from '@shared/service-proxies/service-proxies';
+import { OrderLineServiceProxy, RestaurantDto, RestaurantDtoPagedResultDto, RestaurantServiceProxy } from '@shared/service-proxies/service-proxies';
 import { finalize } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { AppSessionService } from '@shared/session/app-session.service';
@@ -24,7 +24,8 @@ export class HomeComponent extends PagedListingComponentBase<RestaurantDto> {
   constructor(injector: Injector
     ,public _restaurantService: RestaurantServiceProxy
     ,public _router:Router
-    ,public _appSessionService: AppSessionService) {
+    ,public _appSessionService: AppSessionService
+    ,public _orderLines: OrderLineServiceProxy) {
     super(injector);
   }
 
@@ -34,7 +35,9 @@ export class HomeComponent extends PagedListingComponentBase<RestaurantDto> {
     finishedCallback: Function
   ): void {
     request.keyword = '';
-    ;
+
+
+    //this.check();
 
     this._restaurantService
       .getAll(
@@ -95,9 +98,17 @@ export class HomeComponent extends PagedListingComponentBase<RestaurantDto> {
     this._router.navigate([detailsUrl]);
   }
 
+  /*check(){
+    this._orderLines
+      .salesByMenuItem(2)
+      .subscribe(result =>{
+        console.log('check',result);
+      });
+  }*/
 
 
 
-  }
+
+}
 
 

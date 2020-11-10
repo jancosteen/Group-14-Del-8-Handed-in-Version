@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { QrCodeDto, QrCodeDtoPagedResultDto, QrCodeSeatingDto, QrCodeServiceProxy, RestaurantDto, RestaurantDtoPagedResultDto, RestaurantServiceProxy, SeatingDto, SeatingDtoPagedResultDto, SeatingServiceProxy } from '@shared/service-proxies/service-proxies';
+import { QrCodeDto, QrCodeDtoPagedResultDto, QrCodeSeatingDto, QrCodeSeatingServiceProxy, QrCodeServiceProxy, RestaurantDto, RestaurantDtoPagedResultDto, RestaurantServiceProxy, SeatingDto, SeatingDtoPagedResultDto, SeatingServiceProxy } from '@shared/service-proxies/service-proxies';
+import { timeStamp } from 'console';
 import { finalize } from 'rxjs/operators';
 
 @Component({
@@ -20,11 +21,13 @@ export class QrCodeGeneratorComponent implements OnInit {
   restaurantName:string;
   qrCodeSeating:QrCodeSeatingDto = new QrCodeSeatingDto();
   invalidSelection = false;
+  qrCodeSeatingId:number;
 
   generated=false;
   constructor( private _qrCodeService:QrCodeServiceProxy
       ,private _seatingService: SeatingServiceProxy
-      ,private _restaurantService: RestaurantServiceProxy) { }
+      ,private _restaurantService: RestaurantServiceProxy
+      ,private _qrCodeSeatingSerive: QrCodeSeatingServiceProxy) { }
 
   ngOnInit(): void {
     this.value ="";
@@ -93,16 +96,32 @@ export class QrCodeGeneratorComponent implements OnInit {
     console.log(this.restaurantName);
   }
 
+  //qrcodeId,seatingId
   generateQrCode(item: QrCodeSeatingDto){
     let qrCodeId = item.qrCodeIdFk;
     let seatingId = item.seatingIdFk;
 
+    this.qrCodeSeating.qrCodeIdFk = qrCodeId;
+    this.qrCodeSeating.seatingIdFk = seatingId;
+    this.qrCodeSeating.nrOfPeople = 4;
+
+
     if(qrCodeId === undefined || seatingId === undefined){
       this.invalidSelection = true;
     } else{
-      this.value = qrCodeId+','+seatingId;
-      this.generated = true;
-      this.invalidSelection = false;
+      this._qrCodeSeatingSerive.create(this.qrCodeSeating)
+      .pipe(
+        finalize(() => {
+          console.log('qrcs pipe');
+        })
+      )
+      .subscribe((result) => {
+        this.qrCodeSeatingId = result.id;
+        console.log(this.qrCodeSeatingId);
+        this.value = this.qrCodeSeatingId.toString();
+        this.generated = true;
+        this.invalidSelection = false;
+      });
     }
 
 

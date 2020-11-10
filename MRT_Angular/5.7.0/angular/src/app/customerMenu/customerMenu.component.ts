@@ -75,6 +75,9 @@ export class CustomerMenuComponent extends PagedListingComponentBase<MenuItemDto
   selectedMenuItems: MenuItemDto[]=[];
   selectedMenuItemCategories: MenuItemCategoryDetailsDto[]=[];
   selectedMenuItemCategory: MenuItemCategoryDetailsDto = new MenuItemCategoryDetailsDto();
+  filteredMIC:MenuItemCategoryDetailsDto[]=[];
+  sQrCodeSeatingId:string;
+  iQrCodeSeatingId:number;
 
   cart3 = [];
   cartItemCount: BehaviorSubject<number>;
@@ -120,14 +123,32 @@ export class CustomerMenuComponent extends PagedListingComponentBase<MenuItemDto
     localStorage.setItem('resId', id);
     console.log('resId',id);
     this.Iid =+ id;
-    this._menuService.getMenuByResId(this.Iid).subscribe((result: MenuDtoPagedResultDto) => {
-      this.menus = result.items;
-      console.log(this.menus);
-      this.restaurantdIdFk = this.menus[0].restaurantIdFk;
-      //this.menuId = this.menus[0].id;
-      this.restaurant = this.menus[0].restaurantIdFkNavigation.restaurantName;
-      this.popCategories(this.menus[0]);
-    });
+
+    this.sQrCodeSeatingId = localStorage.getItem('qrCodeSeatingId');
+    this.iQrCodeSeatingId = parseInt(this.sQrCodeSeatingId);
+
+
+    if(this.checkedIn == null){
+      this._menuService.getMenuByResId(this.Iid).subscribe((result: MenuDtoPagedResultDto) => {
+        this.menus = result.items;
+        console.log(this.menus);
+        this.restaurantdIdFk = this.menus[0].restaurantIdFk;
+        //this.menuId = this.menus[0].id;
+        this.restaurant = this.menus[0].restaurantIdFkNavigation.restaurantName;
+        this.popCategories(this.menus[0]);
+      });
+    }else{
+      this._menuService
+        .getMenuById(this.Iid).subscribe((result: MenuDtoPagedResultDto) => {
+          this.menus = result.items;
+          console.log(this.menus);
+          this.restaurantdIdFk = this.menus[0].restaurantIdFk;
+          //this.menuId = this.menus[0].id;
+          this.restaurant = this.menus[0].restaurantIdFkNavigation.restaurantName;
+          this.popCategories(this.menus[0]);
+        });
+    }
+
 
 
 
@@ -187,7 +208,7 @@ export class CustomerMenuComponent extends PagedListingComponentBase<MenuItemDto
   }
 
   createOrder(){
-      this.order.qrCodeSeatingIdFk = 3;
+      this.order.qrCodeSeatingIdFk = this.iQrCodeSeatingId;
       this.order.orderStatusIdFk = 1;
         this._orderService
           .create(this.order)
@@ -231,10 +252,11 @@ export class CustomerMenuComponent extends PagedListingComponentBase<MenuItemDto
               this.selectedMenuItemCategory = this.menuItemCategories[x];
               this.selectedMenuItemCategories.push(this.selectedMenuItemCategory);
 
+
             }
           }
         }
-
+        this.filterMIC();
         console.log('selected menuItems', this.selectedMenuItems);
         console.log('selected menuItemCategories', this.selectedMenuItemCategories);
       });
@@ -252,6 +274,17 @@ export class CustomerMenuComponent extends PagedListingComponentBase<MenuItemDto
 
     console.log('selected menuItems', this.selectedMenuItems);
   }
+
+  public filterMIC(){
+    this.filteredMIC= this.selectedMenuItemCategories.reduce((arr, item) => {
+      let exists = !!arr.find(x => x.id === item.id);
+      if(!exists){
+          arr.push(item);
+      }
+      return arr;
+  }, []);
+  console.log('filtered MIC', this.filteredMIC);
+}
 
 
 

@@ -13,6 +13,8 @@ import {
 } from '../../shared/service-proxies/service-proxies';
 import { CreateCustomerReservationDialogComponent } from './create-customerReservation/create-customerReservation-dialog.component';
 import { EditCustomerReservationDialogComponent } from './edit-customerReservation/edit-customerReservation-dialogcomponent';
+import * as moment from 'moment';
+
 
 class PagedCustomerCustomerReservationsRequestDto extends PagedRequestDto {
   keyword: string;
@@ -34,6 +36,7 @@ export class CustomerReservationsComponent extends PagedListingComponentBase<Res
   pastReservations: ReservationDto[]=[];
   currentDate;
   userName;
+  reservation:ReservationDto = new ReservationDto();
 
   constructor(
     injector: Injector,
@@ -68,6 +71,60 @@ export class CustomerReservationsComponent extends PagedListingComponentBase<Res
       this.userName=this.appSession.user.userName;
 
   }
+
+  cancelReservation(m:ReservationDto){
+
+    if(moment(this.currentDate)
+        .add(2,'hours')
+          .isAfter(moment(m.reservationDateReserved))){
+            abp.message.info(
+              this.l('Unable to cancel this reservation as it is less than 2 hours before your booking', m.restaurantIdFkNavigation.restaurantName+': '+m.reservationDateReserved),
+              undefined
+            )
+    }else{
+      console.log(m);
+      this._ReservationService
+        .get(m.id).subscribe((result:ReservationDto)=>{
+          this.reservation = result;
+          this.updateStatus(m);
+        })
+
+      }
+  }
+
+  updateStatus(m){
+    this.reservation.reservationStatusIdFk = 3;
+    abp.message.confirm(
+      this.l('Are you sure you want to cancel your reservation for?', m.restaurantIdFkNavigation.restaurantName+': '+this.reservation.reservationDateReserved),
+      undefined,
+      (result: boolean) => {
+        if(result){
+          this._ReservationService
+          .update(this.reservation)
+          .pipe(
+            finalize(() => {
+              console.log('reservationPipe');
+            })
+          )
+          .subscribe(() => {
+            this.notify.info(this.l('Reservation Cancelled Successfully'));
+          });
+          this._ReservationService
+          .getReservationByUserId(this.appSession.userId)
+          .pipe(
+            finalize(() => {
+              console.log('refresh');
+            })
+          )
+          .subscribe((result: ReservationDtoPagedResultDto) => {
+            this.reservations = result.items;
+            this.populateUpcomingOrPastReservations();
+          });
+          }
+        }
+    )
+    }
+
 
   populateUpcomingOrPastReservations(){
     this.pastReservations = [];

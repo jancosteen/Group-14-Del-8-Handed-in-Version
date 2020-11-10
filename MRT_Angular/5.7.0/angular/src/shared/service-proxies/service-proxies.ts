@@ -13,6 +13,7 @@ import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angular/common/http';
 
 import * as moment from 'moment';
+import { reservation } from '@app/reservations/reservation.model';
 
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
@@ -6236,8 +6237,17 @@ export class OrderLineServiceProxy {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200.push(item);
+            }
+            return _observableOf(result200);
             }));
+            /*return _observableOf<void>(<any>null);
+            }));*/
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -7897,7 +7907,7 @@ export class ReservationServiceProxy {
      * @param body (optional)
      * @return Success
      */
-    sendEmail(body: SmsDto | undefined): Observable<boolean> {
+    sendEmail(body): Observable<boolean> {
         let url_ = this.baseUrl + "/api/services/app/Reservation/SendEmail";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -7953,7 +7963,7 @@ export class ReservationServiceProxy {
      * @param body (optional)
      * @return Success
      */
-    sendMessage(body: SmsDto | undefined): Observable<void> {
+    sendMessage(body): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Reservation/SendMessage";
         url_ = url_.replace(/[?&]$/, "");
 

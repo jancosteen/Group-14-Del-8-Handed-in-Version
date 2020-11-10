@@ -1,4 +1,3 @@
-import { repo } from './../../../shared/service-proxies/repo';
 import {
   Component,
   Injector,
@@ -11,7 +10,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import { AppComponentBase } from '../../../shared/app-component-base';
 import {
   ReservationServiceProxy,
-  ReservationDto, RestaurantDtoPagedResultDto, RestaurantServiceProxy, RestaurantDto, ReservationStatusDto, ReservationStatusDtoPagedResultDto, ReservationStatusServiceProxy
+  ReservationDto, RestaurantDtoPagedResultDto, RestaurantServiceProxy, RestaurantDto, ReservationStatusDto, ReservationStatusDtoPagedResultDto, ReservationStatusServiceProxy, SmsDto
 } from '../../../shared/service-proxies/service-proxies';
 import { AppSessionService } from '@shared/session/app-session.service';
 import { reservation } from '../reservation.model';
@@ -39,7 +38,7 @@ export class EditReservationDialogComponent extends AppComponentBase
     public _reservationStatusService : ReservationStatusServiceProxy,
     public sessionService: AppSessionService,
     public bsModalRef: BsModalRef,
-  //  public repo: repo
+
   ) {
     super(injector);
   }
@@ -107,21 +106,22 @@ export class EditReservationDialogComponent extends AppComponentBase
     console.log('stat', stat)
 
 
-    const reserv : reservation = {
+    const reserv : reservation  = {
       reservationDateCreated : this.currentDate,
       reservationDateReserved: this.reservation.reservationDateReserved,
       restaurantName: resName,
       userId: this.reservation.userIdFk,
+     // userName: "",
       reservationStatus: stat
     }
 
     //I commented this out because of an error
 
-    /*this._reservationService
-    .sendMessage(reserv)
+    this._reservationService
+    .sendEmail(reserv)
     .subscribe(res =>{
       console.log('ake sure');
-    })*/
+    })
 
     this._reservationService
       .update(this.reservation)
