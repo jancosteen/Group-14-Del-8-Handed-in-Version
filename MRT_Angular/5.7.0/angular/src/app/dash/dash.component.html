@@ -4,41 +4,10 @@
   <mat-grid-list cols="{{ ( cardLayout | async )?.columns }}" rowHeight="250px">
     <!--Charts-->
     <mat-grid-tile [colspan]="( cardLayout | async )?.chart.cols" [rowspan]="( cardLayout | async )?.chart.rows">
-      <app-card title="Total Monthly Sales">
+      <div>
+        <app-card title="Total Monthly Sales">
           <app-monthly-sales-chart></app-monthly-sales-chart>
-      </app-card>
+        </app-card>
+      </div>
    </mat-grid-tile>
-    <!--Table-->
-    <mat-grid-tile [colspan]="( cardLayout | async )?.table.cols" [rowspan]="( cardLayout | async )?.table.rows">
-      <app-card title="Reservations Per Customer">
-        <div *ngIf="items">
-          <div class="resTable" id="ResbyCus">
-            <div *ngFor="let item of items">
-              <table class="table table-hover table-striped">
-                <caption><strong>{{item.Name}}</strong></caption>
-                <thead class="thead-light">
-                  <tr>
-                    <th>Reservation Date</th>
-                    <th>Restaurant</th>
-                    <th>Number of People</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let obj of item.reservationList">
-                    <td>{{obj.ReserDate}}</td>
-                    <td>{{obj.ResName}}</td>
-                    <td>{{obj.ResQty}}</td>
-                    <td>{{obj.Status}}</td>
-                  </tr>
-                </tbody> 
-              </table>
-            </div>
-          </div>
-        </div>
-      </app-card>  
-      
-    </mat-grid-tile>
   </mat-grid-list>
-  <button class="btn btn-secondary btn-inline" style="text-align: center;justify-content: center;" (click)="downloadpdf()">Download Report</button>
- </div>
