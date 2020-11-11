@@ -52,6 +52,7 @@ export class OrderHistoryDetailComponent extends AppComponentBase
     this._orderService.getOrderById(this.Iid).subscribe((result: OrderDtoListResultDto) => {
       this.orders = result.items;
       console.log('order', this.orders);
+      this.calculateTotal();
       this.getQrCodes(this.orders[0])
     });
 

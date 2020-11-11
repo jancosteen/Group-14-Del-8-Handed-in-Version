@@ -49,6 +49,7 @@ import { OrderHistoryComponent } from './orderHistory/orderHistory.component';
 import { QrCodeScannerComponent } from './qr-code-scanner/qr-code-scanner.component';
 import { ViewUserComponent } from './view-user/view-user.component';
 import { OrderHistoryDetailComponent } from './orderHistory/orderHistory-detail/detail-orderHistory-.component';
+import { CheckoutComponent } from './checkout/checkout.component';
 
 @NgModule({
     imports: [
@@ -57,6 +58,7 @@ import { OrderHistoryDetailComponent } from './orderHistory/orderHistory-detail/
                 path: '',
                 component: AppComponent,
                 children: [
+                    { path: 'checkout', component: CheckoutComponent, data: {permission: '' }, canActivate: [AppRouteGuard] },
                     { path: 'dash', component:DashComponent, data: {permission: 'Pages.SYSTEM_ADMIN' }, canActivate: [AppRouteGuard] },
                     { path: 'report', component:ReportComponent, data: {permission: 'Pages.SYSTEM_ADMIN' }, canActivate: [AppRouteGuard] },
                     { path: 'home', component: HomeComponent },

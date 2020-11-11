@@ -160,6 +160,7 @@ import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { QrCodeScannerComponent } from './qr-code-scanner/qr-code-scanner.component';
 import { ViewUserComponent } from './view-user/view-user.component';
 import { OrderHistoryDetailComponent } from './orderHistory/orderHistory-detail/detail-orderHistory-.component';
+import { CheckoutComponent } from './checkout/checkout.component';
 
 
 @NgModule({
@@ -301,7 +302,8 @@ import { OrderHistoryDetailComponent } from './orderHistory/orderHistory-detail/
     MenuPropertiesDialogComponent,
     QrCodeScannerComponent,
     ViewUserComponent,
-    OrderHistoryDetailComponent
+    OrderHistoryDetailComponent,
+    CheckoutComponent
 
 
   ],

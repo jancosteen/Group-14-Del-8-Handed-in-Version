@@ -4,6 +4,7 @@ using Abp.Authorization;
 using Abp.Domain.Repositories;
 using MDR_Angular.Authorization;
 using MDR_Angular.Authorization.Users;
+using MDR_Angular.Features.Email;
 using MDR_Angular.OrderMate.Orders.Dto;
 using MDR_Angular.OrderMate.OrderStatusses;
 using Microsoft.EntityFrameworkCore;
@@ -22,11 +23,14 @@ namespace MDR_Angular.OrderMate.Orders
 
         private readonly UserManager _userManager;
         private readonly IRepository<OrderStatus> _status;
+        private readonly IEmail _email;
         public OrderAppService(IRepository<Order> repository,
             UserManager userManager,
-            IRepository<OrderStatus> status) : base(repository) {
+            IRepository<OrderStatus> status,
+            IEmail email) : base(repository) {
             _userManager = userManager;
             _status = status;
+            _email = email;
         }
 
         public ListResultDto<OrderDto> GetOrderById(int id)
@@ -127,7 +131,27 @@ namespace MDR_Angular.OrderMate.Orders
             return userGroup;
 
         }
-        
+
+        public async Task<bool> SendEmail(orderEmail input)
+        {
+            var user = await _userManager.GetUserByIdAsync(input.userId);
+
+            var stat = _status.Get(input.statudId);
+
+
+
+            if (user != null)
+            {
+                var message = "<h1> Hello " + user.FullName + "</h1><br><h3>Your order is " + stat.OrderStatus1 + "</h3>";
+
+
+
+                await _email.SendEmailAsync("OrderMate", "ordermate370@gmail.com", user.FullName, user.EmailAddress, "Order Status", message);
+
+            }
+            return true;
+        }
+
 
 
 

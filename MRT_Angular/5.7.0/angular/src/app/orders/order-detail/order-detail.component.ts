@@ -14,7 +14,7 @@ import {
 } from '../../../shared/service-proxies/service-proxies';
 import { EditOrderDialogComponent } from '../edit-order/edit-order-dialog.component';
 import { CreateOrderDialogComponent } from '../create-order/create-order-dialog.component';
-
+import  { orderEmail } from './../orderEmail.model';
 
 
 
@@ -90,8 +90,22 @@ export class OrderDetailComponent extends AppComponentBase
   preparing(){
     this._orderService.get(this.Iid).subscribe((result:OrderDto)=>{
       this.order2 = result;
-
       this.order2.orderStatusIdFk = 2;
+
+      const email: orderEmail = {
+        orderId : this.order2.id,
+        statudId : 2,
+        userId : this.order2.creatorUserId
+      }
+
+      this._orderService.sendEmail(email)
+        .subscribe(x => {
+          console.log('email sent', x)
+        })
+
+
+
+
       this._orderService.update(this.order2)
         .pipe(finalize(() => {
           console.log('updatePipe');
@@ -118,6 +132,19 @@ export class OrderDetailComponent extends AppComponentBase
 
   update1(){
     this.order2.orderStatusIdFk = 3;
+
+    const email: orderEmail = {
+      orderId : this.order2.id,
+      statudId : 3,
+      userId : this.order2.creatorUserId
+    }
+
+    this._orderService.sendEmail(email)
+        .subscribe(x => {
+          console.log('email sent', x)
+        })
+
+
     this._orderService.update(this.order2)
       .pipe(finalize(() => {
         console.log('updatePipe');
@@ -134,6 +161,19 @@ export class OrderDetailComponent extends AppComponentBase
       this.order2 = result;
 
       this.order2.orderStatusIdFk = 4;
+
+      const email: orderEmail = {
+        orderId : this.order2.id,
+        statudId : 4,
+        userId : this.order2.creatorUserId
+      }
+
+      this._orderService.sendEmail(email)
+        .subscribe(x => {
+          console.log('email sent', x)
+        })
+
+
       this.order2.orderDateCompleted = this.currentDate;
       this._orderService.update(this.order2)
         .pipe(finalize(() => {
@@ -153,6 +193,19 @@ export class OrderDetailComponent extends AppComponentBase
       this.order2 = result;
 
       this.order2.orderStatusIdFk = 5;
+      const email: orderEmail = {
+        orderId : this.order2.id,
+        statudId : 5,
+        userId : this.order2.creatorUserId
+      }
+
+      this._orderService.sendEmail(email)
+        .subscribe(x => {
+          console.log('email sent', x)
+        })
+
+
+
       this._orderService.update(this.order2)
         .pipe(finalize(() => {
           console.log('updatePipe');

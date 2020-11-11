@@ -197,12 +197,18 @@ export class ViewOrdersComponent extends PagedListingComponentBase<OrderLineDto>
         })
       )
       .subscribe(() => {
-        this.notify.info(this.l('Thank You, Payment Received'));
+        const detailsUrl: string = '/app/checkout';
+        localStorage.removeItem('orderId');
+        localStorage.removeItem('checkedIn');
+        localStorage.setItem('totalamount',this.total.toString());
+        this._router.navigate([detailsUrl]);
       });
-
+      /*
       this.backToHome();
       localStorage.removeItem('orderId');
-      localStorage.removeItem('checkedIn')
+      localStorage.removeItem('checkedIn');
+
+      */
   }
 
   backToHome(): void {

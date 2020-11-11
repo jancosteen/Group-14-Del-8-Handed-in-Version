@@ -1,0 +1,80 @@
+<head>
+    <style>
+        .padding {
+    padding: 5rem !important
+}
+
+.form-control:focus {
+    box-shadow: 10px 0px 0px 0px #ffffff !important;
+    border-color: #4ca746
+}
+    </style>
+</head>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.payment/3.0.0/jquery.payment.min.js"></script>
+<div class="padding">
+    <div class="row">
+        <div class="container-fluid d-flex justify-content-center">
+            <div class="col-sm-8 col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-6"> <p>CREDIT/DEBIT CARD PAYMENT FOR AMOUNT OF: </p> <h2>R{{total}}</h2></div>
+                            <div class="col-md-6 text-right" style="margin-top: -5px;"> <img src="https://img.icons8.com/color/36/000000/visa.png"> <img src="https://img.icons8.com/color/36/000000/mastercard.png"> <img src="https://img.icons8.com/color/36/000000/amex.png"> </div>
+                        </div>
+                    </div>
+                    <div class="card-body" style="height:100%">
+                        <form [formGroup]="checkoutForm">
+                            <div class="form-group">
+                                <label for="cc-number" class="control-label">CARD NUMBER</label>
+                                <input id="cc-number" formControlName="cardNumer" type="tel" class="input-lg form-control cc-number" autocomplete="cc-number" placeholder="•••• •••• •••• ••••" required>
+                            </div>
+                            <div class="col-md-12">
+                                <em *ngIf="validateControl('cardNumer') && hasError('cardNumer', 'required')">Card Number is required</em>
+                                <em *ngIf="validateControl('cardNumer') && hasError('cardNumer', 'maxlength')">Maximum allowed length is 16 characters.</em>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="cc-exp" class="control-label">CARD EXPIRY</label>
+                                        <input id="cc-exp" formControlName="cardExpire" type="date" [min]="currentDate" class="input-lg form-control cc-exp" autocomplete="cc-exp" placeholder="•• / ••" required>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <em *ngIf="validateControl('cardExpire') && hasError('cardExpire', 'required')">Expiry Date is required</em>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="cc-cvc" class="control-label">CARD CVV</label>
+                                        <input id="cc-cvc" formControlName="cardCvc" type="tel" class="input-lg form-control cc-cvc" autocomplete="off" placeholder="••••" required>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <em *ngIf="validateControl('cardCvc') && hasError('cardCvc', 'required')">CVV is required</em>
+                                        <em *ngIf="validateControl('cardCvc') && hasError('cardCvc', 'maxlength')">Maximum allowed length is 3 characters.</em>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="numeric" class="control-label">CARD HOLDER NAME</label>
+                                <input type="text" formControlName="cardName" class="input-lg form-control">
+                                <div class="col-md-12">
+                                    <em *ngIf="validateControl('cardName') && hasError('cardName', 'required')">Card holder Name is required</em>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <input
+                                value="MAKE PAYMENT"
+                                type="button"
+                                class="btn btn-success btn-lg form-control"
+                                style="font-size: .8rem;"
+                                (click)="checkout()"
+                                [disabled]="!checkoutForm.valid">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
