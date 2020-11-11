@@ -54,6 +54,7 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
       new MenuItem(this.l('Order History'), '/app/orderHist', 'fas fa-circle'),
       new MenuItem(this.l('My Reservations'), '/app/cusReser', 'fas fa-circle'),
       new MenuItem(this.l('Check In'), 'qrScan','fas fa-circle'),
+      new MenuItem(this.l('Current Order'), 'cusOrder', 'fas fa-circle'),
       new MenuItem(this.l('Administration'), '','fas fa-circle','Pages.SYSTEM_ADMIN',[
         new MenuItem(
           this.l('Tenants'),
@@ -79,19 +80,19 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
           this.l('Countries'),
           '/app/countries',
           'fas fa-circle',
-          "Pages.EMPLOYEE"
+          "Pages.SYSTEM_ADMIN"
         ),
         new MenuItem(
           this.l('Provinces'),
           '/app/provinces',
           'fas fa-circle',
-          "Pages.EMPLOYEE"
+          "Pages.SYSTEM_ADMIN"
         ),
         new MenuItem(
           this.l('Cities'),
           '/app/cities',
           'fas fa-circle',
-          "Pages.EMPLOYEE"
+          "Pages.SYSTEM_ADMIN"
         ),
         new MenuItem(this.l('Menus'),'','fas fa-circle','Pages.SYSTEM_ADMIN',[
           new MenuItem(
@@ -169,17 +170,17 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
           ),
 
         ]),
-        new MenuItem(this.l('Tables'),'','fas fa-circle','Pages.SYSTEM_ADMIN',[
+        new MenuItem(this.l('Tables'),'','fas fa-circle','Pages.EMPLOYEE',[
           new MenuItem(
             this.l('Tables'),
             '/app/seating',
             'fas fa-circle',
-            'Pages.SYSTEM_ADMIN'),
+            'Pages.EMPLOYEE'),
           new MenuItem(
             this.l('QrCodes'),
             '/app/qrCodes',
             'fas fa-circle',
-            'Pages.SYSTEM_ADMIN')
+            'Pages.EMPLOYEE')
         ])
       ]),
       new MenuItem(

@@ -25,7 +25,7 @@ using System.Threading.Tasks;
 
 namespace MDR_Angular.Users
 {
-    [AbpAuthorize(PermissionNames.Pages_Users)]
+    //[AbpAuthorize(PermissionNames.Pages_Users)]
     public class UserAppService : AsyncCrudAppService<User, UserDto, long, PagedUserResultRequestDto, CreateUserDto, UserDto>, IUserAppService
     {
         private readonly UserManager _userManager;

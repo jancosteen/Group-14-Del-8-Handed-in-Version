@@ -1,24 +1,18 @@
-<div [@routerTransition]>
-  <section *ngIf="sOrderId!=null" class="content-header">
+<div>
+  <section class="content-header">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-6">
-          <h1>{{ "Current Order" | localize }}</h1>
-        </div>
-        <div class="col-6 text-right">
-          <a href="javascript:;" class="btn bg-blue" (click)="goToMenu()" >
-            <i class="fa fa-plus-square"></i>
-            {{ "Add To Order" | localize }}
-          </a>
+        <div class="col-12">
+          <h1>{{qrCode.restaurantIdFkNavigation.restaurantName +': '+ orders[0].creationTime.calendar() }}</h1>
         </div>
       </div>
     </div>
   </section>
 
-  <section *ngIf="sOrderId!=null">
+  <section>
     <div class="container-fluid content-row" style="margin-top: 15px;">
       <div class="row">
-        <div class="col-sm-12 col-md-auto" *ngFor="let m of orderLines" ><!---->
+        <div class="col-sm-12 col-md-auto" *ngFor="let m of orders[0].orderLine" ><!---->
           <div class="card h-100">
           <div class="card-header d-flex flex-column">
             <div class="card-title" style="font-weight: bold;">{{m.menuItemIdFkNavigation.menuItemName}}</div><!---->
@@ -49,35 +43,3 @@
       </div>
     </div>
   </section>
-  <button *ngIf="orderLines.length>0 && sOrderId!=null" type="button" class="btn btn-primary btn-lg btn-block"
-    style="position: fixed;
-      bottom: 1rem;
-      height: 3rem;"
-      (click)="checkout()"
-      >Checkout</button>
-</div>
-
-
-
-
-<section *ngIf="sOrderId ==null" class="content-header">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-12">
-        <h1>{{ "You do not currently have an active order" | localize }}</h1>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-12 text-center">
-        <a href="javascript:;" class="btn bg-blue" (click)="goToCheckIn()" >
-          <i class="fa fa-plus-square"></i>
-          {{ "Check In" | localize }}
-        </a>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-
-

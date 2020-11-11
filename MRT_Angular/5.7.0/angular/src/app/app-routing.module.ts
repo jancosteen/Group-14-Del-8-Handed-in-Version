@@ -48,6 +48,7 @@ import { ViewOrdersComponent } from './viewOrders/orders.component';
 import { OrderHistoryComponent } from './orderHistory/orderHistory.component';
 import { QrCodeScannerComponent } from './qr-code-scanner/qr-code-scanner.component';
 import { ViewUserComponent } from './view-user/view-user.component';
+import { OrderHistoryDetailComponent } from './orderHistory/orderHistory-detail/detail-orderHistory-.component';
 
 @NgModule({
     imports: [
@@ -77,13 +78,13 @@ import { ViewUserComponent } from './view-user/view-user.component';
                     { path: 'resStat', component: RestaurantStatussesComponent, data: { permission: 'Pages.SYSTEM_ADMIN' }, canActivate: [AppRouteGuard] },
                     { path: 'smTypes', component: SocialMediaTypesComponent, data: { permission: 'Pages.SYSTEM_ADMIN' }, canActivate: [AppRouteGuard] },
                     { path: 'socialMedia', component: SocialMediasComponent, data: { permission: 'Pages.SYSTEM_ADMIN' }, canActivate: [AppRouteGuard] },
-                    { path: 'qrGen', component: QrCodeGeneratorComponent, data: { permission: 'Pages.SYSTEM_ADMIN' }, canActivate: [AppRouteGuard] },
+                    { path: 'qrGen', component: QrCodeGeneratorComponent, data: { permission: 'Pages.EMPLOYEE' }, canActivate: [AppRouteGuard] },
                     { path: 'reservations', component: ReservationsComponent, data: { permission: 'Pages.EMPLOYEE' }, canActivate: [AppRouteGuard] },
                     { path: 'miTypes', component: MenuItemTypesComponent, data: { permission: 'Pages.SYSTEM_ADMIN' }, canActivate: [AppRouteGuard] },
                     { path: 'orders', component: OrdersComponent, data: { permission: 'Pages.EMPLOYEE' }, canActivate: [AppRouteGuard] },
                     { path: 'menuItems', component: MenuItemsComponent, data: { permission: 'Pages.EMPLOYEE' }, canActivate: [AppRouteGuard] },
                     { path: 'seating', component: SeatingsComponent, data: { permission: 'Pages.SYSTEM_ADMIN' }, canActivate: [AppRouteGuard] },
-                    { path: 'qrCodes', component: QrCodesComponent, data: { permission: 'Pages.SYSTEM_ADMIN' }, canActivate: [AppRouteGuard] },
+                    { path: 'qrCodes', component: QrCodesComponent, data: { permission: 'Pages.EMPLOYEE' }, canActivate: [AppRouteGuard] },
                     { path: 'menus', component: MenusComponent, data: { permission: 'Pages.SYSTEM_ADMIN' }, canActivate: [AppRouteGuard] },
                     { path: 'menu/:id', component: MenuDetailComponent, data: { permission: 'Pages.SYSTEM_ADMIN' }, canActivate: [AppRouteGuard] },
                     { path: 'restaurant/:id', component: RestaurantDetailComponent, data: { permission: 'Pages.SYSTEM_ADMIN' }, canActivate: [AppRouteGuard] },
@@ -96,13 +97,15 @@ import { ViewUserComponent } from './view-user/view-user.component';
                     { path: 'cusMenu2/:id', component: CustomerMenuComponent, data: { permission: '' }, canActivate: [AppRouteGuard] },
                     { path: 'cusReser', component: CustomerReservationsComponent, data: { permission: '' }, canActivate: [AppRouteGuard] },
                     { path: 'checkIn', component: CheckInComponent, data: { permission: '' }, canActivate: [AppRouteGuard] },
-                    { path: 'countries', component: CountriesComponent, data: { permission: '' }, canActivate: [AppRouteGuard] },
-                    { path: 'cities', component: CitiesComponent, data: { permission: '' }, canActivate: [AppRouteGuard] },
-                    { path: 'provinces', component: ProvincesComponent, data: { permission: '' }, canActivate: [AppRouteGuard] },
+                    { path: 'countries', component: CountriesComponent, data: { permission: 'Pages.SYSTEM_ADMIN' }, canActivate: [AppRouteGuard] },
+                    { path: 'cities', component: CitiesComponent, data: { permission: 'Pages.SYSTEM_ADMIN' }, canActivate: [AppRouteGuard] },
+                    { path: 'provinces', component: ProvincesComponent, data: { permission: 'Pages.SYSTEM_ADMIN' }, canActivate: [AppRouteGuard] },
                     { path: 'cusOrder/:id', component:ViewOrdersComponent, data:{ permisssion: ''}, canActivate: [AppRouteGuard]},
                     { path: 'orderHist', component:OrderHistoryComponent, data:{ permisssion: ''}, canActivate: [AppRouteGuard]},
                     { path: 'qrScan', component:QrCodeScannerComponent, data:{ permisssion: ''}, canActivate: [AppRouteGuard]},
-                    { path: 'viewUser', component:ViewUserComponent, data:{ permisssion: ''}, canActivate: [AppRouteGuard]}
+                    { path: 'orderHistory/:id', component:OrderHistoryDetailComponent, data:{ permisssion: ''}, canActivate: [AppRouteGuard]},
+                    { path: 'cusOrder', component:ViewOrdersComponent, data:{ permisssion: ''}, canActivate: [AppRouteGuard]},
+                    { path: 'viewUser', component:ViewUserComponent, data:{ permisssion: ''}, canActivate: [AppRouteGuard]},
 
                 ]
             }

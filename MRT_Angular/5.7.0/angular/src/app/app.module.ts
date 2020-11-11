@@ -159,6 +159,7 @@ import { MenuPropertiesDialogComponent } from './menus/menu-properties/edit-menu
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { QrCodeScannerComponent } from './qr-code-scanner/qr-code-scanner.component';
 import { ViewUserComponent } from './view-user/view-user.component';
+import { OrderHistoryDetailComponent } from './orderHistory/orderHistory-detail/detail-orderHistory-.component';
 
 
 @NgModule({
@@ -299,7 +300,8 @@ import { ViewUserComponent } from './view-user/view-user.component';
     ReportComponent,
     MenuPropertiesDialogComponent,
     QrCodeScannerComponent,
-    ViewUserComponent
+    ViewUserComponent,
+    OrderHistoryDetailComponent
 
 
   ],

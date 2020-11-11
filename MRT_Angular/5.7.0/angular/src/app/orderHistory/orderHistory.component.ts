@@ -15,6 +15,9 @@ import {
   OrderServiceProxy,
   OrderDto,
   OrderDtoListResultDto,
+  QrCodeDto,
+  QrCodeDtoPagedResultDto,
+  QrCodeServiceProxy,
 
 } from '../../shared/service-proxies/service-proxies';
 import { CreateOrderHistoryDialogComponent } from './create-orderHistory/create-orderHistory-dialog.component';
@@ -51,6 +54,8 @@ export class OrderHistoryComponent extends PagedListingComponentBase<OrderLineDt
   filteredOrders:OrderDto[]=[];
   orderRes: OrderDto[]=[];
   filteredOLs: OrderLineDto[]=[];
+  qrCodes: QrCodeDto[]=[];
+  qrCode: QrCodeDto = new QrCodeDto();
 
   constructor(
     injector: Injector,
@@ -58,7 +63,9 @@ export class OrderHistoryComponent extends PagedListingComponentBase<OrderLineDt
     private _modalService: BsModalService,
     private _router:Router,
     private _sessionService: AppSessionService,
-    private _orderService: OrderServiceProxy
+    private _orderService: OrderServiceProxy,
+    private _qrCodeService: QrCodeServiceProxy
+
   ) {
     super(injector);
   }
@@ -74,6 +81,8 @@ export class OrderHistoryComponent extends PagedListingComponentBase<OrderLineDt
     this.sRestaurantId = localStorage.getItem('resId');
     this.iRestaurantId = parseInt(this.sRestaurantId);
 
+    this
+
     this.userId = this._sessionService.userId
     console.log('userId', this.userId);
 
@@ -86,6 +95,30 @@ export class OrderHistoryComponent extends PagedListingComponentBase<OrderLineDt
       this.calculateTotal();
 
     });
+
+  }
+
+  getQrCodes(order:OrderDto){
+    this._qrCodeService.getAll(
+      '',
+      0,
+      100
+    ).pipe(
+      finalize(() => {
+        console.log('qrCodePipe')
+      })
+    )
+    .subscribe((result: QrCodeDtoPagedResultDto) => {
+      this.qrCodes = result.items;
+      for(let x=0;x<this.qrCodes.length;x++){
+        if(order.qrCodeSeating.qrCodeIdFk == this.qrCodes[x].id){
+          this.qrCode = this.qrCodes[x];
+          console.log('this.qrCode',this.qrCode);
+          break;
+        }
+      }
+    });
+
 
   }
 
@@ -103,7 +136,9 @@ export class OrderHistoryComponent extends PagedListingComponentBase<OrderLineDt
           });
           console.log('getOrderDetails',this.orders);
           //this.filterOrderIds();
-        })
+
+          this.getQrCodes(this.orders[0]);
+        });
     }
 
     //console.log('filtered Orders', this.filteredOrders);
@@ -146,7 +181,12 @@ export class OrderHistoryComponent extends PagedListingComponentBase<OrderLineDt
   }
 
   goToMenu(){
-    const detailsUrl: string = `/app/cusMenu/${this.iRestaurantId}`;
+    const detailsUrl: string = `/app/qrScan`;
+    this._router.navigate([detailsUrl]);
+  }
+
+  viewOrder(res:OrderDto): void {
+    const detailsUrl: string = `/app/orderHistory/${res.id}`;
     this._router.navigate([detailsUrl]);
   }
 
