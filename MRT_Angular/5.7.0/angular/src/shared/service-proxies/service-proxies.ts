@@ -6199,7 +6199,7 @@ export class OrderLineServiceProxy {
      * @param id (optional)
      * @return Success
      */
-    salesByMenuItem(id: number | undefined): Observable<void> {
+    salesByMenuItem(id: number | undefined) {
         let url_ = this.baseUrl + "/api/services/app/OrderLine/SalesByMenuItem?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -6214,7 +6214,9 @@ export class OrderLineServiceProxy {
             })
         };
 
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+        return this.http.post(url_, id);
+
+        /*.pipe(_observableMergeMap((response_ : any) => {
             return this.processSalesByMenuItem(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -6225,7 +6227,7 @@ export class OrderLineServiceProxy {
                 }
             } else
                 return <Observable<void>><any>_observableThrow(response_);
-        }));
+        }));*/
     }
 
     protected processSalesByMenuItem(response: HttpResponseBase): Observable<void> {
@@ -6246,8 +6248,8 @@ export class OrderLineServiceProxy {
             }
             return _observableOf(result200);
             }));
-            /*return _observableOf<void>(<any>null);
-            }));*/
+            //return _observableOf<void>(<any>null);
+            //}));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);

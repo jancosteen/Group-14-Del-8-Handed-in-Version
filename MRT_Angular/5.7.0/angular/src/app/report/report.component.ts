@@ -109,14 +109,14 @@ export class ReportComponent implements OnInit {
     this.z = false;
     this.x = false;
     this.salesdown=true;
-    console.log('valueinini1', menuItemForm.value["menuitem"])
+    console.log('valueinini1', menuItemForm.value["menuitem"]);//
 
     this.orderLineService.salesByMenuItem(menuItemForm.value["menuitem"])
     .subscribe( res => {
       console.log('result',res)
       console.log('result2',res["result"])
 
-      this.items2 = res;
+      this.items2 = res["result"];
       console.log('items',this.items2)
       //this.items2 = res["result"];
 

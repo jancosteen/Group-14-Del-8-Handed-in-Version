@@ -13,6 +13,9 @@ import {
   ProvinceDto,
   ProvinceServiceProxy,
   ProvinceDtoPagedResultDto,
+  RestaurantServiceProxy,
+  RestaurantDtoPagedResultDto,
+  RestaurantDto,
 } from '../../shared/service-proxies/service-proxies';
 import { CreateCityDialogComponent } from './create-city/create-city-dialog.component';
 import { EditCityDialogComponent } from './edit-city/edit-city-dialog.component';
@@ -43,12 +46,14 @@ export class CitiesComponent extends PagedListingComponentBase<CityDto> {
   advancedFiltersVisible = false;
   public searchText: string;
   isRelated=false;
+  restaurants:RestaurantDto[]=[];
 
   constructor(
     injector: Injector,
     private _cityService: CityServiceProxy,
     private _modalService: BsModalService,
-    private _provinceService: ProvinceServiceProxy
+    private _provinceService: ProvinceServiceProxy,
+    private _restaurantService: RestaurantServiceProxy
   ) {
     super(injector);
   }
@@ -77,19 +82,24 @@ export class CitiesComponent extends PagedListingComponentBase<CityDto> {
         this.showPaging(result, pageNumber);
       });
 
-
-
+      this._restaurantService.getAll(
+        '',
+        0,
+        100
+      ).subscribe((result:RestaurantDtoPagedResultDto)=>{
+        this.restaurants = result.items;
+      })
   }
 
 
 
   checkIfRelated(id){
-    /*for(let x=0;x<this.menuItemCities.length;x++){
-      if(this.menuItemCities[x].cityIdFk === id){
+    for(let x=0;x<this.citys.length;x++){
+      if(id == this.restaurants[x].cityIdFk){
         this.isRelated=true;
         console.log(this.isRelated);
       }
-    }*/
+    }
   }
 
   delete(city: CityDto): void {
@@ -97,7 +107,7 @@ export class CitiesComponent extends PagedListingComponentBase<CityDto> {
     this.checkIfRelated(city.id);
     if(this.isRelated === true){
       abp.message.error(
-        this.l('Unable to delete City, it has related menu items', city.cityName)
+        this.l('Unable to delete City, it has related items', city.cityName)
       )
     }
     if(this,this.isRelated === false){

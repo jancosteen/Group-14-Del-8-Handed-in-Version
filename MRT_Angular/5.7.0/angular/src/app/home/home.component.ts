@@ -36,8 +36,10 @@ export class HomeComponent extends PagedListingComponentBase<RestaurantDto> {
   ): void {
     request.keyword = '';
 
-
-    //this.check();
+    /* bypass checkIn remember to change the value of the qrCodeSeatingId to one in your Sql Database ID
+    localStorage.setItem('checkedIn','true');
+    localStorage.setItem('qrCodeSeatingId','5');
+    */
 
     this._restaurantService
       .getAll(

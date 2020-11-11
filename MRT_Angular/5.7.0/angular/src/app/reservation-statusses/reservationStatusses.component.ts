@@ -81,13 +81,13 @@ export class ReservationStatussesComponent extends PagedListingComponentBase<Res
       )
       .subscribe((result: ReservationDtoPagedResultDto) => {
         this.reservations = result.items;
-
+        console.log('res',this.reservations)
       });
   }
 
   checkIfRelated(id){
     for(let x=0;x<this.reservations.length;x++){
-      if(this.reservations[x].reservationStatusIdFk === id){
+      if(this.reservations[x].reservationStatusIdFk == id){
         this.isRelated=true;
         console.log(this.isRelated);
       }

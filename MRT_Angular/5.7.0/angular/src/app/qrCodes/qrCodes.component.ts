@@ -10,6 +10,9 @@ import {
   QrCodeServiceProxy,
   QrCodeDto,
   QrCodeDtoPagedResultDto,
+  QrCodeSeatingServiceProxy,
+  QrCodeSeatingDto,
+  QrCodeSeatingDtoPagedResultDto,
 } from '../../shared/service-proxies/service-proxies';
 import { CreateQrCodeDialogComponent } from './create-qrCode/create-qrCode-dialog.component';
 import { EditQrCodeDialogComponent } from './edit-qrCode/edit-qrCode-dialog.component';
@@ -29,11 +32,14 @@ export class QrCodesComponent extends PagedListingComponentBase<QrCodeDto> {
   isActive: boolean | null;
   advancedFiltersVisible = false;
   public searchText: string;
+  qrCodeSeatings: QrCodeSeatingDto[]=[];
+  isRelated:boolean;
 
   constructor(
     injector: Injector,
     private _qrCodeService: QrCodeServiceProxy,
-    private _modalService: BsModalService
+    private _modalService: BsModalService,
+    private _qrCodeSeatingService: QrCodeSeatingServiceProxy
   ) {
     super(injector);
   }
@@ -45,6 +51,8 @@ export class QrCodesComponent extends PagedListingComponentBase<QrCodeDto> {
   ): void {
     request.keyword = this.keyword;
     request.isActive = this.isActive;
+
+    this.isRelated=false;
 
     this._qrCodeService
       .getAll(
@@ -61,9 +69,34 @@ export class QrCodesComponent extends PagedListingComponentBase<QrCodeDto> {
         this.qrCodes = result.items;
         this.showPaging(result, pageNumber);
       });
+
+      this._qrCodeSeatingService
+        .getAll(
+          '',
+          0,
+          100
+        ).subscribe((result:QrCodeSeatingDtoPagedResultDto)=>{
+          this.qrCodeSeatings = result.items;
+        })
+  }
+
+  checkIfRelated(id){
+    for(let x=0;x<this.qrCodeSeatings.length;x++){
+        if(this.qrCodeSeatings[x].qrCodeIdFk === id){
+          this.isRelated=true;
+          console.log(this.isRelated);
+        }
+    }
   }
 
   delete(qrCode: QrCodeDto): void {
+    this.checkIfRelated(qrCode.id);
+    if(this.isRelated === true){
+      abp.message.error(
+        this.l('Unable to delete Category, it has related tables', qrCode.id)
+      )
+    }
+    if(this.isRelated === false){
     abp.message.confirm(
       this.l('Are you sure you want to delete this record?', qrCode.id),
       undefined,
@@ -82,6 +115,7 @@ export class QrCodesComponent extends PagedListingComponentBase<QrCodeDto> {
       }
     );
   }
+}
 
   createQrCode(): void {
     this.showCreateOrEditQrCodeDialog();

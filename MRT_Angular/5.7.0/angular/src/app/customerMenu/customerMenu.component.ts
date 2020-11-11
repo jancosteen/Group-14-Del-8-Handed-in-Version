@@ -252,7 +252,6 @@ export class CustomerMenuComponent extends PagedListingComponentBase<MenuItemDto
               this.selectedMenuItemCategory = this.menuItemCategories[x];
               this.selectedMenuItemCategories.push(this.selectedMenuItemCategory);
 
-
             }
           }
         }

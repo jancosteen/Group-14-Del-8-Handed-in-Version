@@ -69,20 +69,21 @@ export class ViewOrdersComponent extends PagedListingComponentBase<OrderLineDto>
     this.sRestaurantId = localStorage.getItem('resId');
     this.iRestaurantId = parseInt(this.sRestaurantId);
 
-    this._orderService
+    if(this.sOrderId!=null)
+    {
+      this._orderService
       .get(this.iOrderId)
       .subscribe((result:OrderDto) =>{
         this.order = result;
-      })
+      });
 
-
-
-    this._orderLineService
+      this._orderLineService
       .getOrderLineByOrderId(this.iOrderId)
         .subscribe((result:OrderLineDtoListResultDto) =>{
           this.orderLines = result.items;
           this.calculateTotal();
         });
+    }
 
   }
 
@@ -97,6 +98,11 @@ export class ViewOrdersComponent extends PagedListingComponentBase<OrderLineDto>
 
   goToMenu(){
     const detailsUrl: string = `/app/cusMenu/${this.iRestaurantId}`;
+    this._router.navigate([detailsUrl]);
+  }
+
+  goToCheckIn(){
+    const detailsUrl: string = `/app/qrScan`;
     this._router.navigate([detailsUrl]);
   }
 
@@ -180,7 +186,7 @@ export class ViewOrdersComponent extends PagedListingComponentBase<OrderLineDto>
   }
 
   checkout(){
-    this.order.orderStatusIdFk = 3;
+    this.order.orderStatusIdFk = 1;
     this.order.orderDateCompleted = this.currentDate;
 
     this._orderService

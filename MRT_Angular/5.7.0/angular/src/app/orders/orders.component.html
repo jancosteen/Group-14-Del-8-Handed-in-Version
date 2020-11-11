@@ -5,12 +5,7 @@
         <div class="col-6">
           <h1>{{ "Orders" | localize }}</h1>
         </div>
-        <div class="col-6 text-right">
-          <a href="javascript:;" class="btn bg-blue" (click)="createOrder()">
-            <i class="fa fa-plus-square"></i>
-            {{ "Create" | localize }}
-          </a>
-        </div>
+
       </div>
     </div>
   </section>
@@ -52,7 +47,9 @@
   </section>
   <section *ngIf="resIdSelected == true" class="content px-2">
     <div class="container-fluid">
-      <div class="card">
+      <div *ngFor="let status of selectedStatusses">
+      <div class="card" style="margin-bottom:20px">
+
         <div class="card-header">
           <div class="input-group">
             <div class="input-group-prepend">
@@ -86,73 +83,76 @@
             </div>
           </div>
 
-        <div class="card-body table-responsive p-0">
-          <table class="table table-hover text-nowrap" [busy]="isTableLoading">
-            <thead class="bg-light">
-              <tr>
-                <th>{{ "Id" | localize }}</th>
-                <th>{{"Date Created" | localize }}</th>
-                <th>{{ "Date Completed" | localize }}</th>
-                <th>{{ "Table No" | localize }}</th>
-                <th>{{ "Status" | localize }}</th>
-                <th style="width: 200px;">{{ "Actions" | localize }}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                *ngFor="
-                  let order of finalOrders
-                    | paginate
-                      : {
-                          id: 'server',
-                          itemsPerPage: 50,
-                          currentPage: pageNumber,
-                          totalItems: totalItems
-                        }
-                        | grdFilter: {id: searchText,  orderDateCompleted:searchText,
-                          creationTime:searchText
-                          }
-                "
-              >
-                <td>{{ order.id }}</td>
-                <td>{{ order.creationTime.calendar()}}</td>
-                <td *ngIf="order.orderDateCompleted != null">{{ order.orderDateCompleted }}</td>
-                <td *ngIf="order.orderDateCompleted === null">Not Completed</td>
-                <td>{{ order.qrCodeSeating.id }}</td>
-                <td>{{order.orderStatusIdFkNavigation.orderStatus1}}</td>
+          <h2>{{status.orderStatus1}}</h2>
+          <div class="card-body table-responsive p-0">
+            <table class="table table-hover text-nowrap" [busy]="isTableLoading">
+              <thead class="bg-light">
+                <tr>
+                  <th>{{ "Id" | localize }}</th>
+                  <th>{{"Date Created" | localize }}</th>
+                  <th>{{ "Date Completed" | localize }}</th>
+                  <th>{{ "Table No" | localize }}</th>
+                  <th>{{ "Status" | localize }}</th>
+                  <th style="width: 200px;">{{ "Actions" | localize }}</th>
+                </tr>
+              </thead>
+              <tbody *ngFor="
+              let order of finalOrders
+                | paginate
+                  : {
+                      id: 'server',
+                      itemsPerPage: 50,
+                      currentPage: pageNumber,
+                      totalItems: totalItems
+                    }
+                    | grdFilter: {id: searchText,  orderDateCompleted:searchText,
+                      creationTime:searchText
+                      }
+            ">
+                <tr
+                      *ngIf="order.orderStatusIdFk == status.id"
+                >
+                  <td>{{ order.id }}</td>
+                  <td>{{ order.creationTime.calendar()}}</td>
+                  <td *ngIf="order.orderDateCompleted != null">{{ order.orderDateCompleted }}</td>
+                  <td *ngIf="order.orderDateCompleted === null">Not Completed</td>
+                  <td>{{ order.qrCodeSeating.id }}</td>
+                  <td>{{order.orderStatusIdFkNavigation.orderStatus1}}</td>
 
-                <td>
-                  <button
-                    type="button"
-                    class="btn btn-sm bg-primary"
-                    style="margin-right: 10px;"
-                    (click)="viewOrder(order)"
-                  >
-                  <i class="fas fa-pencil-alt"></i>
-                    {{ "Details" | localize }}
-                  </button>
-
-                  <!--<button
-                    type="button"
-                    class="btn btn-sm bg-secondary"
-                    (click)="editOrder(order)"
-                  >
+                  <td>
+                    <button
+                      type="button"
+                      class="btn btn-sm bg-primary"
+                      style="margin-right: 10px;"
+                      (click)="viewOrder(order)"
+                    >
                     <i class="fas fa-pencil-alt"></i>
-                    {{ "Edit" | localize }}
-                  </button>-->
-                  <button
-                    type="button"
-                    class="btn btn-sm bg-danger mx-2"
-                    (click)="delete(order)"
-                  >
-                    <i class="fas fa-trash"></i>
-                    {{ "Delete" | localize }}
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                      {{ "Details" | localize }}
+                    </button>
+
+                    <!--<button
+                      type="button"
+                      class="btn btn-sm bg-secondary"
+                      (click)="editOrder(order)"
+                    >
+                      <i class="fas fa-pencil-alt"></i>
+                      {{ "Edit" | localize }}
+                    </button>-->
+                    <button
+                      type="button"
+                      class="btn btn-sm bg-danger mx-2"
+                      (click)="delete(order)"
+                    >
+                      <i class="fas fa-trash"></i>
+                      {{ "Delete" | localize }}
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
+
         <div class="card-footer bg-light border-top">
           <div class="row">
             <div class="col-sm-4 col-12 text-sm-left text-center">
@@ -161,9 +161,7 @@
               </button>
             </div>
             <div class="col-sm-4 col-12 text-center">
-              <p class="mb-0 my-2">
-                {{ "TotalRecordsCount" | localize: totalItems }}
-              </p>
+
             </div>
             <div class="col-sm-4 col-12">
               <div class="float-sm-right m-auto">

@@ -83,7 +83,6 @@ export class MenusComponent extends PagedListingComponentBase<MenuDto> {
       )
       .subscribe((result: MenuItemDtoPagedResultDto) => {
         this.menuItems = result.items;
-
       });
   }
 
