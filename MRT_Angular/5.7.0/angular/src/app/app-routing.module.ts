@@ -85,7 +85,7 @@ import { CheckoutComponent } from './checkout/checkout.component';
                     { path: 'miTypes', component: MenuItemTypesComponent, data: { permission: 'Pages.SYSTEM_ADMIN' }, canActivate: [AppRouteGuard] },
                     { path: 'orders', component: OrdersComponent, data: { permission: 'Pages.EMPLOYEE' }, canActivate: [AppRouteGuard] },
                     { path: 'menuItems', component: MenuItemsComponent, data: { permission: 'Pages.EMPLOYEE' }, canActivate: [AppRouteGuard] },
-                    { path: 'seating', component: SeatingsComponent, data: { permission: 'Pages.SYSTEM_ADMIN' }, canActivate: [AppRouteGuard] },
+                    { path: 'seating', component: SeatingsComponent, data: { permission: 'Pages.EMPLOYEE' }, canActivate: [AppRouteGuard] },
                     { path: 'qrCodes', component: QrCodesComponent, data: { permission: 'Pages.EMPLOYEE' }, canActivate: [AppRouteGuard] },
                     { path: 'menus', component: MenusComponent, data: { permission: 'Pages.SYSTEM_ADMIN' }, canActivate: [AppRouteGuard] },
                     { path: 'menu/:id', component: MenuDetailComponent, data: { permission: 'Pages.SYSTEM_ADMIN' }, canActivate: [AppRouteGuard] },

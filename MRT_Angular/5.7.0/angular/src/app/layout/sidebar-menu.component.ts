@@ -75,7 +75,7 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
           'Pages.SYSTEM_ADMIN'
         ),
       ]),
-      new MenuItem(this.l('Setup'),'', 'fas fa-circle','Pages.SYSTEM_ADMIN',[
+      new MenuItem(this.l('Setup'),'', 'fas fa-circle','Pages.EMPLOYEE',[
         new MenuItem(
           this.l('Countries'),
           '/app/countries',

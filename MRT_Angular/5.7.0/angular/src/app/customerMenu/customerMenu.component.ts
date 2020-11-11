@@ -14,7 +14,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { AppComponentBase } from '@shared/app-component-base';
 import {
   MenuServiceProxy,
-  MenuDto, RestaurantServiceProxy, RestaurantDtoPagedResultDto, RestaurantDto, MenuItemServiceProxy, MenuItemDto, MenuItemDtoPagedResultDto, MenuItemAllergyServiceProxy, MenuItemAllergyDto, MenuDtoPagedResultDto, MenuItemCategoryDto, RestaurantCandUDto, MenuItemCategoryServiceProxy, MenuItemCategoryDetailsDtoListResultDto, MenuItemCategoryDetailsDto, MenuItemCandUDto, OrderDto, OrderServiceProxy
+  MenuDto, RestaurantServiceProxy, RestaurantDtoPagedResultDto, RestaurantDto, MenuItemServiceProxy, MenuItemDto, MenuItemDtoPagedResultDto, MenuItemAllergyServiceProxy, MenuItemAllergyDto, MenuDtoPagedResultDto, MenuItemCategoryDto, RestaurantCandUDto, MenuItemCategoryServiceProxy, MenuItemCategoryDetailsDtoListResultDto, MenuItemCategoryDetailsDto, MenuItemCandUDto, OrderDto, OrderServiceProxy, QrCodeSeatingServiceProxy, QrCodeSeatingDto
 } from '@shared/service-proxies/service-proxies';
 import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listing-component-base';
 import { AppSessionService } from '@shared/session/app-session.service';
@@ -78,6 +78,7 @@ export class CustomerMenuComponent extends PagedListingComponentBase<MenuItemDto
   filteredMIC:MenuItemCategoryDetailsDto[]=[];
   sQrCodeSeatingId:string;
   iQrCodeSeatingId:number;
+  qrCodeSeating: QrCodeSeatingDto = new QrCodeSeatingDto();
 
   cart3 = [];
   cartItemCount: BehaviorSubject<number>;
@@ -97,7 +98,8 @@ export class CustomerMenuComponent extends PagedListingComponentBase<MenuItemDto
     public __menuItemAllergyService: MenuItemAllergyServiceProxy,
     private _modalService: BsModalService,
     private _sessionService: AppSessionService,
-    private _orderService: OrderServiceProxy
+    private _orderService: OrderServiceProxy,
+    private _qrCodeSeatingService: QrCodeSeatingServiceProxy
 
   ) {
     super(injector);
@@ -126,6 +128,11 @@ export class CustomerMenuComponent extends PagedListingComponentBase<MenuItemDto
 
     this.sQrCodeSeatingId = localStorage.getItem('qrCodeSeatingId');
     this.iQrCodeSeatingId = parseInt(this.sQrCodeSeatingId);
+
+    this._qrCodeSeatingService.get(this.iQrCodeSeatingId)
+      .subscribe((res:QrCodeSeatingDto)=>{
+        this.qrCodeSeating = res;
+      })
 
 
     if(this.checkedIn == null){
@@ -160,6 +167,15 @@ export class CustomerMenuComponent extends PagedListingComponentBase<MenuItemDto
       this.cartCount = this._sessionService.getCartItemCount();
     });
 
+  }
+
+  updateQCS(){
+    this.qrCodeSeating.orderIdFk = parseInt(localStorage.getItem('orderId'))
+
+    this._qrCodeSeatingService.update(this.qrCodeSeating)
+      .subscribe(res =>{
+        console.log('qcs Update', res);
+      })
   }
 
   addToOrder(item: MenuItemCandUDto){
@@ -224,7 +240,10 @@ export class CustomerMenuComponent extends PagedListingComponentBase<MenuItemDto
             this.notify.info(this.l('SavedSuccessfully'));
             console.log('new orderId',this.tempOrderId)})
             this.orderCheck = true;
+            this.updateQCS();
     }
+
+
 
 
 

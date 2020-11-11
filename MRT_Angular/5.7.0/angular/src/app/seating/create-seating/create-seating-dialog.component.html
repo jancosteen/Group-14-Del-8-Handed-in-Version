@@ -69,7 +69,7 @@
           [(ngModel)]="seating.reservationIdFk"
           #resModel="ngModel"
           #resEl>
-            <option *ngFor="let r of reservations" value={{r.id}}>UserId: {{r.userIdFk}}, Party Qty: {{r.reservationPartyQty}}, Date Reserved: {{r.reservationDateReserved}}</option>
+            <option *ngFor="let r of reservations" value={{r.id}}>UserId: {{r.userIdFk}},Restaurant: {{r.restaurantIdFkNavigation.restaurantName}}, Party Qty: {{r.reservationPartyQty}}, Date Reserved: {{r.reservationDateReserved}}</option>
         </select>
         <abp-validation-summary
           [control]="resModel"
