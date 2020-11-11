@@ -10,6 +10,12 @@ import {
   ProvinceServiceProxy,
   ProvinceDto,
   ProvinceDtoPagedResultDto,
+  RestaurantServiceProxy,
+  CityServiceProxy,
+  RestaurantDto,
+  CityDto,
+  RestaurantDtoPagedResultDto,
+  CityDtoPagedResultDto,
 } from '../../shared/service-proxies/service-proxies';
 import { CreateProvinceDialogComponent } from './create-province/create-province-dialog.component';
 import { EditProvinceDialogComponent } from './edit-province/edit-province-dialog.component';
@@ -30,11 +36,15 @@ export class ProvincesComponent extends PagedListingComponentBase<ProvinceDto> {
   advancedFiltersVisible = false;
   public searchText: string;
   isRelated=false;
+  restaurants:RestaurantDto[]=[];
+  cities:CityDto[]=[];
 
   constructor(
     injector: Injector,
     private _provinceService: ProvinceServiceProxy,
     private _modalService: BsModalService,
+    private _restaurantService: RestaurantServiceProxy,
+    private _cityService: CityServiceProxy
   ) {
     super(injector);
   }
@@ -63,16 +73,44 @@ export class ProvincesComponent extends PagedListingComponentBase<ProvinceDto> {
         this.showPaging(result, pageNumber);
       });
 
+      this._restaurantService
+        .getAll(
+          ''
+          ,0
+          ,100
+        ).subscribe((result: RestaurantDtoPagedResultDto)=>{
+          this.restaurants = result.items;
+        })
+
+        this._cityService
+        .getAll(
+          ''
+          ,0
+          ,100
+        ).subscribe((result: CityDtoPagedResultDto)=>{
+          this.cities = result.items;
+        })
+
+
+
 
   }
 
   checkIfRelated(id){
-    /*for(let x=0;x<this.menuItemProvinces.length;x++){
-      if(this.menuItemProvinces[x].provinceIdFk === id){
+    for(let x=0;x<this.restaurants.length;x++){
+      if(this.restaurants[x].provinceIdFk === id){
         this.isRelated=true;
         console.log(this.isRelated);
       }
-    }*/
+    }
+
+    for(let x=0;x<this.cities.length;x++){
+      if(this.cities[x].provinceIdFk === id){
+        this.isRelated=true;
+        console.log(this.isRelated);
+      }
+    }
+
   }
 
   delete(province: ProvinceDto): void {
