@@ -9,6 +9,7 @@ import {
     UserLoginInfoDto
 } from '@shared/service-proxies/service-proxies';
 import { BehaviorSubject } from 'rxjs';
+import { Router } from '@angular/router';
 
 
 @Injectable()
@@ -21,6 +22,7 @@ export class AppSessionService {
     private _tenant: TenantLoginInfoDto;
     private _application: ApplicationInfoDto;
 
+    private _router: Router;
     constructor(
         private _sessionService: SessionServiceProxy,
         private _abpMultiTenancyService: AbpMultiTenancyService) {
@@ -49,11 +51,19 @@ export class AppSessionService {
 
     getShownLoginName(): string {
         const userName = this._user.userName;
-        if (!this._abpMultiTenancyService.isEnabled) {
-            return userName;
+        console.log('userName',this._user.userName);
+        if(userName == null){
+            const detailsUrl: string = `/account/login`;
+            this._router.navigate([detailsUrl]);
+
+        }else{
+            if (!this._abpMultiTenancyService.isEnabled) {
+                return userName;
+            }
+
+            return (this._tenant ? this._tenant.tenancyName : '.') + '\\' + userName;
         }
 
-        return (this._tenant ? this._tenant.tenancyName : '.') + '\\' + userName;
     }
 
     init(): Promise<boolean> {

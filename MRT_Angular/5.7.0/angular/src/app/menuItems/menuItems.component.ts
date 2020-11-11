@@ -9,7 +9,7 @@ import {
 import {
   MenuItemServiceProxy,
   MenuItemDto,
-  MenuItemDtoPagedResultDto, MenuItemPriceDto, MenuItemCategoryDto, MenuItemPriceServiceProxy, MenuItemCategoryServiceProxy, MenuItemPriceDtoPagedResultDto, MenuItemCategoryDtoPagedResultDto, MenuItemAllergyServiceProxy, MenuItemAllergyDto, OrderLineServiceProxy, OrderLineDto, OrderLineDtoPagedResultDto
+  MenuItemDtoPagedResultDto, MenuItemPriceDto, MenuItemCategoryDto, MenuItemPriceServiceProxy, MenuItemCategoryServiceProxy, MenuItemPriceDtoPagedResultDto, MenuItemCategoryDtoPagedResultDto, MenuItemAllergyServiceProxy, MenuItemAllergyDto, OrderLineServiceProxy, OrderLineDto, OrderLineDtoPagedResultDto, OrderServiceProxy, OrderDto, OrderDtoPagedResultDto, OrderLineCandUDto
 } from '../../shared/service-proxies/service-proxies';
 import { CreateMenuItemDialogComponent } from './create-menuItem/create-menuItem-dialog.component';
 import { EditMenuItemDialogComponent } from './edit-menuItem/edit-menuItem-dialog.component';
@@ -35,8 +35,10 @@ export class MenuItemsComponent extends PagedListingComponentBase<MenuItemDto> {
   isActive: boolean | null;
   advancedFiltersVisible = false;
   public searchText: string;
-  orderLines: OrderLineDto[]=[];
+  orderLines: OrderLineCandUDto[]=[];
+  orderLine: OrderLineCandUDto = new OrderLineCandUDto();
   isRelated=false;
+  orders:OrderDto[]=[];
 
   constructor(
     injector: Injector,
@@ -46,7 +48,8 @@ export class MenuItemsComponent extends PagedListingComponentBase<MenuItemDto> {
     private __menuItemAllergyService: MenuItemAllergyServiceProxy,
     private _modalService: BsModalService,
     private _orderLineService: OrderLineServiceProxy,
-    private _router: Router
+    private _router: Router,
+    private _orderService: OrderServiceProxy
   ) {
     super(injector);
   }
@@ -107,7 +110,7 @@ export class MenuItemsComponent extends PagedListingComponentBase<MenuItemDto> {
         //this.showPaging(result, pageNumber);
       });
 
-      this._orderLineService
+      this._orderService
       .getAll(
         '',
         0,
@@ -118,16 +121,27 @@ export class MenuItemsComponent extends PagedListingComponentBase<MenuItemDto> {
           finishedCallback();
         })
       )
-      .subscribe((result: OrderLineDtoPagedResultDto) => {
-        this.orderLines = result.items;
-        console.log(this.orderLines);
+      .subscribe((result: OrderDtoPagedResultDto) => {
+        this.orders = result.items;
+        console.log('orders',this.orderLines);
+        this.getOrderLines();
       });
 
   }
 
+  getOrderLines(){
+    for(let x=0;x<this.orders.length;x++){
+      for(let y=0;y<this.orders[x].orderLine.length;y++){
+        this.orderLine = this.orders[x].orderLine[y];
+        this.orderLines.push(this.orderLine);
+      }
+    }
+    console.log('orderLines', this.orderLines);
+  }
+
   checkIfRelated(id){
     for(let x=0;x<this.orderLines.length;x++){
-      if(this.orderLines[x].menuItemIdFk === id){
+      if(this.orderLines[x].menuItemIdFk == id){
         this.isRelated=true;
         console.log(this.isRelated);
       }
@@ -137,12 +151,12 @@ export class MenuItemsComponent extends PagedListingComponentBase<MenuItemDto> {
   delete(menuItem: MenuItemDto): void {
 
     this.checkIfRelated(menuItem.id);
-    if(this.isRelated === true){
+    if(this.isRelated == true){
       abp.message.error(
         this.l('Unable to delete Menu Item, it has related orderLines', menuItem.menuItemName)
       )
     }
-    if(this.isRelated === false){
+    if(this.isRelated == false){
     this.__menuItemAllergyService.getAllergyByMenuItemId(menuItem.id).subscribe((result) => {
       this.menuItemAllergies = result.items;
       this.miAllergyIds = this.menuItemAllergies});

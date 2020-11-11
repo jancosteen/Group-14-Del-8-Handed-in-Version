@@ -10,6 +10,12 @@ import {
   CountryServiceProxy,
   CountryDto,
   CountryDtoPagedResultDto,
+  ProvinceDto,
+  RestaurantDto,
+  ProvinceServiceProxy,
+  RestaurantServiceProxy,
+  RestaurantDtoPagedResultDto,
+  ProvinceDtoPagedResultDto,
 } from '../../shared/service-proxies/service-proxies';
 import { CreateCountryDialogComponent } from './create-country/create-country-dialog.component';
 import { EditCountryDialogComponent } from './edit-country/edit-country-dialog.component';
@@ -30,11 +36,15 @@ export class CountriesComponent extends PagedListingComponentBase<CountryDto> {
   advancedFiltersVisible = false;
   public searchText: string;
   isRelated=false;
+  provinces:ProvinceDto[]=[];
+  restaurants:RestaurantDto[]=[];
 
   constructor(
     injector: Injector,
     private _countryService: CountryServiceProxy,
     private _modalService: BsModalService,
+    private _provinceService:ProvinceServiceProxy,
+    private _restaurantService:RestaurantServiceProxy
   ) {
     super(injector);
   }
@@ -63,16 +73,39 @@ export class CountriesComponent extends PagedListingComponentBase<CountryDto> {
         this.showPaging(result, pageNumber);
       });
 
+      this._restaurantService.getAll(
+        '',
+        0,
+        100
+      ).subscribe((result:RestaurantDtoPagedResultDto)=>{
+        this.restaurants = result.items;
+      })
+
+      this._provinceService.getAll(
+        '',
+        0,
+        100
+      ).subscribe((result:ProvinceDtoPagedResultDto)=>{
+        this.provinces = result.items;
+      })
+
 
   }
 
   checkIfRelated(id){
-    /*for(let x=0;x<this.menuItemCountries.length;x++){
-      if(this.menuItemCountries[x].countryIdFk === id){
+    for(let x=0;x<this.restaurants.length;x++){
+      if(this.restaurants[x].countryIdFk === id){
         this.isRelated=true;
         console.log(this.isRelated);
       }
-    }*/
+    }
+
+    for(let x=0;x<this.provinces.length;x++){
+      if(this.provinces[x].countryIdFk === id){
+        this.isRelated=true;
+        console.log(this.isRelated);
+      }
+    }
   }
 
   delete(country: CountryDto): void {
@@ -80,7 +113,7 @@ export class CountriesComponent extends PagedListingComponentBase<CountryDto> {
     this.checkIfRelated(country.id);
     if(this.isRelated === true){
       abp.message.error(
-        this.l('Unable to delete Country, it has related menu items', country.countryName)
+        this.l('Unable to delete Country, it has related items', country.countryName)
       )
     }
     if(this,this.isRelated === false){

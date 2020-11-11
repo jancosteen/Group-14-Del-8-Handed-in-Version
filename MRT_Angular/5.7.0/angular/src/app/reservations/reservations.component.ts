@@ -115,8 +115,8 @@ export class ReservationsComponent extends PagedListingComponentBase<Reservation
   }
 
   checkIfRelated(id){
-    for(let x=0;x<this.seatings.length;x++){
-      if(this.seatings[x].reservationIdFk === id){
+    for(let x=0;x<this.restaurants.length;x++){
+      if(this.restaurants[x].id === id){
         this.isRelated=true;
         console.log(this.isRelated);
       }
@@ -136,7 +136,7 @@ export class ReservationsComponent extends PagedListingComponentBase<Reservation
   }
 
   delete(reservation: ReservationDto): void {
-    this.checkIfRelated(reservation.id);
+    this.checkIfRelated(reservation.restaurantIdFk);
     if(this.isRelated === true){
       abp.message.error(
         this.l('Unable to delete Reservation, it has related table bookings', reservation.id)

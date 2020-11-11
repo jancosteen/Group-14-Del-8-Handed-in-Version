@@ -123,7 +123,7 @@ export class CreateReservationDialogComponent extends AppComponentBase
 
 
     this._reservationService
-    .sendMessage(reserv)
+    .sendEmail(reserv)
     .subscribe(res =>{
       console.log('ake sure');
     })

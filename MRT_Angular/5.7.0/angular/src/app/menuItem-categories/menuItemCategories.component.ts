@@ -99,7 +99,7 @@ export class MenuItemCategoriesComponent extends PagedListingComponentBase<MenuI
     this.checkIfRelated(menuItemCategory.id);
     if(this.isRelated === true){
       abp.message.error(
-        this.l('Unable to delete Category, it has related menu items', menuItemCategory.menuItemCategory1)
+        this.l('Unable to delete Category, it has related items', menuItemCategory.menuItemCategory1)
       )
     }
     if(this.isRelated === false){

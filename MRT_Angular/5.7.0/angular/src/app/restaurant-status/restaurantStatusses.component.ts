@@ -63,6 +63,7 @@ export class RestaurantStatussesComponent extends PagedListingComponentBase<Rest
       });
   }
 
+
   delete(restaurantStatus: RestaurantStatusDto): void {
     abp.message.confirm(
       this.l('Are you sure you want to delete this record?', restaurantStatus.restaurantStatus1),
